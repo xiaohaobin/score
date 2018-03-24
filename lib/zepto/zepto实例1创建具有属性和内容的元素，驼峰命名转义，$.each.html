@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="zepto/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			Zepto(function($){
+//			 直接创建带有内容，属性和样式的元素
+				var $p = $("<p />", { text:"Hello", id:"greeting", css:{color:'darkblue'} });
+				$("body").append($p);
+			});
+		</script>
+		
+		
+	</head>
+	<body>
+		<div class="box">
+			<p>aaaaaaa</p>
+		</div>
+		
+		
+		<script type="text/javascript">
+			$.each(['a', 'b', 'c'], function(index, item){
+			  console.log('item %d is: %s', index, item);//%d指的是数字，%s指的是字符串
+			  var newD = $("<p>"+index+"</p>");
+			  $("body").append(newD);
+			});
+			
+			var hash = { name: 'zepto.js', size: 'micro' }
+			$.each(hash, function(key, value){
+			  console.log('%s: %s', key, value)
+			});
+			
+//			alert($.camelCase('hello-there'));//将带有“-”的字符串转化为驼峰写法$.camelCase(); 
+			
+			
+
+		</script>
+	</body>
+</html>

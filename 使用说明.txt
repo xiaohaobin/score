@@ -1,0 +1,37 @@
+css》
+1. commom.css 公共样式
+
+js》
+1. html5shiv.js  html5插件，让低版本IE支持html5元素
+2. respond.min.js	让IE兼容media
+3. swfobject.js	 Flash插件
+4. expressInstall.swf  检查flash插件
+5. jquery.cookie.js  cookie插件
+6. localstorage-ie.js  让ie低版本兼容本地存储
+7. reconnecting-websocket.min.js 让web socket断开重连
+8. jquery.nicescroll.js  优化滚动条样式
+9. require.js 模块加载器
+10. jquery.myPlugIn_v1.0.js  自定义插件库
+
+lib》
+1. exl  导出插件
+2. Hui-iconfont	 阿里图标字体库（H-ui定制）
+3. jquery.SuperSlide	幻灯片组件
+4. nprogress				进度条插件
+5. jquery-smartMenu  右键菜单组件（智能上下文菜单插件）
+6. layoutit  boots拖拽布局组件
+7. datatables  表格插件
+8. Validform_v5.3				表单验证插件、
+9. My97DatePicker			日期插件
+10. lightbox  图片弹出层插件
+11. jquery.contextmenu 右键菜单插件
+12.layer  弹出层插件
+13.laypage  分页插件
+14. echart 图表相关插件，库，框架
+15. jquery.ui   jquery.ui
+16. underscore  数据操作库
+17. ueditor  富文本编辑器
+18. webuploader  百度文件上传插件
+19. zepto zepto库
+20. zTree 树状菜单插件
+21. jquery

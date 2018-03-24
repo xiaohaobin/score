@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!-- IE -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- 设置 viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 兼容国产浏览器的高速模式 -->
+		<meta name="renderer" content="webkit">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css" />
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+	<![endif]-->
+		<style type="text/css">
+			.markLayer{
+				position: absolute;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 99;
+			}
+			.markLayer>a{
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
+		<!--[if lt IE 9]>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<![endif]-->
+		<script src="../layer/2.4/layer.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
+		<script src="../../js/oAjax.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.nicescroll.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="ZeroClipboard.js" type="text/javascript" charset="utf-8"></script>-->
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				setTimeout(function(){
+					var ifBox = document.getElementsByTagName("iframe");
+					for(var i=0;i<ifBox.length;i++){
+	//					console.log(ifBox[i].src);
+						var searchBox = ifBox[i].contentWindow.document.querySelector(".searchBox");
+						searchBox.innerHTML = "";
+						ifBox[i].contentWindow.document.getElementById("container").style.width = "100vw"; 
+						ifBox[i].contentWindow.document.getElementById("container").style.height = "100vh";
+						
+						//清除样式表
+						ifBox[i].contentWindow.document.getElementsByClassName("chartCommonStyle")[0].remove();
+					}
+				},100)
+		
+			}
+			$(function() {
+				
+				function reSet(){
+					//页面请求获取布局模型
+					$(".remove,.drag,.preview").remove();
+					$(".view").addClass("container-fluid");
+					$(".row-fluid").addClass("row");
+					$(".span2").addClass("col-sm-2");
+					$(".span3").addClass("col-sm-3");
+					$(".span4").addClass("col-sm-4");
+					$(".span5").addClass("col-sm-5");
+					$(".span6").addClass("col-sm-6");
+					$(".span7").addClass("col-sm-7");
+					$(".span8").addClass("col-sm-8");
+					$(".span9").addClass("col-sm-9");
+					$(".span10").addClass("col-sm-10");
+					$(".span12").addClass("col-sm-12");
+				}
+				
+				
+				//页面加载的时候获取已经保存的布局
+				
+				fnAjax.method_5(url_join("LayoutManage/getDefaultLayout"),"","post",function(data){
+					if(data != null){
+						$("#layoutBox").html(data.lLayoutitHtml);
+						reSet();
+						//动态添加遮罩层给每一个iframe
+						$(".span4,.span5,.span6,.span7,.span8,.span12").each(function(i){
+							if($(this).hasClass("span4")){
+								$(this).append($('<div class="markLayer markLayer-4"><a href="'+$(this).find("iframe").attr("src")+'" target="_blank"></a></div>'));
+							}
+							if($(this).hasClass("span5")){
+								$(this).append($('<div class="markLayer markLayer-5"><a href="'+$(this).find("iframe").attr("src")+'" target="_blank"></a></div>'));
+							}
+							if($(this).hasClass("span6")){
+								$(this).append($('<div class="markLayer markLayer-6"><a href="'+$(this).find("iframe").attr("src")+'" target="_blank"></a></div>'));
+							}
+							if($(this).hasClass("span7")){
+								$(this).append($('<div class="markLayer markLayer-7"><a href="'+$(this).find("iframe").attr("src")+'" target="_blank"></a></div>'));
+							}
+							if($(this).hasClass("span8")){
+								$(this).append($('<div class="markLayer markLayer-8"><a href="'+$(this).find("iframe").attr("src")+'" target="_blank"></a></div>'));
+							}
+							if($(this).hasClass("span12")){
+								$(this).append($('<div class="markLayer markLayer-12"><a href="'+$(this).find("iframe").attr("src")+'" target="_blank"></a></div>'));
+							}
+						});
+						
+//						setTimeout(function(){
+//							$("body").delegate(".markLayer","click",function(){
+//								window.location.href = $(this).prev().find("iframe").attr("src");
+//							});
+//						},100);
+						
+					}
+				});
+				
+				$("body").niceScroll({
+					touchbehavior: false,
+					cursorcolor: "#fff",
+					cursoropacitymax: 1,
+					cursorwidth: 5,
+					horizrailenabled: true,
+					cursorborderradius: 0,
+					autohidemode: true,
+					background: 'none',
+					cursorborder: 'solid 0px #333'
+				});
+			});
+			
+		</script>
+		<script language="JavaScript">
+			//分享链接
+//			var clip = null;
+//			function init() {				
+//				clip = new ZeroClipboard.Client();
+//				clip.setHandCursor(true);
+//				clip.addEventListener('mouseOver', function(client) {
+//					clip.setText(window.location.href);
+//				});
+//				clip.addEventListener('complete', function(client, text) {
+//					layer.alert("复制成功^_^,可以粘贴了！",{icon:1});
+//				});
+//				clip.glue('btn_submit', 'clip_container');
+//			}
+		</script>
+		
+		<style type="text/css">
+			.container-fluid {
+				padding: 0;
+			}
+			
+			.col-lg-1,
+			.col-lg-10,
+			.col-lg-11,
+			.col-lg-12,
+			.col-lg-2,
+			.col-lg-3,
+			.col-lg-4,
+			.col-lg-5,
+			.col-lg-6,
+			.col-lg-7,
+			.col-lg-8,
+			.col-lg-9,
+			.col-md-1,
+			.col-md-10,
+			.col-md-11,
+			.col-md-12,
+			.col-md-2,
+			.col-md-3,
+			.col-md-4,
+			.col-md-5,
+			.col-md-6,
+			.col-md-7,
+			.col-md-8,
+			.col-md-9,
+			.col-sm-1,
+			.col-sm-10,
+			.col-sm-11,
+			.col-sm-12,
+			.col-sm-2,
+			.col-sm-3,
+			.col-sm-4,
+			.col-sm-5,
+			.col-sm-6,
+			.col-sm-7,
+			.col-sm-8,
+			.col-sm-9,
+			.col-xs-1,
+			.col-xs-10,
+			.col-xs-11,
+			.col-xs-12,
+			.col-xs-2,
+			.col-xs-3,
+			.col-xs-4,
+			.col-xs-5,
+			.col-xs-6,
+			.col-xs-7,
+			.col-xs-8,
+			.col-xs-9 {
+				padding: 0;
+			}
+			
+			.view,
+			.row-fluid,
+			.column,
+			.box,
+			.iframeBox,
+			iframe {
+				/*min-height: 350px;*/
+				height: 100%;
+			}
+			html,body{
+				/*height: 100vh;*/
+			}
+			.lyrow{				
+				/*height: auto !important;*/
+			}
+			.shareBox{
+				position: fixed;
+				right: 1%;
+				top: 1%;
+				z-index: 100;
+			}
+		</style>
+		<title>欢迎页面</title>
+		
+	</head>
+
+	<body>
+		<!--<div class="shareBox">
+			 <span id="clip_container">
+				<button class="btn btn-primary shareBtn" id="btn_submit" >分享链接</button>
+			</span>
+			
+		</div>-->
+		<div class="demo ui-sortable" style="min-height: 100vh;" id="layoutBox" >
+			
+		</div>
+		
+		
+	</body>
+
+</html>

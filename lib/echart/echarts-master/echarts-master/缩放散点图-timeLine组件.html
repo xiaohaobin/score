@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>ECharts</title>
+		<!-- 引入 echarts.js -->
+		<script src="dist/echarts.js"></script>
+		<script src="ecStat.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html,body{
+				height: 100vh;
+				width: 100vw;
+			}
+			.imgBox {
+				height: 95% !important;
+				background: url(img/schoolMap.png) no-repeat;
+				width: 100vw;
+				height: 100vh;
+				background-size: cover;
+				background-size: 100% 872px;
+			}
+			
+			#main {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--<div style="text-align: center;">
+			<h2>某学校人群密度实时监控图</h2>
+			<p>数据来源--深圳市独尊科技开发有限公司</p>
+		</div>-->
+		<div class="imgBox">
+			<div id="main"></div>
+		</div>
+		
+		<div id="optionBox">
+			
+			<input type="date" name="dateInput" id="dateInput" value="" />
+			<button type="button" class="sureDate">确定时间</button>
+		</div>
+		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('main'));
+
+			var clusterNumber = 6;
+			var result;
+
+			var option = {
+				timeline: {
+					autoPlay: false,
+					data:["7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+					axisType: 'category',
+					padding: [15, 5, 0, 5],
+					playInterval: 3500,
+					lineStyle: {
+						color: 'red'
+					},
+					label: {
+						normal: {
+							textStyle: {
+								color: 'red',
+								fontSize: 23
+							}
+						}
+					}
+				},
+				baseOption: {
+					title: {
+						text: '某学校人群密度实时监控图',
+						subtext: '数据来源--深圳市独尊科技开发有限公司',
+						sublink: '',
+						left: 'center'
+
+					},
+					legend: {
+						right: 10,
+						data: ['1年级学生', '1年级老师']
+					},
+					xAxis: [{
+						show: false,
+						type: 'value',
+						axisLabel: {
+							//				                formatter: '{value} °C'
+						}
+					}],
+					yAxis: [{
+						show: false,
+						type: 'value',
+						axisLabel: {
+							//				                formatter: '{value} °C'
+						}
+					}],
+
+					tooltip: {
+						trigger: 'item',
+//						axisPointer: {							
+//							type: 'cross',
+//						},
+//						formatter: function(params) {
+//							return "角色：" + params.data[2] +
+//								"<p>坐标：" + params.data[0] + "," +
+//								params.data[1] + "</p>";
+//						},
+					},
+
+				},
+				options: [
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								},
+								 markPoint : {
+//					                symbol: 'image://http://pic12.nipic.com/20110209/2897814_144722563125_2.gif',
+					                symbolSize: 20,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2  
+					                itemStyle: {  
+					                    normal: {  
+					                        borderColor: '#1e90ff',  
+					                        borderWidth: 1,            // 标注边线线宽，单位px，默认为1  
+					                        label: {  
+					                            show: false  
+					                        }  
+					                    },  
+					                    emphasis: {  
+					                        borderColor: '#1e90ff',  
+					                        borderWidth: 5,  
+					                        label: {  
+					                            show: false  
+					                        }  
+					                    }  
+					                },  
+					                effect : {  
+					                    show: true,  
+					                    shadowBlur : 0  
+					                },  
+					                data : [
+					                    [1, 15]
+					                ]
+					            },
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 51, "阿凯"],
+									[3, 16, "阿凯2"],
+									[15, 65, "阿凯3"],
+									[5, 55, "阿凯4"],
+									[1, 25, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[28, 15, "露娜"],
+									[33, 16, "露娜2"],
+									[45, 25, "露娜3"],
+									[55, 15, "露娜4"],
+									[60, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					},
+					{
+						series: [
+							{
+								name: "1年级学生",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[8, 5, "阿凯"],
+									[3, 6, "阿凯2"],
+									[15, 5, "阿凯3"],
+									[5, 5, "阿凯4"],
+									[1, 15, "阿凯5"]
+								],
+								
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#000'
+										}, {
+											offset: 1,
+											color: '#fff'
+										}])
+									}
+								}
+							},
+							{
+								name: "1年级老师",
+								type: 'scatter',
+								animation: true,
+								data: [
+									[18, 15, "露娜"],
+									[13, 16, "露娜2"],
+									[15, 25, "露娜3"],
+									[25, 15, "露娜4"],
+									[10, 5, "怒骂5"]
+								],							
+								label: {
+									emphasis: {
+										show: true,
+										formatter: function(param) {
+											return param.data[3];
+										},
+										position: 'top'
+									}
+								},
+								itemStyle: {
+									normal: {
+										shadowBlur: 10,
+										shadowColor: 'rgba(120, 36, 50, 0.5)',
+										shadowOffsetY: 5,
+										color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+											offset: 0,
+											color: '#ccc'
+										}, {
+											offset: 1,
+											color: 'red'
+										}])
+									}
+								}
+							}
+						]
+					}
+					
+				]
+			};
+
+			// 使用刚指定的配置项和数据显示图表。
+			myChart.setOption(option);
+			
+			
+			var tData = [];
+			var mainData = [];
+			$.ajax({
+				type:"get",
+				url:"json/date.json",
+				async:true,
+				success:function(data){
+					$.each(data, function(i,v) {
+						tData.push(v.oDate);
+						mainData.push(v.aData);
+					});
+					setTimeout(function(){
+						option.timeline.data = tData;
+						console.log(mainData);
+						$.each(option.options, function(i,v) {
+							v.series[0].data = mainData[i][0].student;
+							v.series[1].data = mainData[i][0].teacher;
+						});
+						
+						setTimeout(function(){
+							myChart.setOption(option);
+						},100);
+					},100);
+				}
+			});
+
+
+			//不依赖echart组件时间轴随机生成的数据
+//			function randNum(min, max) {
+//				var num = Math.floor(Math.random() * (max - min) + min);
+//				return num;
+//			}
+//			var data2, data3;
+//
+//			function upData() {
+//				data2 = [];
+//				data3 = [];
+//				for(var i = 0; i < 40; i++) {
+//					data2.push([randNum(0, 100), randNum(10, 100), "学生" + randNum(0, 50)]);
+//				}
+//				for(var i = 0; i < 5; i++) {
+//					data3.push([randNum(0, 100), randNum(10, 100), "老师" + randNum(0, 50)]);
+//				}
+//				//				console.log(data2);
+//				setTimeout(function() {
+////					option.baseOption.series[0].data = data2;
+////					option.baseOption.series[1].data = data3;
+//					console.log(data2);
+//					option.options[0].series[0].data = data2;
+//					option.options[0].series[1].data = data3;
+//					option.options[1].series[0].data = data2;
+//					option.options[1].series[1].data = data3;
+//					myChart.setOption(option);
+//				}, 100);
+//
+//				setTimeout(upData, 5000);
+//			}
+//			setTimeout(upData,2000);
+		</script>
+		
+	</body>
+
+</html>

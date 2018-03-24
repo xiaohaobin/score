@@ -1,0 +1,45 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+				font-size: 14px;
+			}
+			
+			#allmap {
+				width: 100%;
+				height: 100%;
+				display: none;
+			}
+		</style>
+		<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DD279b2a90afdf0ae7a3796787a0742e"></script>-->
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=8ZEtx5kDGsbBFL80Ppda29D8wjnGil7I"></script>
+		<title>逆地址解析</title>
+	</head>
+
+	<body>
+		<div id="allmap"></div>
+		<!--<script type="text/javascript" src="mapapi.js"></script>-->
+		<script type="text/javascript">
+			function map_click(lng,lat){ 
+				var map = new BMap.Map("allmap"); 
+				var point = new BMap.Point(lng,lat); 
+				map.centerAndZoom(point,12); 
+				var geoc = new BMap.Geocoder(); 
+				geoc.getLocation(point,function(rs){ 
+				var addComp = rs.addressComponents; 
+					console.log(addComp.province +""+ addComp.city +""+ addComp.district +""+ addComp.street +""+ addComp.streetNumber); 
+				}); 
+			}
+			map_click(114.953632,22.548995);
+		</script>
+	</body>
+
+</html>

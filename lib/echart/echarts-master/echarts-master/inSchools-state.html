@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>ECharts</title>
+		<!-- 引入 echarts.js -->
+		<script src="dist/echarts.js"></script>
+		<script src="ecStat.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/inSchools-state.css"/>
+		<link rel="stylesheet" type="text/css" href="css/about.css"/>
+		<link rel="stylesheet" type="text/css" href="css/timePicker.css"/>
+	</head>
+
+	<body>
+		<div id="dataTableBox" class="row">
+			<div class="col-sm-6">
+				<input type="text" onclick="WdatePicker()"  class="input-text Wdate" name="dateInput" id="dateInput" value="2017-11-16" />
+				<input type="text" name="timeInput" id="timeInput" value="07:00" />
+				<button type="button" class="btn btn-success btn-sm searchData">根据时间日期查询数据</button>
+				<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#allModel">
+					综合列表
+				</button>
+				
+			</div>
+			
+		</div>
+		<div class="imgBox">
+			<div id="main"></div>
+		</div>
+		
+		<!--综合表格sss-->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="allModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							综合表格
+						</h4>
+					</div>
+					<div class="modal-body">
+						<!--<div>
+							<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-all">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>姓名</th>
+										<th class="roleTd">角色</th>
+										<th>坐标</th>
+										<th>探霸编号</th>
+										<th>职务</th>
+										<th>手机号码</th>
+										<th>出现时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+							<div id="biuuu_city3"></div>
+						</div>-->
+						
+						
+						<ul id="myTab" class="nav nav-tabs">
+							<li class="active">
+								<a href="#student" data-toggle="tab">
+									学生
+								</a>
+							</li>
+							<li>
+								<a href="#teacher" data-toggle="tab">老师</a>
+							</li>
+							<li>
+								<a href="#doorkeeper" data-toggle="tab">安保人员</a>
+							</li>
+							<li>
+								<a href="#localPensonal" data-toggle="tab">常驻民</a>
+							</li>
+							<li>
+								<a href="#patriarch" data-toggle="tab">家长</a>
+							</li>
+							<li>
+								<a href="#stranger" data-toggle="tab">陌生人</a>
+							</li>
+						</ul>
+						<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="student">
+								<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-student">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>姓名</th>
+											<th class="roleTd">角色</th>
+											<th>坐标</th>
+											<th>探霸编号</th>
+											<th>职务</th>
+											<th>手机号码</th>
+											<th>出现时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<div id="biuuu_student"></div>
+							</div>
+							
+							<div class="tab-pane fade" id="teacher">
+								<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-teacher">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>姓名</th>
+											<th class="roleTd">角色</th>
+											<th>坐标</th>
+											<th>探霸编号</th>
+											<th>职务</th>
+											<th>手机号码</th>
+											<th>出现时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<div id="biuuu_teacher"></div>
+							</div>
+							
+							<div class="tab-pane fade" id="doorkeeper">
+								<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-doorkeeper">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>姓名</th>
+											<th class="roleTd">角色</th>
+											<th>坐标</th>
+											<th>探霸编号</th>
+											<th>职务</th>
+											<th>手机号码</th>
+											<th>出现时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<div id="biuuu_doorkeeper"></div>
+							</div>
+							
+							<div class="tab-pane fade" id="localPensonal">
+								<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-localPensonal">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>姓名</th>
+											<th class="roleTd">角色</th>
+											<th>坐标</th>
+											<th>探霸编号</th>
+											<th>职务</th>
+											<th>手机号码</th>
+											<th>出现时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<div id="biuuu_localPensonal"></div>
+							</div>
+							
+							<div class="tab-pane fade" id="patriarch">
+								<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-patriarch">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>姓名</th>
+											<th class="roleTd">角色</th>
+											<th>坐标</th>
+											<th>探霸编号</th>
+											<th>职务</th>
+											<th>手机号码</th>
+											<th>出现时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<div id="biuuu_patriarch"></div>
+							</div>
+							
+							<div class="tab-pane fade" id="stranger">
+								<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-stranger">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>姓名</th>
+											<th class="roleTd">角色</th>
+											<th>坐标</th>
+											<th>探霸编号</th>
+											<th>职务</th>
+											<th>手机号码</th>
+											<th>出现时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<div id="biuuu_stranger"></div>
+							</div>
+						</div>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary">
+							确定
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<!--综合表格eee-->
+		
+		<div class="infoBox">
+			<button type="button" class="closeBtn">X</button>
+			<div class="cl pd-20" style=" background-color:#5bacb6">
+				<img class="avatar size-XL l" src="img/avatar-default.jpg">
+				<div style="margin-left:80px; color:#fff">
+						<p class="pl-10 f-12 allName">
+							姓名：
+							张三
+						</p>
+						
+						<p class="pl-10 f-12 role">
+							职称：
+							三年（2）班
+							数学老师
+						</p>
+						
+						<p class="pl-10 f-12 mainNum">
+							手机号码：
+							13255624174
+						</p>
+						
+						<p class="pl-10 f-12 coordinate">
+							坐标：
+							(84,90)
+						</p>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!--历史数据，轨迹查询sss-->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="pathModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="">
+							人物历史轨迹
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box">
+							<ul class="event_year">
+								<li class="current"><label for="2013">2017-11-11</label></li>
+							</ul>
+							<ul class="event_list">
+								<div class="event_list_box">
+									<h3 id="2013">2017-11-11</h3>
+									<li>
+										<span>7:00</span>
+										<p><span>7:00文字信息</span></p>
+									</li>
+									<li>
+										<span>7:05</span>
+										<p><span>7:10文字信息</span></p>
+									</li>
+								</div>
+							</ul>
+							<div class="clearfix"></div>
+							
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<!--历史数据，轨迹查询eee-->
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/laypage/1.2/laypage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/My97DatePicker/4.8/WdatePicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/inSchools-state.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer/2.4/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-timepicker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#timeInput").hunterTimePicker();
+			});
+			
+		</script>
+		
+	</body>
+
+</html>

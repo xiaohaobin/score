@@ -1,0 +1,72 @@
+[
+	{
+		"id":"1",
+		"coordinate":[500,500],
+		"name":"小明",
+		"role":"0",
+		"tanbaNum":"007",
+		"duty":"3年级学生",
+		"mobileNum":"",
+		"time":"2017-11-11 7:30"
+	},
+	{
+		"id":"11",
+		"coordinate":[110,34],
+		"name":"小hong",
+		"role":"0",
+		"tanbaNum":"017",
+		"duty":"3年级学生",
+		"mobileNum":"",
+		"time":"2017-11-11 7:30"
+	},
+	{
+		"id":"2",
+		"coordinate":[120,14],
+		"name":"苍老师",
+		"role":"1",
+		"tanbaNum":"",
+		"duty":"3年级体育老师",
+		"mobileNum":"13255632120",
+		"time":"2017-11-11 7:30"
+	},
+	{
+		"id":"3",
+		"coordinate":[120,104],
+		"name":"李二狗",
+		"role":"2",
+		"tanbaNum":"",
+		"duty":"大门保安",
+		"mobileNum":"13855632120",
+		"time":"2017-11-11 7:30"
+	},
+	{
+		"id":"14",
+		"coordinate":[120,7],
+		"name":"",
+		"role":"3",
+		"tanbaNum":"",
+		"duty":"陌生人",
+		"mobileNum":"",
+		"time":"2017-11-11 7:30"
+	},
+	{
+		"id":"7",
+		"coordinate":[320,17],
+		"name":"",
+		"role":"4",
+		"tanbaNum":"",
+		"duty":"常住民",
+		"mobileNum":"",
+		"time":"2017-11-11 7:30"
+	},
+	{
+		"id":"27",
+		"coordinate":[220,77],
+		"name":"",
+		"role":"5",
+		"tanbaNum":"",
+		"duty":"家长",
+		"mobileNum":"",
+		"time":"2017-11-11 7:30"
+	}
+]

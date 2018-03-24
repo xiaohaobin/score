@@ -1,0 +1,107 @@
+@charset "utf-8";
+html,
+body {
+	/*width: 100vw;
+	height: 100vh;*/
+}
+
+body {
+	/*overflow: hidden;*/
+}
+
+body:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.imgBox {
+	background: url(../img/school2.png) no-repeat 190px 76px;
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+	background-size: 80% 827px;
+	/*float: left;*/
+}
+
+#dataTableBox {
+	padding-left: 100px;
+	padding-top: 20px;
+}
+
+#main {
+	width: 100%;
+	height: 100%;
+}
+
+.pd-20 {
+	padding: 20px;
+	zoom: 1;
+}
+
+.avatar.size-XL,
+.avatar.size-XL img {
+	width: 64px;
+	height: 64px;
+}
+
+.avatar {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+}
+
+.l,
+.f-l {
+	float: left!important;
+	_display: inline;
+}
+
+img {
+	border: 0;
+	vertical-align: middle;
+}
+
+.f-18 {
+	font-size: 18px;
+}
+
+ul,
+ol,
+dl {
+	list-style-type: none;
+}
+.infoBox{
+	width: 400px;
+	height: 164px;
+    border: 2px solid #ddd;
+    position: fixed;
+    top: -50%;
+    margin-top: -82px;
+    left: 50%;
+    margin-left: -200px;
+    z-index: 9999;
+}
+.hide{
+	display: none;
+}
+.closeBtn{
+	position: absolute;
+    right: 0;
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+}
+.closeBtn:hover{
+	border: 1px solid red;
+	color:red;
+}
+.modal-dialog{
+	width: 900px !important;
+}
+.roleTd{
+	display: none;
+}
+.tab-pane{
+	padding: 20px;
+}

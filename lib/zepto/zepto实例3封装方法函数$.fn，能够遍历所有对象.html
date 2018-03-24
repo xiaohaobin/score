@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div>adsadada</div><div>adsadada</div><div>adsadada</div><div>adsadada</div>
+		<button>点解</button>
+		<p>
+			dssadasd
+			<b>呜呜呜</b>	
+		</p>
+		<script type="text/javascript">
+			$("button").click(function(){
+			  	 $.fn.empty = function(){//封装方法函数$.fn，能够遍历所有对象（只能有一个返回效果）
+					  return this.each(function(){ this.innerHTML = '' });
+				 }
+			  	$("div").empty();
+			  	
+			  	 var bool = $.contains("p", "b");
+			  	 console.log(bool);
+		    });
+		   
+		</script>
+	</body>
+</html>

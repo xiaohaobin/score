@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>ECharts</title>
+		<!-- 引入 echarts.js -->
+		<script src="dist/echarts.js"></script>
+		<script src="ecStat.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/inSchools-state.css"/>
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<div id="dataTableBox">
+			<!--<input type="text" name="" id="sName" value="" class=""/>
+			<button type="button" id="searchBtn" class="btn btn-success btn-sm">搜索</button>-->
+			<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#studentModel">
+				学生列表
+			</button>
+			<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#teacherModel">
+				老师列表
+			</button>
+		</div>
+		<div class="imgBox">
+			<div id="main"></div>
+		</div>
+		
+		
+		
+		<!--学生表格sss-->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="studentModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							学生表格
+						</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-student">
+							<thead>
+								<tr>
+									<th>坐标</th>
+									<th>姓名</th>
+									<th>年级</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>ss</td>
+									<td>sdf</td>
+								</tr>
+							</tbody>
+						</table>
+						<div id="biuuu_city"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary">
+							确定
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<!--学生表格eee-->
+		
+		<!--学生表格sss-->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="teacherModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							老师表格
+						</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-hover table-condensed table-striped table-responsive table-teacher">
+							<thead>
+								<tr>
+									<th>坐标</th>
+									<th>姓名</th>
+									<th>手机号码</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>ss</td>
+									<td>sdf</td>
+								</tr>
+							</tbody>
+						</table>
+						<div id="biuuu_city2"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary">
+							确定
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<!--学生表格eee-->
+		
+		<div class="infoBox hide">
+			<button type="button" class="closeBtn">X</button>
+			<div class="cl pd-20" style=" background-color:#5bacb6">
+				<img class="avatar size-XL l" src="img/avatar-default.jpg">
+				<div style="margin-left:80px; color:#fff">
+						<p class="pl-10 f-12 allName">
+							姓名：
+							张三
+						</p>
+						
+						<p class="pl-10 f-12 role">
+							职称：
+							三年（2）班
+							数学老师
+						</p>
+						
+						<p class="pl-10 f-12 mainNum">
+							手机号码：
+							13255624174
+						</p>
+						
+						<p class="pl-10 f-12 coordinate">
+							坐标：
+							(84,90)
+						</p>
+					
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/laypage/1.2/laypage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/getPersonalInfo.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/velocity.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			
+			
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('main'));
+
+//			console.log(data);
+			var clusterNumber = 6;
+			// See https://github.com/ecomfe/echarts-stat
+//			var step = ecStat.clustering.hierarchicalKMeans(data, clusterNumber, true);
+			var result;
+
+			var option = {
+//				timeline: {
+//					autoPlay: true,
+//					data: ["7:00", "7:10", "7:20", "7:30", "7:40", "7:50", "8:00", "8:10", "8:20", "8:30", "8:40"],
+//					axisType: 'category',
+//					padding: [15, 5, 0, 5],
+//					playInterval: 595000,
+//					lineStyle: {
+//						color: 'red'
+//					},
+//					label: {
+//						normal: {
+//							textStyle: {
+//								color: 'red',
+//								fontSize: 15
+//							}
+//						}
+//					}
+//				},
+				 legend: {
+			        right: 10,
+			        data: ['年级学生', '年级老师']
+			    },
+				baseOption: {
+					title: {
+						text: '某学校人群密度实时监控图',
+						subtext: '数据来源--深圳市独尊科技开发有限公司',
+						sublink: '',
+						left: 'center'
+						
+					},
+					 legend: {
+			        right: 10,
+			        data: ['年级学生', '年级老师']
+			    },
+					 xAxis : [
+				        {
+				            show : false,
+				            type : 'value',
+				            axisLabel : {
+//				                formatter: '{value} °C'
+				            }
+				        }
+				    ],
+					yAxis:[
+				        {
+				            show : false,
+				            type : 'value',
+				            axisLabel : {
+//				                formatter: '{value} °C'
+				            }
+				        }
+				    ],
+				    
+				    tooltip: {
+						trigger: 'item',
+//						axisPointer: {							
+//							type: 'cross',
+//						},
+//						formatter: function(params) {							
+//							return "角色："+params.data[2]+
+//									"<p>坐标："+params.data[0]+","+
+//									params.data[1]+"</p>";
+//						},
+					},
+					
+					series:[
+					{
+						name:"年级学生",
+						type: 'scatter',
+						animation: true,
+						data:[
+							[8, 5,"阿凯"],
+							[3, 6,"阿凯2"],
+							[15, 5,"阿凯3"],
+							[5, 5,"阿凯4"],
+							[1, 15,"阿凯5"]
+						],
+						label: {
+				            emphasis: {
+				                show: true,
+				                formatter: function (param) {
+				                    return param.data[3];
+				                },
+				                position: 'top'
+				            }
+				        },
+				        itemStyle: {
+				            normal: {
+				                shadowBlur: 10,
+				                shadowColor: 'rgba(120, 36, 50, 0.5)',
+				                shadowOffsetY: 5,
+				                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+				                    offset: 0,
+				                    color: '#000'
+				                }, {
+				                    offset: 1,
+				                    color: '#fff'
+				                }])
+				            }
+				        },
+				        markPoint: {
+//				        	symbol:'diamond',
+//				        	animation:true,
+			                symbolSize: 29,
+//			               
+			               itemStyle: {  
+			                    normal: {  
+			                        borderColor: '#1e90ff',  
+			                        borderWidth: 1,            // 标注边线线宽，单位px，默认为1  
+			                        label: {  
+			                            show: false  
+			                        }  
+			                    },  
+			                    emphasis: {  
+			                        borderColor: '#1e90ff',  
+			                        borderWidth: 5,  
+			                        label: {  
+			                            show: false  
+			                        }  
+			                    }  
+			                },  
+			                effect : {
+	                           show: true,
+	                           shadowBlur : 0
+	                        },
+			                data: [{
+//			                    coord: [15, 5]
+			                }]
+			            }
+					},
+					{
+						name:"年级老师",
+						type: 'scatter',
+						animation: true,
+						data:[
+							[18,15,"露娜"],
+							[13, 16,"露娜2"],
+							[15,25,"露娜3"],
+							[25, 15,"露娜4"],
+							[10, 5,"怒骂5"]
+						],
+						label: {
+				            emphasis: {
+				                show: true,
+				                formatter: function (param) {
+				                    return param.data[3];
+				                },
+				                position: 'top'
+				            }
+				        },
+				        itemStyle: {
+				            normal: {
+				                shadowBlur: 10,
+				                shadowColor: 'rgba(120, 36, 50, 0.5)',
+				                shadowOffsetY: 5,
+				                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+				                    offset: 0,
+				                    color: '#ccc'
+				                }, {
+				                    offset: 1,
+				                    color: 'red'
+				                }])
+				            }
+				        },
+				        markPoint: {
+//				        	symbol:'diamond',
+//				        	animation:true,
+			                symbolSize: 29,
+			                itemStyle: {  
+			                    normal: {  
+			                        borderColor: '#1e90ff',  
+			                        borderWidth: 1,            // 标注边线线宽，单位px，默认为1  
+			                        label: {  
+			                            show: false  
+			                        }  
+			                    },  
+			                    emphasis: {  
+			                        borderColor: '#1e90ff',  
+			                        borderWidth: 5,  
+			                        label: {  
+			                            show: false  
+			                        }  
+			                    }  
+			                },  
+			                effect : {
+	                           show: true,
+	                           shadowBlur : 0
+	                        },
+			                data: [{
+//			                    coord: [15, 5]
+			                }]
+			            }
+					}
+					]
+				},
+				options: []
+			};
+
+			
+
+			// 使用刚指定的配置项和数据显示图表。
+			myChart.setOption(option);
+			
+			//搜索名字寻找坐标
+			
+			
+			$("body").delegate("#studentModel .search-btn","click",function(){
+				var vStr = $(this).parents("tr").children("td:nth-child(2)").text();
+				$.each(option.baseOption.series, function(i,v) {
+					$.each(v.data, function(k,e) {
+						if(e[2] == vStr){
+							v.markPoint.data[0].coord = [e[0],e[1]];
+							setTimeout(function(){
+								myChart.setOption(option);
+							},100);
+						}
+					});
+				});
+				$("#studentModel .close").trigger("click");
+			});
+			
+			$("body").delegate("#teacherModel .search-btn","click",function(){
+				var vStr = $(this).parents("tr").children("td:nth-child(2)").text();
+				$.each(option.baseOption.series, function(i,v) {
+					$.each(v.data, function(k,e) {
+						if(e[2] == vStr){
+							v.markPoint.data[0].coord = [e[0],e[1]];
+							setTimeout(function(){
+								myChart.setOption(option);
+							},100);
+						}
+					});
+				});
+				$("#teacherModel .close").trigger("click");
+			});
+			
+			//随机生成任意数据点
+			function randNum(min,max){
+			    var num = Math.floor(Math.random()*(max-min)+min);
+			    return num;
+			}
+			var data2,data3;
+			function upData(){
+				data2 = [];
+				data3 = [];
+				for(var i=0;i<randNum(20,51);i++){
+					data2.push([randNum(0,100),randNum(10,100),getName(),randNum(1,7)+"年级"]);
+				}
+				for(var i=0;i<randNum(2,10);i++){
+					data3.push([randNum(0,100),randNum(10,100),getName(),getMoble()]);
+				}				
+				setTimeout(function(){
+					console.log(data2,data3);
+					option.baseOption.series[0].data = data2;
+					option.baseOption.series[1].data = data3;
+					$(".table-student tbody,.table-teacher tbody").html("");
+					
+					//老师表格
+					$.each(data3, function(i,v) {
+						$(".table-teacher tbody").append($('<tr><td>'+v[0]+','+v[1]+'</td><td>'+v[2]+'</td><td>'+v[3]+'</td></td><td><button type="button"  class="btn btn-primary search-btn">查询</button></td></tr>'));
+					});
+					
+					setTimeout(function(){
+						//学生表格分页
+						var nums = 5; //每页出现的数量
+						var pages = Math.ceil(data2.length / nums); //得到总页数
+						console.log(pages);
+						var thisDate = function(curr) {
+							//此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+							var str = '',
+								last = curr * nums - 1;
+							last = last >= data2.length ? (data2.length - 1) : last;
+//							console.log(last);
+							for(var i = (curr * nums - nums); i <= last; i++) {
+								str += '<tr><td>' + data2[i][0]+'，'+data2[i][1]+ '</td><td>'+data2[i][2]+'</td><td>'+data2[i][3]+'</td><td><button type="button"  class="btn btn-primary search-btn">查询</button></td></tr>';
+							}
+//							console.log(str);//当前显示的数据
+							return str;
+						};
+			
+						//调用分页
+						laypage({
+							cont: 'biuuu_city',//控制分页容器，
+							pages: pages,//总页数
+							jump: function(obj) {
+								console.log(thisDate(obj.curr));
+								$(".table-student tbody").html(thisDate(obj.curr));
+							}
+						})
+						
+						
+					},100);
+					myChart.setOption(option);
+				},100);
+				
+				setTimeout(upData,600000);//十分钟执行
+			}
+//			setTimeout(upData,4000);
+			upData();
+			var profession = ["英语老师","语文老师","英语老师","体育老师","音乐老师","班主任老师","政治老师","历史老师","地理老师","生物老师","化学老师","物理老师","绘画老师"];
+			myChart.on('click', function (params) {
+				$(".infoBox").removeClass("hide");
+				
+				console.log(params);
+		    	if(params.componentType == "series" &&　params.seriesName == "年级老师"){
+		    		console.log("姓名："+params.data[2]);
+		    		console.log("坐标："+params.data[0]+"，"+params.data[1]);
+		    		console.log("手机号码："+params.data[3]);
+		    		console.log("职位："+randNum(1,7)+"年级"+profession[randNum(0,11)]);
+		    		
+		    		$(".allName").text("姓名："+params.data[2]);
+		    		$(".coordinate").text("坐标："+params.data[0]+"，"+params.data[1]);
+		    		$(".mainNum").text("手机号码："+params.data[3]);
+		    		$(".role").text("角色："+randNum(1,7)+"年级"+profession[randNum(0,11)]);
+		    	}
+		    	if(params.componentType == "series" &&　params.seriesName == "年级学生"){
+		    		console.log("姓名："+params.data[2]);
+		    		console.log("坐标："+params.data[0]+"，"+params.data[1]);
+		    		console.log("年级："+params.data[3]);
+		    		
+		    		$(".allName").text("姓名："+params.data[2]);
+		    		$(".coordinate").text("坐标："+params.data[0]+"，"+params.data[1]);
+		    		$(".mainNum").text("探霸id："+randNum(0,41));
+		    		$(".role").text("角色："+params.data[3]+"学生");
+		    	}
+		    	$(".infoBox").velocity({ top: "50%" }, 2000, [500,10]);
+			});
+			
+//			//隐藏详情卡
+			$(".closeBtn").click(function(){
+				$(".infoBox").velocity({ top: "-50%"}, 2000, [500,20]);
+			});
+		</script>
+		
+	</body>
+
+</html>
