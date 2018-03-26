@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<h1>1.全局化注册组件(自定义标签)</h1>
+		<div id="app1">
+			<mmp></mmp>
+			<mmp></mmp>
+		</div>
+		<script type="text/javascript">
+			Vue.component("mmp", {
+				template: '<div><a>sss</a><b>d</b></div>'
+			})
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					aData: [{
+							"id": 0,
+							"n": "嘻嘻嘻m"
+						},
+						{
+							"id": 3,
+							"n": "撒地方"
+						}
+					]
+				}
+			})
+		</script>
+
+		<h1>2.局部注册组件</h1>
+		<h3>2.1赋值</h3>
+		<div id="app2">
+			<mmp></mmp>
+			<diy say="wrnmmp">
+
+			</diy>
+
+		</div>
+		<script type="text/javascript">
+			var app2 = new Vue({
+				el: "#app2",
+				data: {
+					aData: [{
+							"id": 0,
+							"n": "嘻嘻嘻m"
+						},
+						{
+							"id": 3,
+							"n": "撒地方"
+						}
+					]
+				},
+				components: {
+					'diy': {
+						props: ['say'],
+						template: '<div><h4>component组件的props属性:我想说{{say}}</h4></div>'
+					}
+
+				}
+			})
+		</script>
+
+		<h3>2.2循环赋值</h3>
+		<div id="app4">
+			<plp :city="aData"></plp>
+		</div>
+
+		<script>
+			var vm = new Vue({
+				el: "#app4",
+				data: {
+					like: 'YiChang',
+					aData: [{
+							"id": 0,
+							"n": "嘻嘻嘻m"
+						},
+						{
+							"id": 3,
+							"n": "撒地方"
+						}
+					]
+				},
+				components: {
+					'plp': {
+						props: ['city'],
+						template: '<div><ul><li v-for="(v,i) in city">{{v.n}}</li></ul></div>',
+					}
+				}
+			})
+		</script>
+
+		<h1>3.component父子组件</h1>
+
+		<div id="app5">
+			<plp :city="like"></plp>
+		</div>
+
+		<script>
+			var vm = new Vue({
+				el: "#app5",
+				data: {
+					like: 'YiChang'
+				},
+				components: {
+					'plp': {
+						props: ['city'],
+						template: '<p>I like {{city}} <ppl></ppl></p>',
+						components: {
+							'ppl': {
+								template: '<span style="color:red">very much!</span>'
+							}
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

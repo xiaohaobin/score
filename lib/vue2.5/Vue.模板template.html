@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<div id="app">
+			<h1>我是直接写在构造器里的模板1：{{message}}</h1>
+		</div>
+
+		<template id="demo3">
+			
+			<div>
+				<h1 style="color:red">我是选项模板3：{{message}}</h1>
+				<table border="1" cellspacing="" cellpadding="">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>id</th>
+							<th>名字</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(v,i) in arr">
+							<td>{{i}}</td>
+							<td>{{v.id}}</td>
+							<td>{{v.name}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</template>
+
+		
+
+		<script>
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					message: "信息...",
+					arr:[
+						{"id":0,"name":"xhb"},
+						{"id":10,"name":"xhb2"},
+						{"id":110,"name":"xhb3"},
+					]
+				},
+
+				//第2种模板 写在构造器里  
+				template:'<div><h1 style="color:red">我是选项模板2</h1></div>'
+
+				//第3种模板 写在<template>标签里  
+//				template:'#demo3'  
+
+			})
+		</script>
+		
+		<div id="app3">
+			
+		</div>
+		<script type="x-template" id="demo4">
+			
+			<div>
+				<h1 style="color:red">我是script标签模板4：{{msg}}推荐</h1>
+				<ul>
+					<li v-for="(v,i) in arr">
+						<b>序号：{{i}}</b>-
+						<i>id:{{v.id}}</i>
+					</li>
+				</ul>
+			</div>
+		</script>
+		<script type="text/javascript">
+			var app3 = new Vue({
+				el:"#app3",
+				data:{
+					msg:"天天天天天天天",
+					count:1,
+					arr:[
+						{"id":0,"name":"xhb"},
+						{"id":10,"name":"xhb2"},
+						{"id":110,"name":"xhb3"},
+					]
+				},
+				template: "#demo4"
+			});
+		</script>
+	</body>
+
+</html>

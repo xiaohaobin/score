@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../pintuer（类似bootsrap）/layer-v3.0.1/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<div id="app">
+			<p>{{ message }}</p>
+			<button v-on:click="count++">累加：{{count}}</button>
+			<button v-on:click="block">销毁vue</button>
+		</div>
+
+		<script type="text/javascript">
+			var loader;
+			var obj = {
+				message: "mmp",
+				count:2
+			}
+			var app = new Vue({
+				el: '#app',
+				data: obj,
+				beforeCreate: function() {
+					loader = layer.load(1);
+					layer.close(loader);
+					console.group('beforeCreate 创建前状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el); //undefined
+					console.log("%c%s", "color:red", "data   : " + this.$data); //undefined 
+					console.log("%c%s", "color:red", "message: " + this.message)
+				},
+				created: function() {
+					layer.close(loader);
+					console.group('created 创建完毕状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el); //undefined
+					console.log("%c%s", "color:red", "data   : " + this.$data); //已被初始化 
+					console.log("%c%s", "color:red", "message: " + this.message); //已被初始化
+				},
+				beforeMount: function() {
+					console.group('beforeMount 挂载前状态===============》');
+					console.log("%c%s", "color:red", "el     : " + (this.$el)); //已被初始化
+					console.log(this.$el);
+					console.log("%c%s", "color:red", "data   : " + this.$data); //已被初始化  
+					console.log("%c%s", "color:red", "message: " + this.message); //已被初始化  
+				},
+				mounted: function() {
+					layer.alert("mounted函数，在这发起后端请求，拿回数据，配合路由钩子做一些事情");
+					console.group('mounted 挂载结束状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el); //已被初始化
+					console.log(this.$el);
+					console.log("%c%s", "color:red", "data   : " + this.$data); //已被初始化
+					console.log("%c%s", "color:red", "message: " + this.message); //已被初始化 
+					//挂碍结束后，重新赋值：
+					obj.message = "wrnmmp";
+				},
+				beforeUpdate: function() {
+
+					console.group('beforeUpdate 更新前状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el);
+					console.log(this.$el);
+					console.log("%c%s", "color:red", "data   : " + this.$data);
+					console.log("%c%s", "color:red", "message: " + this.message);
+				},
+				updated: function() {
+					console.group('updated 更新完成状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el);
+					console.log(this.$el);
+					console.log("%c%s", "color:red", "data   : " + this.$data);
+					console.log("%c%s", "color:red", "message: " + this.message);
+				},
+				beforeDestroy: function(e) {
+					layer.msg("销毁组件之前的操作");
+					console.group('beforeDestroy 销毁前状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el);
+					console.log(this.$el);
+					console.log("%c%s", "color:red", "data   : " + this.$data);
+					console.log("%c%s", "color:red", "message: " + this.message);
+				},
+				destroyed: function() {
+					console.group('destroyed 销毁完成状态===============》');
+					console.log("%c%s", "color:red", "el     : " + this.$el);
+					console.log(this.$el);
+					console.log("%c%s", "color:red", "data   : " + this.$data);
+					console.log("%c%s", "color:red", "message: " + this.message)
+				},
+				methods:{
+					block:function(){
+						
+						var confirm = layer.confirm("你确认销毁vue组件吗？ ",{btn:["sure","no"]},
+							function(i){
+								app.$destroy();
+							},
+							function(i){
+								layer.msg("并没有销毁vue组件");
+							}
+						);
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

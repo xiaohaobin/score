@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			[v-cloak] {
+			  display: none;
+			}
+		</style>
+	</head>
+		
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="(v,i) in aData">
+					<b>{{i}}</b>:<i>{{v.id}}-{{v.n}}</i>
+				</li>
+			</ul>
+			<a v-bind:style="{color:'red'}" :href="href" :class="btn" :mmp="diy">
+				{{message}}
+				<img :src="imgSrc"/>
+			</a>
+			<p v-pre>无视vue编译，依然输出：{{message}}</p>
+		</div>
+		
+		<div id="app2" v-cloak>
+			{{msg}}
+		</div>
+		<script>
+			setTimeout(function(){
+				var vm = new Vue({
+					el: "#app",
+					data: {
+						message: "例子",
+						href:"www.baidu.com",
+						imgSrc:"img/1.jpg",
+						btn:"wrnmmp",
+						diy:"傻逼",
+						aData:[
+							{"id":0,"n":"xhb"},
+							{"id":10,"n":"xwhb"},
+							{"id":110,"n":"xheeb"},
+						]
+					}
+				});
+				
+				new Vue({
+					el:"#app2",
+					data:{
+						msg:"v-cloak,这个指令保持在元素上直到关联实例结束编译。和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。"
+					}
+				})
+			},2000);
+			
+		</script>
+	</body>
+
+</html>

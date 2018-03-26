@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="demo">
+			<h3>监听事件</h3>
+		    <button v-on:click="sss">
+		        调用函数递增{{n}}
+		    </button>
+		    <button v-on:click="n++">{{n}}</button>
+		</div>
+		<div id="demo2">
+			<h3>过滤器</h3>
+			<input type="text" name="" id="input" v-model="msg" />
+			<p>{{msg | reverse}}</p>
+			<p>{{msg.split("")}}</p>
+			<button v-disable="msg">
+		        {{msg ? 'Disabled' : 'Submit'}}
+		    </button>
+		</div>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			
+			
+			var demo = new Vue({
+			    el: '#demo',
+			    data: {
+			        n: 1
+			    },
+			    methods:{
+			    	sss:function(){
+						this.n++;
+			    	}
+			    }
+			})
+			
+			
+			var bind = new Vue({
+				el:"#demo2",
+				data:{
+					msg:"WRNMMP",
+					bool:false
+				}
+			})
+			
+			
+			Vue.filter('reverse', function (value) {
+			    return value.split('').reverse().join('')
+			})
+			Vue.directive('disable', {
+			    // 每当绑定的数据变化时，这个函数就被调用啦
+			    update: function (value) {
+			         // 这里的 this 指向一个directive对象。
+			         // this.el 指向当前被绑定的DOM元素
+			         // value则是所绑定数据的新值
+					console.log("数据更新");
+			    }
+			})
+		</script>
+	</body>
+</html>

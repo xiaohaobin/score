@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+		<h2>
+			Vue.set 全局操作
+		</h2>
+		<div id="app">
+			<ul>
+				<li v-for=" aa in arr">{{aa}}</li>
+			</ul>
+
+		</div>
+		
+		<button onclick="add()" type="button">外部添加</button>
+		<script>
+			function add() {
+				console.log("我已经执行了");
+//				app.arr[1] = 'ddd';
+				Vue.set(app.arr,1,'ddd');
+				console.log(outData.arr[1]);
+			}
+			var outData = {
+				arr: ['aaa', 'bbb', 'ccc']
+			};
+			var app = new Vue({
+				el: '#app',
+				data: outData
+			})
+		</script>
+		<h3>在外部改变数据的三种方法：</h3>
+		<div id="app2">
+			<button type="button" onclick="add()">方法1：{{count}}</button>
+			<button type="button" v-on:click="count++">方法2：{{count}}</button>
+			<button type="button" onclick="add2()">方法3：{{count}}</button>
+		</div>
+		<script type="text/javascript">
+			
+			function add(){
+			       Vue.set(outData,'count',4);
+			}
+			function add2(){
+				outData.count++;
+			}
+			var outData={
+			    count:1,
+			    goodName:'car'
+			};
+			var app=new Vue({
+			    el:'#app2',
+			    //引用外部数据
+			    data:outData
+			})
+		</script>
+		
+		<h3>v-for循环,vue2.0写法</h3>
+		
+
+		<ul id="example-2">
+		  <li v-for="(v,i) in items">
+		    {{ parentMessage }} - {{ i }} - {{ v.message }}
+		  </li>
+		</ul>
+		<script type="text/javascript">
+			var example2 = new Vue({
+			  el: '#example-2',
+			  data: {
+			    parentMessage: 'Parent',
+			    items: [
+			      { message: 'Foo' },
+			      { message: 'Bar' }
+			    ]
+			  }
+			})
+		</script>
+
+	</body>
+
+</html>

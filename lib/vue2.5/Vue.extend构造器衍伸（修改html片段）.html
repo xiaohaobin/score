@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		
+		<h2>
+			构造器衍生之更换html片段
+		</h2>
+		<div id="app">
+			<p class="gz">第一个p</p>
+		</div>
+		<p class="gz">第二个p</p>
+		
+		<script>
+			var author = Vue.extend({
+				template: "<div style='background-color: #00008B;'><h3>标题</h3><a>最终解释权归作者所有</a><div>主要内容....</div></div>"
+			})
+			new author().$mount('.gz');
+		</script>
+	</body>
+
+</html>

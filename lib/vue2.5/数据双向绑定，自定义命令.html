@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="demo">
+			<h3>自定义命令,监听更新</h3>
+			<input type="text" name="" id="" value="" v-model="n" />
+			<p v-disable="n">{{n}}</p>
+			<button v-on:click="n++">{{n}}</button>
+		</div>
+		<div id="demo2">
+			<h3>双绑定</h3>
+			<input type="text" name="" id="input" v-model="msg" />
+			<p>{{msg}}</p>
+			<p>{{msg.split("")}}</p>
+		</div>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			Vue.directive('disable', {
+				// 每当绑定的数据变化时，这个函数就被调用啦
+				update: function(p) {
+					console.log("更新了")
+					var _this = this;
+					//			         this.el.disabled = !!value
+					setTimeout(function() {
+						console.log("绑定的元素：", p);
+						p.style.backgroundColor = "red";
+					}, 100)
+
+				},
+				bind: function() {
+					console.log("绑定了")
+				},
+				unbind: function() {
+					console.log("解绑了")
+				}
+			})
+
+			var demo = new Vue({
+				el: '#demo',
+				data: {
+					disabled: true,
+					n: 1
+				}
+			})
+
+			var bind = new Vue({
+				el: "#demo2",
+				data: {
+					msg: "wrnmmp",
+					bool: false
+				}
+			})
+		</script>
+		
+		
+		<h3>表单双向数据绑定</h3>
+		<div id="example">
+			<form>
+				姓名：
+				<input type="text" v-model="data.name" placeholder="姓名" />
+				<br /> 性别：
+				<input type="radio" id="man" value="man" v-model="data.sex" />
+				<label for="man">男</label>
+				<input type="radio" id="male" value="male" v-model="data.sex" />
+				<label for="male">女</label>
+				<br />
+				<input type="checkbox" id="jack" value="book" v-model="data.interest" />
+				<label for="jack">阅读</label>
+				<input type="checkbox" id="john" value="swim" v-model="data.interest" />
+				<label for="john">游泳</label>
+				<input type="checkbox" id="move" value="game" v-model="data.interest" />
+				<label for="move">游戏</label>
+				<input type="checkbox" id="mike" value="song" v-model="data.interest" />
+				<label for="mike">唱歌</label>
+				<br /> 身份：
+				<select v-model="data.identity">
+					<option value="teacher" selected>教师</option>
+					<option value="doctor">医生</option>
+					<option value="lawyer">律师</option>
+				</select>
+				<input type="text" v-model="data.pid" v-on:keyup="sumbitInput"/>
+				<p>{{data.pid}}</p>
+				<p>{{data.message}}</p>
+			</form>
+		</div>
+		<script type="text/javascript">
+			var e = new Vue({
+				el: '#example',
+				data: {
+					data: {
+						name: 'xhb',
+						sex: 'man',
+						interest: ['book','song'],
+						identity: 'doctor',
+						pid:'445281199012092798',
+					}
+				},
+				methods:{
+					sumbitInput:function(){
+						console.log(123);
+						$.ajax({
+							type:"get",
+							url:"../data1.json",
+							async:true,
+							success:function(data){
+								console.log(data);
+							}
+						});
+					}
+				}
+			})
+			
+			
+		</script>
+			<h3>自定义命令,监听更新</h3>
+		
+		    <div id="app">
+		        <p v-sq="color">{{message}}</p>
+		        <div v-sq="bool">
+		        	
+		        </div>
+		    </div>
+	
+			<script>
+			    Vue.directive('sq', function (el, binding, vnode) {
+			        el.style.color = binding.value;
+			        console.log(el,binding,vnode);
+			        if(binding.value == true) el.innerHTML = "一条指令可以多个值";
+			    });
+			    var vm = new Vue({
+			        el: "#app",
+			        data: {
+			            message: "自定义指令sq",
+			            color: "red",
+			            bool:true
+			        }
+			    });
+			</script>
+
+	</body>
+
+</html>
