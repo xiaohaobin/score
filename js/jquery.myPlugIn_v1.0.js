@@ -543,6 +543,8 @@ var fnAjax = { //
 	}
 })(jQuery, window, document);
 
+
+
 //关于置顶置底
 ;
 (function($, window, document, undefined) {

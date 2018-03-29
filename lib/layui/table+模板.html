@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+
+		<div id="tableBox">
+
+		</div>
+
+		<div>
+
+			<table lay-filter="demo">
+				<thead>
+					<tr>
+						<th lay-data="{field:'username', width:100}">昵称</th>
+						<th lay-data="{field:'experience', width:80, sort:true}">积分</th>
+						<th lay-data="{field:'sign'}">签名</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>贤心1</td>
+						<td>66</td>
+						<td>人生就像是一场修行a</td>
+					</tr>
+					<tr>
+						<td>贤心2</td>
+						<td>88</td>
+						<td>人生就像是一场修行b</td>
+					</tr>
+					<tr>
+						<td>贤心3</td>
+						<td>33</td>
+						<td>人生就像是一场修行c</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--模板1sss-->
+		<script id="model1" type="text/html">
+			<table class="layui-table" lay-filter="tableModel">
+				<colgroup>{{d.title}}</colgroup>
+				<thead>
+					<tr>
+						<th lay-data="{field:'id', width:100, sort:true}">ID</th>
+						<th lay-data="{field:'nickName', width:80, sort:true}">昵称</th>
+						<th lay-data="{field:'age',sort:true}">年龄</th>
+						<th lay-data="{field:'work', width:80, sort:true}">职业</th>
+						<th lay-data="{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{# if(d.data.length == 0){ }} 无数据！ {{# }else{ }} {{# for(var i=0;i
+					<d.data.length;i++){ }} <tr>
+						<td>{{ d.data[i].id }}</td>
+						<td>{{ d.data[i].nickName }}</td>
+						<td>{{ d.data[i].age }}</td>
+						<td>{{ d.data[i].work }}</td>
+						<td>
+							<div class="layui-btn-group">
+								<button class="layui-btn layui-btn-sm layui-btn-edit" lay-event="edit">
+								    <i class="layui-icon">&#xe642;</i>
+								</button>
+								<button class="layui-btn layui-btn-sm layui-btn-del" lay-event="del">
+								    <i class="layui-icon">&#xe640;</i>
+								</button>
+							</div>
+						</td>
+						</tr>
+						{{# } }} {{# } }}
+				</tbody>
+			</table>
+		</script>
+		<!--模板1eee-->
+
+		<!--工具条模板111-->
+		<script type="text/html" id="barDemo">
+		  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+		  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+		<!--工具条模板111-->
+		
+		
+		<script>
+			//表格数据
+			var tableData = {
+				"title": "表格模板demo",
+				"header": [
+					"ID",
+					"昵称",
+					"年龄",
+					"职业",
+					"操作"
+				],
+				"data": [{
+						"id": 01,
+						"nickName": "夏侯惇",
+						"age": 18,
+						"work": "坦克"
+					},
+					{
+						"id": 02,
+						"nickName": "杨戬",
+						"age": 190,
+						"work": "战士"
+					},
+					{
+						"id": 03,
+						"nickName": "赵云",
+						"age": 17,
+						"work": "刺客"
+					},
+					{
+						"id": 04,
+						"nickName": "关羽",
+						"age": 180,
+						"work": "坦克/战士"
+					},
+				],
+			};
+			layui.use(['laytpl','table','layer'], function() {
+				var laytpl = layui.laytpl;
+				var table = layui.table;
+				var layer = layui.layer;
+ 
+				//转换静态表格
+				table.init('demo', {
+				  height: 315 //设置高度
+				  ,limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+				  //支持所有基础参数
+				}); 
+				//渲染表格模板
+				var tableModel = document.getElementById("model1").innerHTML;
+				laytpl(tableModel).render(
+					tableData,
+					function(html) {
+						document.getElementById("tableBox").innerHTML = html;
+						table.init('tableModel', {
+						  height: 315 //设置高度
+						  ,limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+						  //支持所有基础参数
+						}); 
+						
+						//监听工具条
+						table.on('tool(tableModel)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+						  var data = obj.data; //获得当前行数据
+						  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+						  var tr = obj.tr; //获得当前行 tr 的DOM对象
+						 
+						  if(layEvent === 'detail'){ //查看
+						    //do somehing
+						    layer.msg("查看你mmp");
+						  } else if(layEvent === 'del'){ //删除
+						    layer.confirm('真的删除行么', function(index){
+						      obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+						      layer.close(index);
+						      //向服务端发送删除指令
+						    });
+						  } else if(layEvent === 'edit'){ //编辑
+						    //do something
+						     layer.msg("编辑你mmp");
+						    //同步更新缓存对应的值
+						    obj.update({
+						      nickName: 'wrnmmp',
+						      age: '10000'
+						    });
+						  }
+						});
+						
+					}
+				);
+			});
+		</script>
+
+	</body>
+
+</html>

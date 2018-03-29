@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+		<div class="layui-container">  
+			<form action="" class="layui-form">
+				<div class="layui-form-item">
+				    <label class="layui-form-label">tab风格：</label>
+				    <div class="layui-input-block">
+				      <select name="city" lay-verify="required" lay-filter="select">
+				        <option value="layui-tab">默认风格</option>
+				        <option value="layui-tab layui-tab-brief">简洁风格</option>
+				        <option value="layui-tab layui-tab-card">卡片风格</option>
+				      </select>
+				    </div>
+				  </div>
+			</form>
+			  
+			
+		</div>
+		<div class="layui-container"> 
+			<button type="button" class="layui-btn layui-btn" id="addBtn">添加</button>
+			<button type="button" class="layui-btn layui-btn-danger" id="delBtn">删除lay-id="2"的tab</button>
+			<button type="button" class="layui-btn layui-btn-warm" id="changeBtn">切换到lay-id="2"的tab</button>
+		</div>
+		<div class="layui-container"> 
+			<div class="layui-tab" lay-filter="demo" lay-allowClose="true">
+				<ul class="layui-tab-title">
+					<li class="layui-this" lay-id="1">网站设置</li>
+					<li lay-id="2">商品管理</li>
+					<li lay-id="3">订单管理</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">内容1</div>
+					<div class="layui-tab-item">内容2</div>
+					<div class="layui-tab-item">内容3</div>
+				</div>
+			</div>
+		</div>
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			layui.use(['element','form','jquery','layer'], function() {
+				var element = layui.element,
+					form = layui.form,
+					layer = layui.layer,
+					$ = layui.jquery;
+					
+				//下拉选择tab风格
+				form.on('select(select)',function(el){
+					console.log(el.value);
+					$('.layui-tab').attr('class','').addClass(el.value);
+				});
+					
+				//tab事件监听(切换)
+				element.on('tab(demo)', function(data) {
+					console.log(data);
+				});
+				
+				//tab事件监听(删除)
+				element.on('tabDelete(demo)', function(data){
+				  console.log(this); //当前Tab标题所在的原始DOM元素
+				  console.log(data.index); //得到当前Tab的所在下标
+				  console.log(data.elem); //得到当前的Tab大容器
+				});
+				
+				//添加tab
+				document.getElementById("addBtn").onclick = function(){
+					var oLayer = layer.open({
+						type: 2, 
+  						content:'addTab.html',
+  						area: ['500px', '300px'],
+  						end:function(){
+							var tabData = JSON.parse(localStorage.getItem("tabData"));
+  							console.log(tabData);
+  							element.tabAdd("demo", {
+								title:tabData.title,
+								content:'<div><iframe src="'+tabData.url+'" style="width:100%;height:600px;"></iframe></div>',
+								id:$('.layui-tab-title li').length + 1
+							});
+							element.tabChange("demo",$('.layui-tab-title li').length);
+  						}
+					});
+					
+					
+				}
+				
+				//删除tab
+				document.getElementById("delBtn").onclick = function(){
+					element.tabDelete("demo",2);
+				}
+				
+				//切换tab
+				document.getElementById("changeBtn").onclick = function(){
+					element.tabChange("demo",2);
+				}
+			});
+		</script>
+
+	</body>
+
+</html>

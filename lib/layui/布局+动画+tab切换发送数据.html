@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" href="css/layui.css">
+	</head>
+
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<!--头部sss-->
+			<div class="layui-header">
+				<div class="layui-logo">layui 后台布局</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item">
+						<a href="">控制台</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">用户</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">其它系统</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">邮件管理</a>
+							</dd>
+							<dd>
+								<a href="">消息管理</a>
+							</dd>
+							<dd>
+								<a href="">授权管理</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 贤心
+						</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">退了</a>
+					</li>
+				</ul>
+			</div>
+			<!--头部eee-->
+			
+			<!--左侧侧边栏sss-->
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">所有商品</a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a href="javascript:;">列表一</a>
+								</dd>
+								<dd>
+									<a href="javascript:;">列表二</a>
+								</dd>
+								<dd>
+									<a href="javascript:;">列表三</a>
+								</dd>
+								<dd>
+									<a href="">超链接</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">解决方案</a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a href="javascript:;">列表一</a>
+								</dd>
+								<dd>
+									<a href="javascript:;">列表二</a>
+								</dd>
+								<dd>
+									<a href="">超链接</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="">云市场</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="">发布商品</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--左侧侧边栏eee-->
+			
+			<!--主题内容区域sss-->
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">
+					内容主体区域
+					<i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#xe60c;</i>  
+					<div>
+						“layui-anim-loop”类名使得动画循环
+						<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop" style="font-size: 30px; color: #1E9FFF;">&#x1002;</i>  
+						<br />
+						<a href="#" class=""><i class="layui-icon layui-anim layui-anim-scale layui-anim-loop" style="font-size: 80px; color: #1E9FFF;" >&#xe61c;</i> </a> 
+					</div>
+					<h2>tab1：传统风+发送数据</h2>
+					<div class="layui-tab" lay-filter="test1">
+					  <ul class="layui-tab-title">
+					    <li class="layui-this" lay-id="111" >文章列表</li>
+					    <li lay-id="222">发送信息</li>
+					    <li lay-id="333">权限分配</li>
+					    <li lay-id="444">审核</li>
+					    <li lay-id="555">订单管理</li>
+					  </ul>
+					  <div class="layui-tab-content">
+					    <div class="layui-tab-item layui-show">1</div>
+					    <div class="layui-tab-item">2</div>
+					    <div class="layui-tab-item">3</div>
+					    <div class="layui-tab-item">4</div>
+					    <div class="layui-tab-item">5</div>
+					  </div>
+					</div>
+					
+					<h2>tab2：传统风+可删</h2>
+					<div class="layui-tab" lay-allowClose="true">
+					  <ul class="layui-tab-title">
+					    <li class="layui-this">网站设置</li>
+					    <li>用户基本管理</li>
+					    <li>权限分配</li>
+					    <li>全部历史商品管理文字长一点试试</li>
+					    <li>订单管理</li>
+					  </ul>
+					  <div class="layui-tab-content">
+					    <div class="layui-tab-item layui-show">1</div>
+					    <div class="layui-tab-item">2</div>
+					    <div class="layui-tab-item">3</div>
+					    <div class="layui-tab-item">4</div>
+					    <div class="layui-tab-item">5</div>
+					    <div class="layui-tab-item">6</div>
+					  </div>
+					</div>
+					
+					<h2>tab3：简洁风</h2>
+					<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+					  <ul class="layui-tab-title">
+					    <li class="layui-this">网站设置</li>
+					    <li>用户管理</li>
+					    <li>权限分配</li>
+					    <li>商品管理</li>
+					    <li>订单管理</li>
+					  </ul>
+					  <div class="layui-tab-content"></div>
+					</div>     
+					
+				</div>
+			</div>
+			<!--主题内容区域sss-->
+			
+			<!--底部固定位置sss-->
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+			<!--底部固定位置eee-->
+			
+		</div>
+		<script src="layui.js"></script>
+		<script>
+			//JavaScript代码区域
+			layui.use(['element','layer'], function() {
+				var element = layui.element,
+					layer = layui.layer;
+				
+				
+				  //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
+				  var layid = location.hash.replace(/^#test1=/, '');
+				  element.tabChange('test1', layid); //假设当前地址为：http://a.com#test1=222，那么选项卡会自动切换到“发送消息”这一项
+				  
+				  //监听Tab切换，以改变地址hash值
+				  element.on('tab(test1)', function(){
+				    location.hash = 'test1='+ this.getAttribute('lay-id');
+				    layer.msg('test1='+ this.getAttribute('lay-id'));
+				  });
+				
+			});
+		</script>
+	</body>
+
+</html>

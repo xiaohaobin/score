@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+	<body>
+		<div class="layui-container">
+			<form action="" class="layui-form">
+				<div class="layui-form-item">
+					<label class="layui-form-label">tab标题</label>
+					<!--内置验证规则lay-verify-->
+					<div class="layui-input-block">
+						<input type="text" name="title" required lay-verify="required" placeholder="tab标题" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">选择模板</label>
+					<div class="layui-input-block">
+						<select name="url" lay-verify="required" id="select" lay-search lay-filter="select">
+							<option value=""></option>
+							<option value="0">北京</option>
+							<option value="1">上海</option>
+							<option value="2">广州</option>
+							<option value="3">深圳</option>
+							<option value="4">杭州</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+			
+		</div>
+		
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.use(['form','jquery'],function(){
+				var form = layui.form,
+					$ = layui.jquery;
+				
+				$.ajax({
+					type:"get",
+					url:"json/temp.json",
+					async:true,
+					success:function(data){
+						$.ajax({
+							type:"get",
+							url:"json/temp.json",
+							async:true,
+							success:function(data){
+								console.log(data);
+								createSelect(data.tempData);
+								form.render('select'); //刷新select选择框渲染
+							}
+						});
+					}
+				});
+				
+				//监听提交（括号中的值耐过滤器值lay-filter）
+				form.on('submit(formDemo)', function(data) {
+					console.log(data);
+					localStorage.setItem("tabData",JSON.stringify(data.field));
+					var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+					parent.layer.close(index); //再执行关闭        
+					return false;
+				});
+			})
+			
+			//创建select
+			function createSelect(arr){
+				var tem = "";
+				for(var k in arr){
+					tem += '<option value="'+arr[k].url+'">'+arr[k].title+'</option>'
+				}
+				document.getElementById("select").innerHTML = tem;
+			}
+		</script>
+	</body>
+</html>

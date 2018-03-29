@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+
+		<table id="demo" lay-filter="test">
+			
+		</table>
+
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+
+		
+		<!--工具条模板111-->
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		</script>
+		<!--工具条模板111-->
+
+		<script>
+			layui.use(['laytpl', 'table', 'layer', 'jquery'], function() {
+				var laytpl = layui.laytpl;
+				var table = layui.table;
+				var layer = layui.layer;
+				var $ = layui.jquery;
+
+				//第一个实例
+				table.render({
+					elem: '#demo',
+					height: 600,
+					url: 'http://123.58.43.16:9555/Device/queryDevice', //数据接口(跨域)
+//					url:'../table.json',
+					where: {
+						page:1
+					}, //如果无需传递额外参数，可不加该参数
+					method: 'get', //如果无需自定义HTTP类型，可不加该参数
+					request: {//可修改请求参数的键名
+						pageName: 'page', //页码的参数名称，默认：page
+						limitName: 'per_page' //每页数据量的参数名，默认：limit
+					}, //如果无需自定义请求参数，可不加该参数
+					response: {
+						  statusName: 'code' //数据状态的字段名称，默认：code
+						  ,statusCode: 0 //成功的状态码，默认：0
+						  ,msgName: 'message' //状态信息的字段名称，默认：msg
+						  ,countName: 'total' //数据总数的字段名称，默认：count
+						  ,dataName: 'data' //数据列表的字段名称，默认：data
+					}, //如果无需自定义数据响应名称，可不加该参数
+					page: true, //开启分页
+//					page: {
+//				    	curr: 1, //设置从第  几页开始
+//				    },
+				    limit:12,//设置一次请求几条
+					cols: [
+						[ //表头
+							//复选框=====
+							{
+								LAY_CHECKED:true,//默认加载全选
+								type:'checkbox',
+								field: 'checkbox',
+								width:50,
+								fixed: 'left'
+							},
+							//序号====
+							{
+								type:'numbers',
+								field: 'numbers',
+								title:'序号',
+								width:80,
+								sort: true,
+								fixed: 'left'
+							},
+							{
+								field: 'id',
+								title: 'ID',
+								width: 80,
+								sort: true,
+								fixed: 'left'
+							}, {
+								field: 'hardver',
+								title: '版本',
+								width: 80
+							}, {
+								field: 'address',
+								title: '地址',
+								width: 80,
+								sort: true
+							}, {
+								field: 'antennaPower',
+								title: '天线功率',
+								width: 80
+							}, {
+								field: 'areas',
+								title: '区域',
+								width: 177
+							}, {
+								field: 'deviceId',
+								title: '设备id',
+								width: 80,
+								sort: true
+							}, {
+								field: 'locationType',
+								title: '位置类型',
+								width: 80,
+								sort: true
+							}, {
+								field: 'status',
+								title: '设备状态',
+								width: 80
+							}, {
+								field: 'createtime',
+								title: '创建时间',
+								width: 135,
+								sort: true
+							},{
+								field: 'option',
+								title: '操作',
+								align:'center',
+								toolbar: '#barDemo'
+							}
+						]
+					],
+					done: function(res, curr, count) {
+						//如果是异步请求数据方式，res即为你接口返回的信息。
+						//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+						console.log(res);
+
+						//得到当前页码
+						console.log(curr);
+
+						//得到数据总量
+						console.log(count);
+						
+						
+//						var checkStatus = table.checkStatus('idTest'); //test即为基础参数id对应的值
+// 
+//						console.log(checkStatus.data) //获取选中行的数据
+//						console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
+//						console.log(checkStatus.isAll ) //表格是否全选
+//						
+						
+					},
+//					id: 'idTest'
+				});
+				
+				//监听工具条
+				table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+				  var data = obj.data; //获得当前行数据
+				  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+				  var tr = obj.tr; //获得当前行 tr 的DOM对象
+				 
+				  if(layEvent === 'detail'){ //查看
+				    //do somehing
+				    layer.msg("查看你mmp");
+				  } else if(layEvent === 'del'){ //删除
+				    layer.confirm('真的删除行么', function(index){
+				      obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+				      layer.close(index);
+				      //向服务端发送删除指令
+				    });
+				  } else if(layEvent === 'edit'){ //编辑
+				    //do something
+				     layer.msg("编辑你mmp");
+				    //同步更新缓存对应的值
+				    obj.update({
+				      username: 'wrnmmp',
+				      sex: '阴阳人'
+				    });
+				  }
+				});
+				
+				//监听复选框选择
+				table.on('checkbox(test)', function(obj){
+				  console.log(obj.checked); //当前是否选中状态
+				  console.log(obj.data); //选中行的相关数据
+				  console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+				});
+				
+			});
+		</script>
+
+	</body>
+
+</html>

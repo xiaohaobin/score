@@ -345,6 +345,16 @@
 					"dependencies": {
 						
 					}
+				},
+				{
+					"fileName":"tablesorter",
+					"description":"表格排序功能",
+					"version":"^2.1",
+					"compatibility":"ie6+",
+					"api":"https://www.cnblogs.com/rsky/p/4998757.html",
+					"dependencies": {
+						"jquery":"^1.0"
+					}
 				}
 			]
 		}

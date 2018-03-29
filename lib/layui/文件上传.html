@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+		<button type="button" class="layui-btn" id="test1">
+		  <i class="layui-icon">&#xe67c;</i>上传图片
+		</button>
+
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			layui.use('upload', function() {
+				var upload = layui.upload;
+
+				//执行实例
+				var uploadInst = upload.render({
+					elem: '#test1' //绑定元素
+						,
+					url: 'http://123.212.25.32:8052/up' //上传接口
+						,
+					done: function(res) {
+						//上传完毕回调
+						console.log(res);
+					},
+					error: function(res) {
+						//请求异常回调
+						console.log(res);
+					}
+					,accept: 'file' //允许上传的文件类型
+					,size: 50 //最大允许上传的文件50kb大小(kb为单位)
+				});
+			});
+		</script>
+		
+	</body>
+
+</html>

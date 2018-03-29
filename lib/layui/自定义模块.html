@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			//引导已定义模块
+			layui.config({
+			  base: 'res/js/modules/' //你存放新模块的目录，注意，不是layui的模块目录
+			}).use(['index','mmp'],function(){//调用模块名和模块名字的函数必须一致
+				layui.index();
+//				layui.mmp();
+				layui.mmp.fn1("卧槽");
+			}); //加载入口
+		</script>
+		
+		
+		<script type="text/javascript">
+			//本地存储
+			//增、更新
+//			layui.data('table1',{
+//				key:'name',
+//				value:'浩彬'
+//			});
+			//查
+			console.log(layui.data('table1'));
+			console.log(layui.data('table1').name);
+			
+			//删除表中的某一个字段
+			layui.data('test', {
+			  key: 'name'
+			  ,remove: true
+			});
+			console.log(layui.data('table1').name);
+			
+			////删除表
+			layui.data('table1', null); //删除test表
+			console.log(layui.data('table1'));
+		</script>
+		
+	</body>
+
+</html>

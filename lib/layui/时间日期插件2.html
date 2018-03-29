@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+	
+	<body>
+		<span id="testView"></span>
+		<div id="test2"></div>
+		
+		<input type="text" name="test1" id="test1" value="" /><button type="button" id="btn">启用日期插件</button>
+		
+		<input type="text" name="test3" id="test3" value="" placeholder="自定义标注重要日"/>
+		<input type="text"  id="test4" value="" placeholder="初始的日期时间对象"/>
+		<input type="text"  id="test5" value="" placeholder="控件选择完毕后的回调"/>
+		
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+
+				//嵌套在指定容器中
+				laydate.render({
+				  elem: '#test2'
+				  ,position: 'static'
+				  ,theme: 'molv'
+				  ,calendar: true//显示公历节日
+				  ,change: function(value, date){ //监听日期被切换
+				    lay('#testView').html(value);
+				  }
+				});
+				
+				      
+				//外部事件调用
+				lay('#btn').on('click', function(e){ //假设 test1 是一个按钮
+				  laydate.render({
+				    elem: '#test1'
+				    ,show: true //直接显示
+				    ,theme: 'molv'
+				    ,closeStop: '#btn' //这里代表的意思是：点击 test1 所在元素阻止关闭事件冒泡。如果不设定，则无法弹出控件
+				  });
+				});
+				
+				
+				//自定义标注重要日
+				laydate.render({
+				  elem: '#test3'
+				  ,theme: 'molv'
+				  ,calendar: true//显示公历节日
+				  ,mark: {
+				    '0-4-5': '生日'
+				    ,'0-12-31': '跨年' //每年12月31日
+				    ,'0-0-10': '工资' //每个月10号
+				    ,'2017-8-15': '' //具体日期
+				    ,'2017-8-20': '预发' //如果为空字符，则默认显示数字+徽章
+				    ,'2017-8-21': '发布'
+				  }
+				});
+				
+				//初始的日期时间对象
+				laydate.render({
+				  elem: '#test4'
+				  ,ready: function(date){
+				    console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+				  }
+				});
+				
+				//控件选择完毕后的回调
+				laydate.render({
+				  elem: '#test5'
+				   ,done: function(value, date, endDate){
+				    console.log(value); //得到日期生成的值，如：2017-08-18
+				    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+				    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+				  }
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

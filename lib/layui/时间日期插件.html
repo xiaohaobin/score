@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+		<div class="">
+			<!-- 注意：这一层元素并不是必须的 -->
+			<input type="text" class="layui-input" id="test0" placeholder="年月日类型已设置了值">
+			<input type="text" class="layui-input" id="test1" placeholder="年月日类型--自定义补全">
+			<input type="text" class="layui-input" id="test11" placeholder="时分秒类型--不补全">
+
+			<input type="text" class="layui-input" id="test2" placeholder="年月日类型">
+			<input type="text" class="layui-input" id="test22" placeholder="年月日范围选择">
+
+			<input type="text" class="layui-input" id="test3" placeholder="时分秒类型">
+			<input type="text" class="layui-input" id="test33" placeholder="时分秒范围选择">
+
+			<input type="text" class="layui-input" id="test4" placeholder="年月日时分秒类型">
+			<input type="text" class="layui-input" id="test44" placeholder="年月日时分秒范围选择">
+
+			<input type="text" class="layui-input" id="test5" placeholder="年月类型">
+			<input type="text" class="layui-input" id="test55" placeholder="年月范围选择">
+
+			<input type="text" class="layui-input" id="test6" placeholder="年类型">
+			<input type="text" class="layui-input" id="test66" placeholder="年范围选择">
+
+			<input type="text" class="layui-input" id="test7" placeholder="年月日可选有效日期范围（中划线分割格式）">
+			<input type="text" class="layui-input" id="test77" placeholder="时分秒可选有效日期范围（半角冒号分割格式）">
+
+			<input type="text" class="layui-input" id="test8" placeholder="年月日可选有效日期范围（根据当前日期的前后天数限制）">
+			<input type="text" class="layui-input" id="test88" placeholder="年月日时分秒可选有效日期范围">
+		</div>
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+
+				//年月日类型已设置了值
+				laydate.render({
+					elem: '#test0', //指定元素
+					value: '2018-08-18' //必须遵循format参数设定的格式
+				});
+
+				//年月日类型--自定义补全
+				laydate.render({
+					elem: '#test1', //指定元素
+					format: 'yyyy年MM月dd日' //可任意组合
+				});
+
+				//时分秒类型--不补全
+				laydate.render({
+					elem: '#test11', //指定元素
+					type: 'time',
+					format: 'H时m分s秒' //可任意组合
+				});
+
+				//年月日类型
+				laydate.render({
+					elem: '#test2', //指定元素
+				});
+
+				//年月日类型范围选择
+				laydate.render({
+					elem: '#test22', //指定元素
+					range: true
+				});
+
+				//时分秒选择器
+				laydate.render({
+					elem: '#test3',
+					type: 'time'
+				});
+
+				//时分秒选择器范围选择
+				laydate.render({
+					elem: '#test33',
+					type: 'time',
+					range: true
+				});
+
+				//年月日时分秒类型选择器
+				laydate.render({
+					elem: '#test4',
+					type: 'datetime'
+				});
+
+				//年月日时分秒类型选择器范围选择
+				laydate.render({
+					elem: '#test44',
+					type: 'datetime',
+					range: true
+				});
+
+				//年月选择器
+				laydate.render({
+					elem: '#test5',
+					type: 'month'
+				});
+
+				//年月选择器范围选择
+				laydate.render({
+					elem: '#test55',
+					type: 'month',
+					range: true
+				});
+
+				//年选择器
+				laydate.render({
+					elem: '#test6',
+					type: 'year'
+				});
+
+				//年选择器范围选择
+				laydate.render({
+					elem: '#test66',
+					type: 'year',
+					range: true
+				});
+
+				//日期有效范围只限定在：2017年
+				laydate.render({
+					elem: '#test7',
+					min: '2017-1-1',
+					max: '2017-12-31'
+				});
+
+				//日期有效范围限定在：过去一周到未来一周
+				laydate.render({
+					elem: '#test8',
+					min: -7 //7天前
+						,
+					max: 7 //7天后
+				});
+
+				//日期时间有效范围的设定: 
+				laydate.render({
+					elem: '#test88',
+					type: 'datetime',
+					min: '2017-8-11 12:30:00',
+					max: '2017-8-18 12:30:00'
+				});
+
+				//时间有效范围设定在: 上午九点半到下午五点半
+				laydate.render({
+					elem: '#test77',
+					type: 'time',
+					min: '09:30:00',
+					max: '17:30:00'
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+
+	<body>
+		<div id="view"></div>
+		
+		<div id="tableBox">
+			
+		</div>
+		
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		
+		
+		<!--模板1sss-->
+		<script id="model1" type="text/html">
+		 <table class="layui-table">
+		 	<colgroup>{{d.title}}</colgroup>
+		 	  <thead>
+			    <tr>			      
+			      	{{#  for(var j=0;j<d.header.length;j++){  }}
+			  			<td>{{ d.header[j] }}</td>
+			  		{{#  }  }}
+			    </tr> 
+			  </thead>
+			  <tbody>
+			  	{{#  if(d.data.length == 0){  }}
+			  		无数据！
+			  	{{#  }else{  }}
+			  	{{#  for(var i=0;i<d.data.length;i++){  }}
+			  		<tr>
+			  			<td>{{ d.data[i].id }}</td>
+			  			<td>{{ d.data[i].nickName }}</td>
+			  			<td>{{ d.data[i].age }}</td>
+			  			<td>{{ d.data[i].work }}</td>
+			  			<td>
+			  				<div class="layui-btn-group">
+							    <button class="layui-btn layui-btn-sm layui-btn-edit">
+								    <i class="layui-icon">&#xe642;</i>
+								</button>
+								<button class="layui-btn layui-btn-sm layui-btn-del">
+								    <i class="layui-icon">&#xe640;</i>
+								</button>
+							</div>
+			  			</td>
+			  		</tr>
+			  	{{#  }  }}
+			  	{{#  }  }}
+			  </tbody>
+		 </table>
+		</script>
+		<!--模板1eee-->
+		
+		<script>
+			
+			//表格数据
+			var tableData = {
+				"title":"表格模板demo",
+				"header":[
+					"ID",
+					"昵称",
+					"年龄",
+					"职业",
+					"操作"
+				],
+				"data":[
+					{"id":01,"nickName":"夏侯惇","age":18,"work":"坦克"},
+					{"id":02,"nickName":"杨戬","age":190,"work":"战士"},
+					{"id":03,"nickName":"赵云","age":17,"work":"刺客"},
+					{"id":04,"nickName":"关羽","age":180,"work":"坦克/战士"},
+				],
+			};
+			layui.use(['laytpl'], function() {
+				var laytpl = layui.laytpl;
+				
+				
+				//渲染表格模板
+				var tableModel = document.getElementById("model1").innerHTML;
+			    laytpl(tableModel).render(
+			    	tableData,
+			    	function(html){
+			    		document.getElementById("tableBox").innerHTML = html;
+			    	}
+			    );
+			});
+			
+			
+		</script>
+		
+
+	</body>
+
+</html>
