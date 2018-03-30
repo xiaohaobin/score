@@ -26,7 +26,7 @@ function url_join3(mUrl){
 var layerLoad;
 var fnAjax = { //
 
-	//跨域保存后台的sessionID的ajax请求
+	//针对ie低版本浏览器的跨域请求
 	method_3: function(murl, mdata, method, successFn) {
 		$.ajax({
 			type: method,
@@ -35,10 +35,8 @@ var fnAjax = { //
 			data: mdata,
 			timeout: 10000,
 			async: true,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
+			cache: false,
+            crossDomain: true == !(document.all),
 			beforeSend: function() {
 				layerLoad = layer.load(3);
 			},

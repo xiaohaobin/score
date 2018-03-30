@@ -23,7 +23,10 @@
 
 	<script id="js">$(function() {
 
-	$("table").tablesorter({ theme : 'blue', sortList: [[3,1],[0,0]] });
+	$("table").tablesorter({
+		theme : 'blue',
+		sortList: [[3,1],[0,0]],//初始化排序列表子数组的第一个参数指向表格的索引列，第二个参数指向排序值（0升序，1降序）；如[3,1]指的是第四列降序
+	});
 
 	// Add two new rows using the "addRows" method
 	// the "update" method doesn't work here because not all
