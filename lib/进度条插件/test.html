@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache,must-revalidate">
+		<meta http-equiv="expires" content="0">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.progressBar.css"/>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		
+		<div class="test"></div>
+		<!--<div class="hhh">测试</div>-->
+		<script src="js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.progressBar.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		
+			
+			$(".test").progressBar({//也可以不用传参数，便是默认第一种进度条动画，若传参，两个参数都必写
+				type:4,//有1--5种类型的参数（数字1到5）
+				isShow:true
+			});
+			
+			$(document).click(function(){
+				$(".test").progressBar({
+					isShow:false//值为false，关闭并删除进度条
+				});
+			});
+		</script>
+	</body>
+	
+</html>

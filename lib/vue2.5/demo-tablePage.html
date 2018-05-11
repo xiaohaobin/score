@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.css" />
+		<style type="text/css">
+			table thead tr th {
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="padding:20px;" id="app">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<span>用户管理</span>
+					<div class="pull-right">
+						总条数：
+						<b class="curPage">{{rows.length}}</b>
+					</div>
+				</div>
+				<table class="table table-bordered table-striped text-center">
+					<thead>
+						<tr>
+							<th>用户名</th>
+							<th>年龄</th>
+							<th>角色</th>
+							<th>备注</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-for="(row, index) in rows ">
+							<tr v-if="index >= (curpage-1)*pagesize && index < curpage*pagesize">
+								<td>{{row.Name}}</td>
+								<td>{{row.Age}}</td>
+								<td>{{row.School}}</td>
+								<td>{{row.Remark}}</td>
+								<td>
+									<a href="#" @click="Edit(row)">编辑</a>&nbsp;&nbsp;
+									<a href="#" @click="Delete(row.Id)">删除</a>
+								</td>
+							</tr>
+						</template>
+						<tr>
+							<td><input type="text" class="form-control" v-model="rowtemplate.Name" /></td>
+							<td><input type="text" class="form-control" v-model="rowtemplate.Age" /></td>
+							<td>
+								<select class="form-control" v-model="rowtemplate.School">
+								
+									<option>超级管理员</option>
+								
+									<option>管理员</option>
+								
+									<option>普通会员</option>
+								</select>
+							</td>
+							<td><input type="text" class="form-control" v-model="rowtemplate.Remark" /></td>
+							<td><button type="button" class="btn btn-primary" v-on:click="Save">保存</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="pull-left">
+				<label for="">设置条数：</label>
+				<select class="form-control" style="display: inline-block;width: auto;" v-on:change="resetPage" v-model="pagesize">
+				  <option value="5">5</option>
+				  <option value="10">10</option>
+				  <option value="20">20</option>
+				</select>
+			</div>
+			<!--分页组件sss-->
+			<nav style="float:right;">
+	            <ul class="pagination" style="margin: 0;">
+	                <template v-for="page in Math.ceil(rows.length/pagesize)">
+	                    <li v-on:click="PrePage()" id="prepage" v-if="page == 1" class="disabled"><a href="#">&lt;</a></li>
+	                    <li v-if="page == 1" class="active" v-on:click="NumPage(page, $event)"><a href="#">{{page}}</a></li>
+	                    <li v-if="(page < 4 && page != 1) || page == Math.ceil(rows.length/pagesize)" v-on:click="NumPage(page, $event)"><a href="#">{{page}}</a></li>
+	                    <li v-if="page == 4"><a href="#">...</a></li>
+	                    <li id="nextpage" v-on:click="NextPage()" v-if="page == Math.ceil(rows.length/pagesize)"><a href="#">&gt;</a></li>
+	                </template>
+	              
+	            </ul>
+	        </nav>
+	        <!--分页组件eee-->
+		</div>
+
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		
+			//Model
+			var data = {
+				rows: [{
+						Id: 1,
+						Name: '小明',
+						Age: 18,
+						School: '管理员',
+						Remark: '好人'
+					},
+					{
+						Id: 2,
+						Name: '小刚',
+						Age: 20,
+						School: '管理员',
+						Remark: '优秀'
+					},
+					{
+						Id: 3,
+						Name: '吉姆格林',
+						Age: 19,
+						School: '管理员',
+						Remark: '大好人'
+					},
+					{
+						Id: 4,
+						Name: '李雷',
+						Age: 25,
+						School: '管理员',
+						Remark: '不老实的家伙'
+					},
+					{
+						Id: 5,
+						Name: '韩梅梅',
+						Age: 22,
+						School: '管理员',
+						Remark: '在一起'
+					},
+					
+					{
+						Id: 6,
+						Name: '小刚',
+						Age: 20,
+						School: '管理员',
+						Remark: '优秀干部'
+					},
+					{
+						Id: 7,
+						Name: '吉姆格林',
+						Age: 19,
+						School: '管理员',
+						Remark: '公司销售能手'
+					},
+					{
+						Id: 8,
+						Name: '李雷',
+						Age: 25,
+						School: '管理员',
+						Remark: '不老实的家伙'
+					},
+					{
+						Id: 9,
+						Name: '韩梅梅',
+						Age: 22,
+						School: '管理员',
+						Remark: '在一起'
+					},
+				],
+				rowtemplate: {
+					Id: 0,
+					Name: '',
+					Age: '',
+					School: '',
+					Remark: ''
+				},
+				pagesize: 5,//显示的条数
+            	curpage:1,//当前页的页码
+			};
+			//ViewModel
+			var vue = new Vue({
+				el: '#app',
+				data: data,				
+				methods: {
+					Save: function(event) {//保存
+						if(this.rowtemplate.Name == "" || this.rowtemplate.Age == "" || this.rowtemplate.School == "" || this.rowtemplate.Remark == "" )
+						{
+							alert("有参数没填！");
+							return false;
+						}
+						if(this.rowtemplate.Id == 0) {
+							//设置当前新增行的Id
+							this.rowtemplate.Id = this.rows.length + 1;
+							this.rows.push(this.rowtemplate);
+						}
+
+						//还原模板
+						this.rowtemplate = {
+							Id: 0,
+							Name: '',
+							Age: '',
+							School: '',
+							Remark: ''
+						}
+					},
+					Delete: function(id) {
+						//实际项目中参数操作肯定会涉及到id去后台删除，这里只是展示，先这么处理。
+						for(var i = 0; i < this.rows.length; i++) {
+							if(this.rows[i].Id == id) {
+								this.rows.splice(i, 1);
+								break;
+							}
+						}
+					},
+					Edit: function(row) {
+						this.rowtemplate = row;
+					},
+					//上一页方法
+		            PrePage: function (event) {
+		                $(".pagination .active").prev().trigger("click");
+		            },
+		            //下一页方法
+		            NextPage: function (event) {
+		                $(".pagination .active").next().trigger("click");
+		            },
+		            //点击页码的方法
+		            NumPage: function (num, event) {
+		                if (this.curpage == num) {
+		                    return;
+		                }
+		                this.curpage = num;
+		                $(".pagination li").removeClass("active");
+		                if (event.target.tagName.toUpperCase() == "LI") {
+		                    $(event.target).addClass("active");
+		                }
+		                else {
+		                    $(event.target).parent().addClass("active");
+		                }
+		                if (this.curpage == 1) {
+		                    $("#prepage").addClass("disabled");
+		                }
+		                else {
+		                    $("#prepage").removeClass("disabled");
+		                }
+		                if (this.curpage == Math.ceil(this.rows.length / this.pagesize)) {
+		                    $("#nextpage").addClass("disabled");
+		                }
+		                else {
+		                    $("#nextpage").removeClass("disabled");
+		                }
+		            },
+		            resetPage:function(){
+		            		
+		            	
+		            }
+				}
+			});
+		</script>
+	</body>
+
+</html>

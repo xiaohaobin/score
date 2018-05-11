@@ -738,7 +738,7 @@ var fnAjax = { //
 	$.fn.onlyNumAndFlo = function(options) {
 		$(this).on("blur",function(){
 			var e = this;
-			var re = /^\d+(?=\.{0,1}\d+$|$)/ 
+			var re = /^\d+(?=\.{0,1}\d+$|$)/; 
 		    if (e.value != "") { 
 		        if (!re.test(e.value)) { 
 		            alert("请输入正确的数字"); 
@@ -892,5 +892,239 @@ var fnAjax = { //
 		return this.each(function() {
 			$(this).text($(this).text().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
 		})
+	}
+})(jQuery, window, document);
+
+//关于时间日期转换
+;
+(function($, window, document, undefined) {
+
+	$.extend({
+		//yyyy-mm-dd hh:mm:ss转换为时间戳
+		backDateNum: function(s) {
+			if(s){
+				var date = new Date(s.replace(/-/g, '/'));
+				return Date.parse(date)/1000;
+			}
+
+		},
+		//标准时间返回 y-m-d h:m:s格式
+		formatDateTime: function(date){
+			var y = date.getFullYear();
+			var m = date.getMonth() + 1;
+			m = m < 10 ? ('0' + m) : m;
+			var d = date.getDate();
+			d = d < 10 ? ('0' + d) : d;
+			var h = date.getHours();
+			h = h < 10 ? ('0' + h) : h;
+			var minute = date.getMinutes();
+			minute = minute < 10 ? ('0' + minute) : minute;
+			var second = date.getSeconds();
+			second = second < 10 ? ('0' + second) : second;
+			return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+		},
+		//转换时间戳格式,返回y-m-d h:m:s格式
+		timestampToTime:function(timestamp){
+			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	        Y = date.getFullYear() + '-';
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+	        D = date.getDate() + ' ';
+	        h = date.getHours() + ':';
+	        m = date.getMinutes() + ':';
+	        s = date.getSeconds();
+	        return Y + M + D + h + m + s;
+		}
+	});
+})(jQuery, window, document);
+
+//关于系统
+;(function($, window, document, undefined){
+	$.extend({
+		//返回url请求指定的键值
+		getQueryString:function(name){
+		    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+		    var r = window.location.search.substr(1).match(reg);
+		    if (r != null) {
+			    return unescape(r[2]);
+			}
+		   return null;
+		}
+	});
+})(jQuery, window, document);
+
+//关于兼容性
+;(function($, window, document, undefined){
+	$.extend({
+//		检测浏览器是否支持svg
+		isSupportSVG:function(){
+			var SVG_NS = 'http://www.w3.org/2000/svg';
+    		return !!document.createElementNS &&!!document.createElementNS(SVG_NS, 'svg').createSVGRect;
+		},
+//		检测浏览器是否支持canvas
+		isSupportCanvas:function(){
+			if(document.createElement('canvas').getContext){
+		        return true;
+		    }else{
+		        return false;
+		    }
+		}
+	});
+})(jQuery, window, document);
+/*
+ 二维码
+ 依赖脚本库和插件:
+ jquery.js
+ jquery.qrcode.js
+ qrcode.js
+ utf.js
+*/
+;(function($, window, document, undefined){
+	$.fn.QR_code = function(options){
+		var _this = $(this);
+		var defaults = {
+			event: 'click', // 事件类型
+			logo:'img/96.png',//二维码中间logo图片
+		};
+		var opts = $.extend({}, defaults, options);
+		_this.on(opts.event,function(){
+			generateQRCodeEvent(opts.logo);
+		});
+		
+		/*生成二维码事件*/
+		function generateQRCodeEvent(imgUrl){
+		 	$(".modelBox").remove();
+			/*容器盒子*/
+			var modelBox = $("<div class='modelBox'></div>");
+			/*蒙板*/
+			var mask = $("<div></div>").css({
+				"width": "100%",
+				"height": "100%",
+				"position": "fixed",
+				"top": "0",
+				"left": "0",
+				"z-index": "900",
+				"backgroundColor": "rgba(0,0,0,0.8)"
+			});
+			/*二维码区*/
+			var QRCode = $("<div></div>").css({
+				"width": "300px",
+				"height": "300px",
+				"backgroundColor": "#fff",
+				"position": "fixed",
+				"top": "50%",
+				"left": "50%",
+				"z-index": "999",
+				"marginTop": "-150px",
+				"marginLeft": "-150px"
+			});
+			$(modelBox).append(mask);
+			$(modelBox).append(QRCode);
+			/*生成LOGO*/
+			var logo = $("<img src='"+ imgUrl +"'>").css({
+				"width": "96px",
+				"height": "96px",
+				"position": "fixed",
+				"top": "50%",
+				"left": "50%",
+				"z-index": "1000",
+				"marginTop": "-48px",
+				"marginLeft": "-48px"
+			});
+			$(QRCode).append(logo);
+			/*获取地址栏地址*/
+			var src = location.href;
+			/*生成二维码*/
+			$(QRCode).qrcode({
+				render: "canvas",
+				text: src,
+				width: "300", //二维码的宽度
+				height: "300", //二维码的高度
+				correctLevel: 0,
+				background: "#ffffff", //二维码的后景色
+				foreground: "#000000", //二维码的前景色
+			});
+			var myCanvas = $(QRCode).children("canvas")[0];
+			var myImg = convertCanvasToImage(myCanvas);
+			myCanvas.style.display = "none";
+			$(QRCode).append(myImg);
+			/*添加进页面*/
+			$("body").append(modelBox);
+			modelBox.click(function() {
+				modelBox.remove();
+			});
+			$(".modelBox img:last-child").css("border","1px solid #fff");
+		}
+		function convertCanvasToImage(canvas) {
+			//新Image对象，可以理解为DOM
+			var image = new Image();
+			// canvas.toDataURL 返回的是一串Base64编码的URL，当然,浏览器自己肯定支持
+			// 指定格式 PNG
+			image.src = canvas.toDataURL("image/png");
+			return image;
+		}	
+	}
+})(jQuery, window, document);
+
+//判断鼠标滑轮方向(上和下)
+;(function($, window, document, undefined){
+	$.fn.T_or_B = function(options){
+		var _this = $(this);
+		var defaults = {
+			
+		};
+		var opts = $.extend({}, defaults, options);
+		_this.on("mousewheel DOMMouseScroll", function (event) {
+			    // chrome & ie || // firefox
+		    var delta = (event.originalEvent.wheelDelta && (event.originalEvent.wheelDelta > 0 ? 1 : -1)) ||
+		        (event.originalEvent.detail && (event.originalEvent.detail > 0 ? -1 : 1));  
+		    if (delta > 0) {//往上滚动
+		        console.log('mousewheel top');
+		    } else if (delta < 0) {//往下滚动
+		        console.log('mousewheel bottom');
+		    }
+		});
+	}
+	
+})(jQuery, window, document);
+
+/*
+ 验证码倒计时
+ 默认六十秒
+ 必须是input和button的按钮
+ */
+;(function($, window, document, undefined){
+	$.fn.countDown = function(options){
+		var $this = $(this);
+		var defaults = {
+			second:60,//秒
+		};
+		var opts = $.extend({}, defaults, options);
+		var times = opts.second,
+			timer = null;
+		$this.on("click",function(){
+			var _this = this;
+			 // 计时开始
+		    timer = setInterval(function () {
+		        times--;
+		        
+		        if (times <= 0) {
+		        	if(_this.tagName == "INPUT"){
+		        		 $this.val('发送验证码');
+		        	}else if(_this.tagName == "BUTTON"){
+		        		$this.text('发送验证码');
+		        	}
+		            clearInterval(timer);
+		            $this.attr('disabled', false);
+		            times = opts.second;
+		        } else {
+		        	if(_this.tagName == "INPUT"){
+		        		 $this.val(times + '秒后重试');
+		        	}else if(_this.tagName == "BUTTON"){
+		        		$this.text(times + '秒后重试');
+		        	}
+		            $this.attr('disabled', true);
+		        }
+		    }, 1000);
+		});
 	}
 })(jQuery, window, document);

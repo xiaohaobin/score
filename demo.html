@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body >
+		<div id="content">
+			<img src="img/1.jpg"/>
+		<img src="img/1.jpg"/><img src="img/1.jpg"/>
+		<img src="img/1.jpg"/><img src="img/1.jpg"/>
+		<img src="img/1.jpg"/><img src="img/1.jpg"/>
+		<img src="img/1.jpg"/><img src="img/1.jpg"/><img src="img/1.jpg"/>
+		<img src="img/1.jpg"/><img src="img/1.jpg"/>
+		<img src="img/1.jpg"/>
+		</div>
+		
+		<input type="button" name="send" id="send" value="倒计时" />
+		<button type="button" >asdfasd</button>
+		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('#content').on("mousewheel DOMMouseScroll", function (event) {
+			    // chrome & ie || // firefox
+			    var delta = (event.originalEvent.wheelDelta && (event.originalEvent.wheelDelta > 0 ? 1 : -1)) ||
+			        (event.originalEvent.detail && (event.originalEvent.detail > 0 ? -1 : 1));  
+			    
+			    if (delta > 0) {
+			        console.log('mousewheel top');
+			    } else if (delta < 0) {
+			        console.log('mousewheel bottom');
+			    }
+			});
+			
+			var times = 60,
+			    timer = null;
+			 
+			$('#send').countDown({second:100});
+			$('button').countDown({second:100});
+		</script>
+	</body>
+</html>
