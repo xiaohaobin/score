@@ -1,20 +1,14 @@
 "use strict"
 function url_join(mUrl){
-	return "http://123.58.43.16:9555/"+mUrl;
-//	return "http://103.251.36.122:9555/"+mUrl;//统一服务器
+//	return "http://10.10.10.21/"+mUrl;
+	return "http://103.251.36.122:9517/"+mUrl;//统一服务器
 }
-function url_join1(mUrl){
-	return "http://123.58.43.16:9555/"+mUrl;
-//	return "http://103.251.36.122:9555/"+mUrl;//统一服务器
-}
+
 function url_join2(mUrl){
-	return "http://123.58.43.16:9555/"+mUrl;
-//	return "http://103.251.36.122:9555/"+mUrl;//统一服务器
+//	return "http://10.10.10.21/"+mUrl;
+	return "http://103.251.36.122:9517/"+mUrl;//统一服务器
 }
-function url_join3(mUrl){
-	return "http://123.58.43.16:9555/"+mUrl;
-//	return "http://103.251.36.122:9555/"+mUrl;//统一服务器
-}
+
 /*
  配合插件和框架：
  jquery.js(v1.13 -- v2.0)
@@ -50,17 +44,11 @@ var fnAjax = { //
 			success: function(data) {
 				layer.close(layerLoad);
 				if(data.code == 3) { //登录超时状态提示字符串
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+					
 				} else if(data.code == 2) { //账号在其他ip浏览器上被登录或者超时
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+					
 				} else if(data.code == 1) {
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+					
 				} else if(data.code == 0) {
 					successFn(data);
 				} else {
@@ -90,22 +78,10 @@ var fnAjax = { //
 			},
 			success: function(data) {
 				layer.close(layerLoad);
-				if(data.code == 3) { //登录超时状态提示字符串
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
-				} else if(data.code == 2) { //账号在其他ip浏览器上被登录或者超时
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
-				} else if(data.code == 1) {
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+				if(data.code == 1) {
+					layer.alert(data.message);
 				} else if(data.code == 0) {
 					successFn(data);
-				} else {
-					layer.alert(data.message);
 				}
 			}
 		});
@@ -136,17 +112,11 @@ var fnAjax = { //
 			success: function(data) {
 				layer.close(layerLoad);
 				if(data.code == 3) { //登录超时状态提示字符串
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+					
 				} else if(data.code == 2) { //账号在其他ip浏览器上被登录或者超时
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+					
 				} else if(data.code == 1) {
-					layer.confirm(data.message + "。是否重新登录？", function() {
-						$.toNewPage("login.html");
-					});
+					
 				} else if(data.code == 0) {
 					successFn(data);
 				} else {
@@ -162,11 +132,7 @@ var fnAjax = { //
 			url: murl,
 			datatype: "jsonp",
 			data: mdata,
-			timeout: 2000,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
+			timeout: 2000,			
 			async: false,
 			cache: false,
 			contentType: false,
@@ -178,12 +144,9 @@ var fnAjax = { //
 				});
 			},
 			success: function(data) {
-				if(data.state == "overtime") { //登录超时状态提示字符串
-					toLoginPage();
-				} else if(data.state == "hasLogin") { //账号在其他ip浏览器上被登录的字符串提示
-					layer.alert("注意：该用户在ip为 http://" + data.ip + " 的电脑上被登录了!", {
-						icon: 0
-					});
+				layer.close(layerLoad);
+				if(data.code == 1) {
+					layer.alert(data.message);
 				} else if(data.code == 0) {
 					successFn(data);
 				}
@@ -215,6 +178,19 @@ var fnAjax = { //
 				fnPc();
 			}
 		},
+		//判断值是否为空，回调函数
+		//tem为值
+		isNull:function(tmp,NullFn,noNullFn){
+			if(!tmp && typeof(tmp)!="undefined" && tmp!=0){//null
+				//为null的回调
+				NullFn();
+			}
+			else{
+				//不为null的回调
+				noNullFn();
+			}
+		}
+
 	});
 })(jQuery, window, document);
 
@@ -259,6 +235,46 @@ var fnAjax = { //
 			}
 
 		},
+		
+		//序列化表单的字符串转化为对象
+		serializeToObj:function(serializedParams){
+			var obj = {};
+			function evalThem(str) {
+				var strAry = new Array();
+				strAry = str.split("=");
+				//使用decodeURIComponent解析uri 组件编码
+				for(var i = 0; i < strAry.length; i++) {
+					strAry[i] = decodeURIComponent(strAry[i]);
+				}
+				var attributeName = strAry[0];
+				var attributeValue = strAry[1].trim();
+				//如果值中包含"="符号，需要合并值
+				if(strAry.length > 2) {
+					for(var i = 2; i < strAry.length; i++) {
+						attributeValue += "=" + strAry[i].trim();
+					}
+				}
+				if(!attributeValue) {
+					return;
+				}
+				var attriNames = attributeName.split("."),
+					curObj = obj;
+				for(var i = 0; i < (attriNames.length - 1); i++) {
+					curObj[attriNames[i]] ? "" : (curObj[attriNames[i]] = {});
+					curObj = curObj[attriNames[i]];
+				}
+				//使用赋值方式obj[attributeName] = attributeValue.trim();替换
+				//eval("obj."+attributeName+"=\""+attributeValue.trim()+"\";");
+				//解决值attributeValue中包含单引号、双引号时无法处理的问题
+				curObj[attriNames[i]] = attributeValue.trim();
+			};
+			var properties = serializedParams.split("&");
+			for(var i = 0; i < properties.length; i++) {
+				//处理每一个键值对
+				evalThem(properties[i]);
+			};
+			return obj;
+		}
 	});
 })(jQuery, window, document)
 
@@ -300,6 +316,41 @@ var fnAjax = { //
 				return prev;
 			}, {});
 		},
+		//数组对象，将数组中具有相同值的对象 取出组成新的数组，返回新数组
+		//arr，数组对象，str，数组对象中相同值的属性字符串
+		getSameVal:function(arr, str) {
+		    var _arr = [],
+		        _t = [],
+		        // 临时的变量
+		        _tmp;
+		
+		    // 按照特定的参数将数组排序将具有相同值得排在一起
+		    arr = arr.sort(function(a, b) {
+		        var s = a[str],
+		            t = b[str];
+		
+		        return s < t ? -1 : 1;
+		    });
+		
+		    if ( arr.length ){
+		        _tmp = arr[0][str];
+		    }
+		    // console.log( arr );
+		    // 将相同类别的对象添加到统一个数组
+		    for (var i in arr) {
+		        if ( arr[i][str] === _tmp ){
+		            _t.push( arr[i] );
+		        } else {
+		            _tmp = arr[i][str];
+		            _arr.push( _t );
+		            _t = [arr[i]];
+		        }
+		    }
+		    // 将最后的内容推出新数组
+		    _arr.push( _t );
+		    return _arr;
+		},
+		
 	});
 })(jQuery, window, document)
 
@@ -477,6 +528,7 @@ var fnAjax = { //
 			url: 'http://103.251.36.122:9555/',
 			data: {},
 			type: "post",
+			eleTotal:$(".nTotal"),//总数dom节点
 			callBack: function(data) {
 				console.log("huidiao");
 				console.log(data);
@@ -484,16 +536,19 @@ var fnAjax = { //
 		};
 		var opts = $.extend({}, defaults, options);
 
-		fnAjax.method_5(
+		fnAjax.method_4(
 			opts.url,
 			opts.data,
 			opts.type,
 			function(data) {
+				console.log(data);
+				$("#pageContainer").remove();
 				_this.after($('<div id="pageContainer" class="text-c mt-20"></div>')); //表格和表格后面的分页控制器
 				if(parseInt(data.data.total) == 0) {
 					_this.children("tbody").html("");
 					$("#pageContainer").html("当前没有数据！");
-				} else if(parseInt(data.data.total) > 0) {
+				} 
+				else if(parseInt(data.data.total) > 0) {					
 					opts.callBack(data.data);
 					//fn(data.data);
 					laypage({
@@ -509,7 +564,7 @@ var fnAjax = { //
 						jump: function(obj, first) {
 							if(!first || first == undefined) { //点击跳页触发函数自身，并传递当前页：obj.curr
 								opts.data.page = obj.curr;
-								fnAjax.method_5(
+								fnAjax.method_4(
 									opts.url,
 									opts.data,
 									opts.type,
@@ -524,7 +579,7 @@ var fnAjax = { //
 					});
 					$("body").delegate(".laypage_btn", "click", function() {
 						opts.data.page = $(".laypage_skip").val();
-						fnAjax.method_5(
+						fnAjax.method_4(
 							opts.url,
 							opts.data,
 							opts.type,
@@ -535,11 +590,13 @@ var fnAjax = { //
 					});
 
 				}
+				opts.eleTotal.text(parseInt(data.data.total));
 			}
 
 		);
 	}
 })(jQuery, window, document);
+
 
 
 
@@ -1128,3 +1185,45 @@ var fnAjax = { //
 		});
 	}
 })(jQuery, window, document);
+
+//限制文件上传大小类型和尺寸
+;(function($, window, document, undefined){
+	$.fn.fileVaild = function(options){
+		var _this = $(this);
+		var defaults = {
+			event:"change",
+			size:1,//限制几m
+			type:"",//默认所有类型,其他类型image和file
+		};
+		var opts = $.extend({}, defaults, options);
+		_this.on(opts.event,function(){
+			var file = this.files[0];//上传的图片的所有信息
+			if(opts.type == "image"){
+				 //首先判断是否是图片			 
+			    if(!/image\/\w+/.test(file.type)){
+			        layer.alert('上传的不是图片');
+			        $(this).val('');
+			        return false;
+			    }
+			}
+			else if(opts.type == "file"){
+				 //首先判断是否非图片		 
+			    if(/image\/\w+/.test(file.type)){
+			        layer.alert('上传的不能是图片');
+			        $(this).val('');
+			        return false;
+			    }
+			}
+		    //在此限制图片的大小
+		    var imgSize = file.size;
+		    //35160  计算机存储数据最为常用的单位是字节(B)
+		    if(imgSize > opts.size*1024*1024){
+		       layer.alert('上传的图片大于'+ opts.size +'M,请重新选择!');
+		        $(this).val('');
+		        return false;
+		    }
+
+		})
+	}
+})(jQuery, window, document);
+
