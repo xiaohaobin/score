@@ -155,6 +155,66 @@ var fnAjax = { //
 	}
 
 };
+
+//RAS加密
+;(function($, window, document, undefined) {
+	//公钥
+	var sPublicKey = 'BA382C4E83454364DA0474FF9833092586D98F5D191A2A636B2703525D740D7FD8064081FBEFB3111A3F3BD523A303FDF72457B931D8C1951AB6C0739ADEAC391C09A64AEFCA7E6C603BFDA2A493A361E519F625BAB72E5D9CA8A0E19700C54878656BEEB75C55C55DD40A2A52124E7BBE72A5D7CB184A0BBF566DAFCD29BB79A2E456F57E12B501B52CCD8F9D645382E760FA119445F848DF386237765A8E642BE3CCE62C8527B99468696BB39EB355F23AFE64F8E9852CFBCE8D47D9E9F495AEA0E9A7D72F5FD199CE05B3FDE13EABD64C0BD4D93383263DCC80FA153364853E00102A8CD12F3007C472F116225CB370AB2D2C69CB60E106FB4BC7E98D9D6F';
+	
+	try{
+		// RSA加密,依赖jsrsasign-all-min.js
+		var RSA = new RSAKey();
+		RSA.setPublic(sPublicKey, '10001');
+		
+		$.extend({
+			//获取浏览器类型
+			getOsType: function() {
+				 if(navigator.userAgent.indexOf("MSIE") > 0) {
+			        return "MSIE";
+			    } else if(navigator.userAgent.indexOf("Firefox") > 0){
+			        return "Firefox";
+			    } else if(navigator.userAgent.indexOf("Safari") > 0) {
+			        return "Safari";
+			    } else if(navigator.userAgent.indexOf("Camino") > 0){
+			        return "Camino";
+			    } else if(navigator.userAgent.indexOf("Gecko/") > 0){
+			        return "Gecko";
+			    }
+			    return 'unknown';
+			},
+			//使用RSA加密sign
+			RSA_encyrpt:function(){
+				return RSA.encrypt(JSON.stringify(
+						{
+					        type: $.getOsType(),
+					        version: "1.0",
+					        timestamp: new Date().getTime()
+					    }
+					));
+			},
+			//使用RSA加密token
+			RSA_token:function(){
+				return RSA.encrypt('token=' + localStorage.getItem('token') + '&timestamp=' + localStorage.getItem('timestamp') + '&nonce=' + Math.random());
+			},
+			//返回请求头部参数表
+			backHeaderParam:function(){
+				var headers = {
+			        sign: $.RSA_encyrpt(),
+					type: $.getOsType(),
+					version: "1.0"
+			    };
+			    if (localStorage.getItem('token')) headers.accessToken = $.RSA_token();
+			    return headers;
+			}
+	
+		});
+	}catch(e){
+		//抛出错误
+		console.log("错误描述：" + e.message);
+	}
+	
+})(jQuery, window, document);
+
 /*
  关于系统判断
  * */
@@ -189,8 +249,62 @@ var fnAjax = { //
 				//不为null的回调
 				noNullFn();
 			}
-		}
+		},
+		//返回浏览器的类型和版本
+		//返回类型$.getExplorerInfo().type
+		//返回版本$.getExplorerInfo().version
+		getExplorerInfo:function() {
+            var explorer = window.navigator.userAgent.toLowerCase();
+            //ie 
+            if (explorer.indexOf("msie") >= 0) {
+                var ver = explorer.match(/msie ([\d.]+)/)[1];
+                return { type: "IE", version: ver };
+            }
+                //firefox 
+            else if (explorer.indexOf("firefox") >= 0) {
+                var ver = explorer.match(/firefox\/([\d.]+)/)[1];
+                return { type: "Firefox", version: ver };
+            }
+                //Chrome
+            else if (explorer.indexOf("chrome") >= 0) {
+                var ver = explorer.match(/chrome\/([\d.]+)/)[1];
+                return { type: "Chrome", version: ver };
+            }
+                //Opera
+            else if (explorer.indexOf("opera") >= 0) {
+                var ver = explorer.match(/opera.([\d.]+)/)[1];
+                return { type: "Opera", version: ver };
+            }
+                //Safari
+            else if (explorer.indexOf("Safari") >= 0) {
+                var ver = explorer.match(/version\/([\d.]+)/)[1];
+                return { type: "Safari", version: ver };
+            }
 
+        },
+        /**
+			 * 获取两个GPS经纬度之间的距离
+			 * @param lat1 第一点的纬度
+			 * @param lng1 第一点的经度
+			 * @param lat2 第二点的纬度
+			 * @param lng2 第二点的经度
+			 * @returns {Number}
+			 */
+		getDistance:function(lat1,lng1,lat2,lng2){
+			function toRad(d){   
+			   var PI = Math.PI;    
+			   return d*PI/180.0;    
+			}
+		    var dis = 0;
+		    var radLat1 = toRad(lat1);
+		    var radLat2 = toRad(lat2);
+		    var deltaLat = radLat1 - radLat2;
+		    var deltaLng = toRad(lng1) - toRad(lng2);
+		    var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
+		    
+		    return Math.ceil(dis * 6378137);
+		},
+		
 	});
 })(jQuery, window, document);
 
@@ -349,7 +463,7 @@ var fnAjax = { //
 		    // 将最后的内容推出新数组
 		    _arr.push( _t );
 		    return _arr;
-		},
+		}
 		
 	});
 })(jQuery, window, document)
@@ -394,7 +508,7 @@ var fnAjax = { //
 		//返回路由地址
 		urlBack: function(mUrl) {
 			return sRequestUrl + '' + mUrl; //统一服务器
-		},
+		}
 	});
 })(jQuery, window, document)
 
@@ -436,7 +550,7 @@ var fnAjax = { //
 		randNum: function(min, max) {
 			var num = Math.floor(Math.random() * (max - min) + min);
 			return num;
-		},
+		}
 	});
 })(jQuery, window, document)
 
@@ -515,7 +629,7 @@ var fnAjax = { //
 				default:
 					return nYear + "-" + nMonth + "-" + nDate + "\0" + nHours + ":" + nMinutes + ":" + nSeconds;
 			}
-		},
+		}
 	});
 })(jQuery, window, document)
 
@@ -712,7 +826,7 @@ var fnAjax = { //
 	$.fn.rate = function(options) {
 		var defaults = {
 			star: 1, // 星级
-			edit:false,
+			edit:false
 		};
 		var opts = $.extend({}, defaults, options);
 		var obj = $(this);
@@ -752,7 +866,7 @@ var fnAjax = { //
 	$.fn.checkChinese = function(options) {
 		var defaults = {
 			event: 'keyup', // 事件类型
-			paste: false,
+			paste: false
 		};
 		var opts = $.extend({}, defaults, options);
 		var obj = $(this);
@@ -773,7 +887,7 @@ var fnAjax = { //
 	$.fn.checkVerify = function(options) {
 		var defaults = {
 			event: 'keyup', // 事件类型
-			paste: false,
+			paste: false
 		};
 		var opts = $.extend({}, defaults, options);
 		var obj = $(this);
@@ -980,16 +1094,44 @@ var fnAjax = { //
 			second = second < 10 ? ('0' + second) : second;
 			return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 		},
-		//转换时间戳格式,返回y-m-d h:m:s格式
-		timestampToTime:function(timestamp){
-			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-	        Y = date.getFullYear() + '-';
-	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-	        D = date.getDate() + ' ';
-	        h = date.getHours() + ':';
-	        m = date.getMinutes() + ':';
-	        s = date.getSeconds();
-	        return Y + M + D + h + m + s;
+		/*
+		 时间戳转换格式
+		 timestamp3:num类型,时间戳
+		 sFormat格式字符串:
+			'yyyy-MM-dd h:m:s'年月日时分秒
+			'yyyy-MM-dd'
+			'yyyy-MM'
+		 	'h:m'
+		 	'yyyy'
+		 	.....
+		 */
+		timestampToTime:function(timestamp3,sFormat){
+	         // 将当前时间换成时间格式字符串
+//	        var timestamp3 = 1550058811;
+	        var newDate = new Date();
+	        newDate.setTime(timestamp3 * 1000);
+	        Date.prototype.format = function (format) {
+	            var date = {
+	                "M+": this.getMonth() + 1,
+	                "d+": this.getDate(),
+	                "h+": this.getHours(),
+	                "m+": this.getMinutes(),
+	                "s+": this.getSeconds(),
+	                "q+": Math.floor((this.getMonth() + 3) / 3),
+	                "S+": this.getMilliseconds()
+	            };
+	            if (/(y+)/i.test(format)) {
+	                format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+	            }
+	            for (var k in date) {
+	                if (new RegExp("(" + k + ")").test(format)) {
+	                    format = format.replace(RegExp.$1, RegExp.$1.length == 1 ?
+	                        date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+	                }
+	            }
+	            return format;
+	        }
+	        return newDate.format(sFormat);
 		}
 	});
 })(jQuery, window, document);
@@ -1040,7 +1182,7 @@ var fnAjax = { //
 		var _this = $(this);
 		var defaults = {
 			event: 'click', // 事件类型
-			logo:'img/96.png',//二维码中间logo图片
+			logo:'img/96.png'//二维码中间logo图片
 		};
 		var opts = $.extend({}, defaults, options);
 		_this.on(opts.event,function(){
@@ -1098,7 +1240,7 @@ var fnAjax = { //
 				height: "300", //二维码的高度
 				correctLevel: 0,
 				background: "#ffffff", //二维码的后景色
-				foreground: "#000000", //二维码的前景色
+				foreground: "#000000" //二维码的前景色
 			});
 			var myCanvas = $(QRCode).children("canvas")[0];
 			var myImg = convertCanvasToImage(myCanvas);
@@ -1153,7 +1295,7 @@ var fnAjax = { //
 	$.fn.countDown = function(options){
 		var $this = $(this);
 		var defaults = {
-			second:60,//秒
+			second:60 //秒
 		};
 		var opts = $.extend({}, defaults, options);
 		var times = opts.second,
@@ -1193,12 +1335,21 @@ var fnAjax = { //
 		var defaults = {
 			event:"change",
 			size:1,//限制几m
-			type:"",//默认所有类型,其他类型image和file
+			onlyImage:true,//默认所有类型可上传
+			width:200,//默认像素宽度,onlyImage必须true
+			height:300 //默认像素高度,onlyImage必须true
 		};
 		var opts = $.extend({}, defaults, options);
+		if(opts.onlyImage){
+			$(".Limit_that").remove();
+			var sHtml = '<div class="Limit_that">'+
+							'<span style="color: red;">温馨提示:图片上传的大小最大为'+ opts.size +'M，像素要求最小尺寸为'+ opts.width +'*'+ opts.height +',且图片宽高比例为'+ opts.width +':'+ opts.height +'</span>'+
+						'</div>';
+			_this.after($(sHtml));
+		}
 		_this.on(opts.event,function(){
 			var file = this.files[0];//上传的图片的所有信息
-			if(opts.type == "image"){
+			if(opts.onlyImage){				
 				 //首先判断是否是图片			 
 			    if(!/image\/\w+/.test(file.type)){
 			        layer.alert('上传的不是图片');
@@ -1206,24 +1357,86 @@ var fnAjax = { //
 			        return false;
 			    }
 			}
-			else if(opts.type == "file"){
-				 //首先判断是否非图片		 
-			    if(/image\/\w+/.test(file.type)){
-			        layer.alert('上传的不能是图片');
-			        $(this).val('');
-			        return false;
-			    }
-			}
+			
 		    //在此限制图片的大小
 		    var imgSize = file.size;
 		    //35160  计算机存储数据最为常用的单位是字节(B)
 		    if(imgSize > opts.size*1024*1024){
-		       layer.alert('上传的图片大于'+ opts.size +'M,请重新选择!');
+		       layer.alert('上传的文件大于'+ opts.size +'M,请重新选择!');
 		        $(this).val('');
 		        return false;
 		    }
-
-		})
+			
+			//图片类型
+			if(/image\/\w+/.test(file.type)){
+				//创建图片预览
+				$("#previewImg").remove();
+				var oPreview = $('<img id="previewImg" style="display: none;"/>');
+				var oReader = new FileReader();
+				oReader.onload = function(e){
+					oPreview.attr("src",e.target.result);
+					$("body").append(oPreview);
+					$("#previewImg").load(function(){
+						if(this.naturalWidth*1 < opts.width || this.naturalHeight*1 < opts.height){
+							layer.alert("上传的图片像素最小必须是:" + opts.width + "*" + opts.height);
+							_this.val("");
+							return false;
+						}
+						if((opts.width/opts.height) != ((this.naturalWidth*1)/(this.naturalHeight*1))){
+							layer.alert("上传的图片像素宽高比例必须是:" + opts.width + ":" + opts.height);
+							_this.val("");
+						}
+//						console.log(this.naturalWidth + ' x ' + this.naturalHeight);
+					});
+				}
+				oReader.readAsDataURL(file);
+			}			
+		});
+		
 	}
+})(jQuery, window, document);
+
+//文本域字符限制输入
+;(function($, window, document, undefined){
+	$.fn.textareaVaild = function(options){
+		var _this = $(this);
+		var defaults = {
+			event:"keyup",
+			maxLength:300,//限制最大能输入多少字符
+			width:540,//文本域的宽度
+			height:170 //文本域 的高度
+		};
+		var opts = $.extend({}, defaults, options);
+		var nTextarea = $('<div class="textarea-numberbar"><em class="textarea-length">0</em>/'+ opts.maxLength +'</div>').css({
+			"position": "absolute",
+		    "bottom": "1%",		    
+		    "padding": 0,
+		    "margin": 0
+		});
+		_this.after(nTextarea);
+		_this.on(opts.event,function(){
+			var v = $(this).val();
+			var l = v.length;
+			if (l > opts.maxLength) {
+				v = v.substring(0, opts.maxLength);
+				$(this).val(v);
+			}
+			$(this).parent().find(".textarea-length").text(v.length);
+			$(".textarea-numberbar").css({
+			    "left": (opts.width - $(".textarea-numberbar").width()) + "px"
+			});
+		})
+		.attr("dragonfly",true)
+		.css({
+			"width":opts.width + "px",
+			"height":opts.height + "px"
+		});
+		_this.parent().css({
+			"position":"relative"
+		});
+		$(".textarea-numberbar").css({
+		    "left": (opts.width - $(".textarea-numberbar").width()) + "px"
+		});
+	}	
 })(jQuery, window, document);
 

@@ -5,39 +5,61 @@
 		<title></title>
 	</head>
 	<body >
-		<div id="content">
-			<img src="img/1.jpg"/>
-		<img src="img/1.jpg"/><img src="img/1.jpg"/>
-		<img src="img/1.jpg"/><img src="img/1.jpg"/>
-		<img src="img/1.jpg"/><img src="img/1.jpg"/>
-		<img src="img/1.jpg"/><img src="img/1.jpg"/><img src="img/1.jpg"/>
-		<img src="img/1.jpg"/><img src="img/1.jpg"/>
-		<img src="img/1.jpg"/>
-		</div>
 		
-		<input type="button" name="send" id="send" value="倒计时" />
-		<button type="button" >asdfasd</button>
+		<form action="">
+			<input type="file" name="" id="" value="" />
+			<textarea name="" rows="6" cols="20"></textarea>
+		</form>
+		
+		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer/2.4/layer.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			$('#content').on("mousewheel DOMMouseScroll", function (event) {
-			    // chrome & ie || // firefox
-			    var delta = (event.originalEvent.wheelDelta && (event.originalEvent.wheelDelta > 0 ? 1 : -1)) ||
-			        (event.originalEvent.detail && (event.originalEvent.detail > 0 ? -1 : 1));  
-			    
-			    if (delta > 0) {
-			        console.log('mousewheel top');
-			    } else if (delta < 0) {
-			        console.log('mousewheel bottom');
-			    }
+			$("input").fileVaild({
+				width:400,//默认像素宽度
+				height:300,//默认像素高度
+				size:2,//限制几m
 			});
 			
-			var times = 60,
-			    timer = null;
-			 
-			$('#send').countDown({second:100});
-			$('button').countDown({second:100});
-			//00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+			$("textarea").textareaVaild({
+				maxLength:300,
+				width:500,
+				height:220
+			});
+		</script>
+		<script type="text/javascript">
+			function getExplorerInfo() {
+	            var explorer = window.navigator.userAgent.toLowerCase();
+	            //ie 
+	            if (explorer.indexOf("msie") >= 0) {
+	                var ver = explorer.match(/msie ([\d.]+)/)[1];
+	                return { type: "IE", version: ver };
+	            }
+	                //firefox 
+	            else if (explorer.indexOf("firefox") >= 0) {
+	                var ver = explorer.match(/firefox\/([\d.]+)/)[1];
+	                return { type: "Firefox", version: ver };
+	            }
+	                //Chrome
+	            else if (explorer.indexOf("chrome") >= 0) {
+	                var ver = explorer.match(/chrome\/([\d.]+)/)[1];
+	                return { type: "Chrome", version: ver };
+	            }
+	                //Opera
+	            else if (explorer.indexOf("opera") >= 0) {
+	                var ver = explorer.match(/opera.([\d.]+)/)[1];
+	                return { type: "Opera", version: ver };
+	            }
+	                //Safari
+	            else if (explorer.indexOf("Safari") >= 0) {
+	                var ver = explorer.match(/version\/([\d.]+)/)[1];
+	                return { type: "Safari", version: ver };
+	            }
+	
+	        }
+
+alert("浏览器:" + getExplorerInfo().type + "\n 版本:" + getExplorerInfo().version);
 		</script>
 	</body>
 </html>
