@@ -1,3 +1,14 @@
+/*
+@depend
+	jquery.js(v1.10 -- v2.0)
+	layer.js(大于 v2.0)
+	laypage.js（大于 v2.0）
+	jsrsasign-all-min.js
+@author xiaohaobin
+@version 1.0
+
+*/
+
 "use strict"
 function url_join(mUrl){
 //	return "http://10.10.10.21/"+mUrl;
@@ -8,7 +19,49 @@ function url_join2(mUrl){
 //	return "http://10.10.10.21/"+mUrl;
 	return "http://103.251.36.122:9517/"+mUrl;//统一服务器
 }
-
+//关于页面跳转
+;
+(function($, window, document, undefined) {
+	//服务器请求地址变量
+	var sRequestUrl = "http://123.58.43.16:9555/";
+	//服务器地址
+	var sIp = 'http://123.58.43.16/';
+	$.extend({
+		//父页面和当前页面刷新加载
+		pageReLoad: function() {
+			if(window.parent.parent.parent.parent) {
+				parent.parent.parent.parent.location.reload();
+			} else if(window.parent.parent.parent) {
+				parent.parent.parent.location.reload();
+			} else if(window.parent.parent) {
+				parent.parent.location.reload();
+			} else if(window.parent) {
+				parent.location.reload();
+			} else {
+				window.location.reload();
+			}
+		},
+		//当前页面和父页面跳转到其他页面
+		//Url指的是要跳转的路劲页面，如index.html
+		toNewPage: function(Url) {
+			if(window.parent.parent.parent.parent) {
+				parent.parent.parent.parent.location.href = sIp + '' + Url;
+			} else if(window.parent.parent.parent) {
+				parent.parent.parent.location.href = sIp + '' + Url;
+			} else if(window.parent.parent) {
+				parent.parent.location.href = sIp + '' + Url;
+			} else if(window.parent) {
+				parent.location.href = sIp + '' + Url;
+			} else {
+				window.location.href = sIp + '' + Url;
+			}
+		},
+		//返回路由地址
+		urlBack: function(mUrl) {
+			return sRequestUrl + '' + mUrl; //统一服务器
+		}
+	});
+})(jQuery, window, document)
 /*
  配合插件和框架：
  jquery.js(v1.13 -- v2.0)
@@ -468,49 +521,7 @@ var fnAjax = { //
 	});
 })(jQuery, window, document)
 
-//关于页面跳转
-;
-(function($, window, document, undefined) {
-	//服务器请求地址变量
-	var sRequestUrl = "http://123.58.43.16:9555/";
-	//服务器地址
-	var sIp = 'http://123.58.43.16/';
-	$.extend({
-		//父页面和当前页面刷新加载
-		pageReLoad: function() {
-			if(window.parent.parent.parent.parent) {
-				parent.parent.parent.parent.location.reload();
-			} else if(window.parent.parent.parent) {
-				parent.parent.parent.location.reload();
-			} else if(window.parent.parent) {
-				parent.parent.location.reload();
-			} else if(window.parent) {
-				parent.location.reload();
-			} else {
-				window.location.reload();
-			}
-		},
-		//当前页面和父页面跳转到其他页面
-		//Url指的是要跳转的路劲页面，如index.html
-		toNewPage: function(Url) {
-			if(window.parent.parent.parent.parent) {
-				parent.parent.parent.parent.location.href = sIp + '' + Url;
-			} else if(window.parent.parent.parent) {
-				parent.parent.parent.location.href = sIp + '' + Url;
-			} else if(window.parent.parent) {
-				parent.parent.location.href = sIp + '' + Url;
-			} else if(window.parent) {
-				parent.location.href = sIp + '' + Url;
-			} else {
-				window.location.href = sIp + '' + Url;
-			}
-		},
-		//返回路由地址
-		urlBack: function(mUrl) {
-			return sRequestUrl + '' + mUrl; //统一服务器
-		}
-	});
-})(jQuery, window, document)
+
 
 //关于函数操作
 ;
@@ -1440,3 +1451,17 @@ var fnAjax = { //
 	}	
 })(jQuery, window, document);
 
+//ws封装
+;(function($, window, document, undefined){
+	$.extend({
+		//返回url请求指定的键值
+		getQueryString:function(name){
+		    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+		    var r = window.location.search.substr(1).match(reg);
+		    if (r != null) {
+			    return unescape(r[2]);
+			}
+		   return null;
+		}
+	});
+})(jQuery, window, document);
