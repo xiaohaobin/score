@@ -115,10 +115,13 @@ var fnAjax = { //
 		$.ajax({
 			type: method,
 			url: murl,
-			dataType: "json",
+//			dataType: "json",
 			data: mdata,
 			async: true,
-			timeout: 10000,			
+			timeout: 10000,		
+			headers: {
+		        http_sign: $.backEncryptParam()
+		    },
 			beforeSend: function() {
 				layerLoad = layer.load(3);
 			},
@@ -130,6 +133,8 @@ var fnAjax = { //
 				});
 			},
 			success: function(data) {
+				var data = JSON.parse($.backDecryptParam(data));
+				console.log(data);
 				layer.close(layerLoad);
 				if(data.code == 1) {
 					layer.alert(data.message);
@@ -148,6 +153,9 @@ var fnAjax = { //
 			data: mdata,
 			timeout: 10000,
 			async: true,
+			headers: {
+		        http_sign: $.backEncryptParam()
+		    },
 			xhrFields: {
 				withCredentials: true
 			},
@@ -163,6 +171,8 @@ var fnAjax = { //
 				});
 			},
 			success: function(data) {
+				var data = JSON.parse($.backDecryptParam(data));
+				console.log(data);
 				layer.close(layerLoad);
 				if(data.code == 3) { //登录超时状态提示字符串
 					
@@ -183,13 +193,18 @@ var fnAjax = { //
 		$.ajax({
 			type: method,
 			url: murl,
-			datatype: "jsonp",
 			data: mdata,
-			timeout: 2000,			
 			async: false,
 			cache: false,
 			contentType: false,
 			processData: false,
+			headers: {
+		        http_sign: $.backEncryptParam()
+		    },
+//			xhrFields: {
+//            withCredentials: true
+//          },
+//          crossDomain: true,
 			error: function(data) {
 				console.log(data);
 				layer.alert("请求失败，请检查服务器端！", {
@@ -197,6 +212,8 @@ var fnAjax = { //
 				});
 			},
 			success: function(data) {
+				var data = JSON.parse($.backDecryptParam(data));
+				console.log(data);
 				layer.close(layerLoad);
 				if(data.code == 1) {
 					layer.alert(data.message);
@@ -1464,4 +1481,97 @@ var fnAjax = { //
 		   return null;
 		}
 	});
+})(jQuery, window, document);
+
+//RAS和Crypto加密解密
+;(function($, window, document, undefined) {
+	// modulus, 由后台告知
+	var modulus = 'D6BC545500C205EB37A9B5872AD4578E015EC48197A2C97A7C09666082A218E49D48209B9993C3D9766DB3C90D5D6A04A571E3E17E515908B22469CD97CFEF42EA1BA97E3D250907A926204C0B2D7445A52E3CA1EEDE48DBA8E17097F2BBFFE5CCDAA365A2163C24476A5DACDBD98A2610A67795B7477D8EEECBFB9AAD8482A336414CA1AE8AC5EC3653DB49EA62CED37ECF2B42B186005C25059A5EB9284DD5EB546EE7480D0E1BB5A644032B665F3BAAAA177F4F090287C6DF457DE34B6F65B9F8B340E81E7D52F20CFFC7823D5569AF773A48C5E2C0C66EB9BE21D01C62B429F2F9A1A9DAC8954A3349009151F43B34BD66BF7EA1D028E7D79B2570C26DEB';
+	// 固定值
+	var exponent = "10001";
+	
+	try{
+		var rsa = new RSAKey();
+		rsa.setPublic(modulus, exponent);
+		// 计算nonceStr
+		/**
+		 * 根据modulus的长度, 随机获取到2个随机数, 用于截取modulus
+		 * start 10 - 51
+		 * end 1 - 103
+		 */
+		var start = Math.floor(Math.random() * modulus.length / 10 + 10);
+		var end = Math.ceil(Math.random() * modulus.length / 5);
+		// key值， 用来解密后台传输过来的数据
+		var key = modulus.substring(start, end);
+		// 计算md5值作为iv(初始向量), 转为大写。 用来解密后台传输过来的数据
+		var iv = CryptoJS.MD5(key).toString().toUpperCase();
+		
+		/**
+		 * 生成nonce
+		 *
+		 * hex(2位，表示key的长度)
+		 * start(2位， 表示随机起始点的值)
+		 * key(key值，长度由hex确定)
+		 * iv(iv值， 长度为32位)
+		 * end(1-2位， 表示随机终点的值)
+		 */
+		var hex = ((key.length).toString(16));
+		// 长度不足2位，前补位0
+		if (hex.length === 1) hex = '0' + hex;
+		var nonce = hex + start + key + iv + end;
+		// 需要加密的字符串
+		var encryptStr = JSON.stringify({
+		    nonce: nonce, //上面计算出来的
+		    timestamp: new Date().getTime(), // 应该由服务器获取
+		    version: "1.0", // 版本号
+		    // 可能还会有其它字段
+		});
+		var res = rsa.encrypt(encryptStr);
+		
+		
+		/**
+		 * 加密
+		 */
+		function encrypt(str) {
+		    let key = CryptoJS.enc.Utf8.parse('n*dA3T6!`d}x_)&SDxo1,Kzx[+>x=1Gx');// 秘钥
+		    let iv= CryptoJS.enc.Utf8.parse('xQ3%1)7@^5spCra;');//向量iv
+		    let encrypted = CryptoJS.AES.encrypt(str, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7});
+		    return encrypted.toString();
+		}
+		
+		function decrypt(str, key, iv) {
+		    key = CryptoJS.enc.Utf8.parse(key);// 秘钥
+		    iv  = CryptoJS.enc.Utf8.parse(iv);//向量iv
+		    let decrypted = CryptoJS.AES.decrypt(str,key,{/*mode: CryptoJS.mode.CBC,*/ iv:iv,padding:CryptoJS.pad.Pkcs7});
+		    return decrypted.toString(CryptoJS.enc.Utf8);
+		}
+		function generateKey(key)
+		{
+		    if (key.length > 32) {
+		        key = key.substring(0, 32);
+		    } else if (key.length > 16) {
+		        key = key.substring(0, 16);
+		    } else {
+		        key = new Array(16 - key.length + 1).join('0').concat(key);
+		    }
+		
+		    return key;
+		}
+		
+		
+		$.extend({
+			backEncryptParam:function(){//加密发送后台
+				// 使用AES对RSA进行再次加密，然后传输给服务器
+			    return encrypt(res);
+			},
+			backDecryptParam:function(data){//解密后台数据
+				return decrypt(data, generateKey(key), iv);
+			}
+	
+		});
+	}catch(e){
+		//抛出错误
+		console.log("错误描述：" + e.message);
+	}
+	
 })(jQuery, window, document);
