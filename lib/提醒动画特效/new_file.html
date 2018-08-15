@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button>sdfds</button>
+		<script src="../jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.pulsate.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+				$('button').pulsate({
+	                color: "#bf1c56",
+	            }).on("click",function(){
+					$(this).pulsate("destroy").unbind("click");					
+				});
+//			});
+		</script>
+	</body>
+</html>

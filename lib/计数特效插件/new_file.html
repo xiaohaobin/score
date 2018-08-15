@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+			<div class="col-md-3 col-sm-3">
+				<div class="achivement-box">
+					<i class="fa fa-smile-o"></i>
+					<span class="count">120</span>
+					<h4>Happy clients</h4>                            
+				</div>
+			</div> 
+			<div class="col-md-3 col-sm-3">
+				<div class="achivement-box">
+					<i class="fa fa-code"></i>
+					<span class="count">7,800</span>
+					<h4>Working hours</h4>                            
+				</div>
+			</div> 
+		<script src="jquery.1.11.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.counterup.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="waypoints.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function( $ ) {
+				if($("span.count").length > 0){	
+					$('span.count').counterUp({
+							delay: 10, // the delay time in ms
+							time: 1000 // the speed time in ms
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

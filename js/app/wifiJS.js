@@ -6,16 +6,16 @@ mui.plusReady(function() {
 
 	/**  * 初始化  */
 	WIFI.prototype.init = function() {
-		var Context = plus.android.importClass("android.content.Context");
-		plus.android.importClass("android.net.wifi.WifiManager");
-		plus.android.importClass("java.util.List");
-		plus.android.importClass("java.util.ArrayList");
+		var Context = plus.android.importClass("android.content.Context");//
+		plus.android.importClass("android.net.wifi.WifiManager");//
+		plus.android.importClass("java.util.List");//
+		plus.android.importClass("java.util.ArrayList");//
 		plus.android.importClass("android.net.wifi.ScanResult");
-		plus.android.importClass("android.net.wifi.WifiInfo");
+		plus.android.importClass("android.net.wifi.WifiInfo");//
 		plus.android.importClass("java.util.BitSet");
 
 		this.WifiConfiguration = plus.android.importClass("android.net.wifi.WifiConfiguration");
-		this.wifiManager = plus.android.runtimeMainActivity().getSystemService(Context.WIFI_SERVICE);
+		this.wifiManager = plus.android.runtimeMainActivity().getSystemService(Context.WIFI_SERVICE);//
 
 	}
 
@@ -25,6 +25,38 @@ mui.plusReady(function() {
 	 * */
 	WIFI.prototype.getAllList = function() {
 		return this.wifis = this.wifiManager.getScanResults();
+	}
+
+	/**
+	 **获取wifi列表
+	 *@return [{object}] 
+	 *@prop SSID 网络名称
+	 *@prop BSSID 基本服务集标识
+	 *@prop level 
+	 *@prop capabilities 性能
+	 *@prop frequency 频率
+	 *@prop distance 距离
+	 *@prop timestamp 时间戳
+	 * */
+	
+	WIFI.prototype.aGetAllList = function(){
+		var resultList = this.wifiManager.getScanResults();
+		len = resultList.size(),
+		aRes = [];
+
+		for(var i = 0; i < len; i++) {
+			aRes.push({
+				"SSID": resultList.get(i).plusGetAttribute('SSID'),
+				"BSSID": resultList.get(i).plusGetAttribute('BSSID'), //基本服务集标识
+				"level": resultList.get(i).plusGetAttribute('level'),
+				"capabilities": resultList.get(i).plusGetAttribute('capabilities'),
+				"frequency": resultList.get(i).plusGetAttribute('frequency'),
+				"timestamp": resultList.get(i).plusGetAttribute('timestamp'),
+				"distance": resultList.get(i).plusGetAttribute('distance'),
+				"distanceSd": resultList.get(i).plusGetAttribute('distanceSd')
+			});
+		}
+		return aRes;
 	}
 
 	/**  
@@ -160,7 +192,28 @@ mui.plusReady(function() {
 			true
 		);
 	}
-
+	
+	/**
+	 * 查看以前是否也配置过这个网络
+	 * @param {String} sSID SSID名称
+	 * @return {Object} 返回配置列表（该SSID的信息）
+	 * 已经验证
+	 */
+	WIFI.prototype.isExsitsAndroid = function(sSID){
+		console.log("查看以前是否也配置过这个网络" + sSID);
+		var existingConfigs = this.wifiManager.getConfiguredNetworks();
+	    if(existingConfigs.size() != 0) {
+	        for(var i = 0; i < existingConfigs.size(); i++) {
+	            if(existingConfigs.get(i).plusGetAttribute('SSID') == ("\"" + sSID + "\"")) {
+	                console.log("该制定的ssid存在于配置中:" + sSID);
+	                return existingConfigs.get(i);
+	            }
+	        }
+	    }
+	    console.log("该ssid没有配置过")
+	    return null;
+	}
+	
 	/**  * 获取wifi是否打开  */
 	WIFI.prototype.isWifiEnabled = function() {
 		return this.wifiManager.isWifiEnabled();
@@ -253,3 +306,7 @@ function strToObj(str) {
 	}
 	return aRes;
 }
+
+
+
+
