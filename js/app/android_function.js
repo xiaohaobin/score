@@ -476,10 +476,10 @@ var android_function = {
 		};
 		main.startActivityForResult(intent, REQUESTCODE);
 	},
-	calId:"",//日历事件id
-	calanderURL:"content://com.android.calendar/calendars",//安卓日历api
-	calanderEventURL:"content://com.android.calendar/events",//安卓日历事件api
-	calanderRemiderURL:"content://com.android.calendar/reminders",//安卓日历提醒api
+	calId: "", //日历事件id
+	calanderURL: "content://com.android.calendar/calendars", //安卓日历api
+	calanderEventURL: "content://com.android.calendar/events", //安卓日历事件api
+	calanderRemiderURL: "content://com.android.calendar/reminders", //安卓日历提醒api
 	/**
 	 * *
 	 * 给日历添加事件
@@ -500,7 +500,7 @@ var android_function = {
     		"nLeadTime":"45"
     	}
 	 * */
-	Calendar_addEvent:function(oParam){
+	Calendar_addEvent: function(oParam) {
 		var Cursor = plus.android.importClass("android.database.Cursor");
 		var Uri = plus.android.importClass("android.net.Uri");
 		var Calendar = plus.android.importClass("java.util.Calendar");
@@ -509,19 +509,19 @@ var android_function = {
 		if(plus.android.invoke(userCursor, "getCount") <= 0) {
 			console.log("添加账号" + plus.android.invoke(userCursor, "getCount"));
 			//初始化日历账号
-			android_function.initCalendars();
-		} 
-		else {
+			//			android_function.initCalendars(oParam);
+			alert("还没添加日历账号");
+		} else {
 			console.log("开始插入：" + plus.android.invoke(userCursor, "getCount"));
 			plus.android.invoke(userCursor, "moveToLast");
 			android_function.calId = plus.android.invoke(userCursor, "getString", plus.android.invoke(userCursor, "getColumnIndex", "_id"));
 			var ContentValues = plus.android.importClass("android.content.ContentValues");
 			var events = new ContentValues();
-			events.put("title", oParam.title);//设置事件的标题
-			events.put("description", oParam.description);//设置事件的描述
+			events.put("title", oParam.title); //设置事件的标题
+			events.put("description", oParam.description); //设置事件的描述
 			// 插入账户
 			events.put("calendar_id", android_function.calId);
-			events.put("eventLocation", oParam.address);//设置事件的地点
+			events.put("eventLocation", oParam.address); //设置事件的地点
 			events.put("dtstart", oParam.startTimestamp);
 			events.put("dtend", oParam.endTimestamp);
 			events.put("hasAlarm", "1");
@@ -534,39 +534,151 @@ var android_function = {
 			var values = new ContentValues();
 			values.put("event_id", id);
 			// 提前10分钟有提醒
-			values.put("minutes", oParam.nLeadTime);//提前提醒是10分钟
+			values.put("minutes", oParam.nLeadTime); //提前提醒是10分钟
 			values.put("method", "1");
 			plus.android.invoke(main.getContentResolver(), "insert", Uri.parse(android_function.calanderRemiderURL), values);
 			plus.nativeUI.toast("插入事件成功，可打开本地日历查看");
 		}
 	},
-	//初始化日历账号
-	initCalendars:function(){
+	/**
+	 * 初始化日历账号
+	 * @param {Object} oParam 配置主要参数的对象
+	 * @prop {String} name 真实姓名
+	 * @prop {String} account_name 账号
+	 * @prop {String} calendar_displayName 日历账户显示的名称
+	 * */
+	initCalendars: function(oParam) {
 		var TimeZone = plus.android.importClass("java.util.TimeZone");
 		var timeZone = TimeZone.getDefault();
 		var ContentValues = plus.android.importClass("android.content.ContentValues");
 		var value = new ContentValues();
-		var Calendars = plus.android.importClass("android.provider.CalendarContract.Calendars");
-		value.put("name", "yy");
-		value.put("account_name", "hehe@gmail.com");
-		value.put("account_type", "com.android.exchange");
-		value.put("calendar_displayName", "mytt");
+		//		var Calendars = plus.android.importClass("android.provider.CalendarContract.Calendars");
+		value.put("name", oParam.name);
+		value.put("account_name", oParam.account_name); //日历账号
+		value.put("account_type", "com.android.exchange"); //账户类型
+		value.put("calendar_displayName", oParam.calendar_displayName); //日历账户显示的名称
 		value.put("visible", 1);
-		value.put("calendar_color", -9206951);
+		value.put("calendar_color", "-9206951");
 		value.put("calendar_access_level", "700");
 		value.put("sync_events", 1);
 		value.put("calendar_timezone", plus.android.invoke(timeZone, "getID"));
-		value.put("ownerAccount", "hehe@gmail.com");
+		value.put("ownerAccount", oParam.account_name);
 		value.put("canOrganizerRespond", 0);
 		var Uri = plus.android.importClass("android.net.Uri");
 		var calendarUri = Uri.parse("content://com.android.calendar/calendars");
 		var buildUpon = plus.android.invoke(calendarUri, "buildUpon");
 		var CalendarContract = plus.android.importClass("android.provider.CalendarContract");
 		plus.android.invoke(buildUpon, "appendQueryParameter", CalendarContract.CALLER_IS_SYNCADAPTER, "true");
-		plus.android.invoke(buildUpon, "appendQueryParameter", "account_name", "hehe@gmail.com");
+		plus.android.invoke(buildUpon, "appendQueryParameter", "account_name", oParam.account_name);
 		plus.android.invoke(buildUpon, "appendQueryParameter", "account_type", "com.android.exchange");
 		calendarUri = plus.android.invoke(buildUpon, "build");
 		plus.android.invoke(plus.android.runtimeMainActivity().getContentResolver(), "insert", calendarUri, value);
 		plus.nativeUI.toast("添加账号成功");
+	},
+	//监听手机飞行模式切换状态
+	event_AIRPLANE_MODE: function() {
+		var receiver;
+		main = plus.android.runtimeMainActivity(); //获取activity
+		receiver = plus.android.implements('io.dcloud.feature.internal.reflect.BroadcastReceiver', {
+			onReceive: function(context, intent) { //实现onReceiver回调函数
+				plus.android.importClass(intent);
+				console.log(intent.getAction());
+				alert("飞行模式切换：" + result.textContent);
+				main.unregisterReceiver(receiver);
+			}
+		});
+		var IntentFilter = plus.android.importClass('android.content.IntentFilter');
+		var Intent = plus.android.importClass('android.content.Intent');
+		var filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED); //监听飞行模式
+		main.registerReceiver(receiver, filter); //注册监听
+	},
+	/**
+	 * 本地消息推送
+	 * @param {Object} oParam 主要配置数据参数
+	 * @prop {String} notice 手机顶部推送的文本提示
+	 * @prop {String} title 推送标题
+	 * @prop {String} content 推送内容
+	 * @prop {Number} number 推送条数
+	 * */
+	localInfoPush: function(oParam) {
+		var NotifyID = 1;
+		var main = plus.android.runtimeMainActivity();
+		var Context = plus.android.importClass("android.content.Context");
+		var Noti = plus.android.importClass("android.app.Notification");
+		var NotificationManager = plus.android.importClass("android.app.NotificationManager");
+		var nm = main.getSystemService(Context.NOTIFICATION_SERVICE)
+		var Notification = plus.android.importClass("android.app.Notification");
+		var mNotification = new Notification.Builder(main);
+		// 新增 810726685@qq.com 的代码
+		var Intent = plus.android.importClass("android.content.Intent");
+		var PendingIntent = plus.android.importClass("android.app.PendingIntent");
+		var intent = new Intent(main, main.getClass());
+		var pendingIntent = PendingIntent.getActivity(main, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		// 新增代码
+		var r = plus.android.importClass("android.R");
+
+		mNotification.setOngoing(true);
+		mNotification.setContentTitle(oParam.title)
+		mNotification.setContentText(oParam.content)
+
+		// 新增代码
+		mNotification.setSmallIcon(r.drawable.ic_notification_overlay)
+		mNotification.setTicker(oParam.notice)
+
+		// 新增 810726685@qq.com 的代码
+		mNotification.setContentIntent(pendingIntent);
+		mNotification.setNumber(oParam.number)
+		var mNb = mNotification.build()
+		nm.notify(NotifyID, mNb);
+		plus.device.vibrate(1000);
+	},
+	/**
+	 * 个推消息推送（需要个推SDK权限配置好）
+	 * @param {String} content 要推送的消息内容
+	 * */
+	pushMsg_create:function(content){
+		try{
+			var options = {cover:false};
+		    var str = dateToStr(new Date());
+		    str += content;
+		    plus.push.createMessage( str, "LocalMSG", options );
+		    plus.nativeUI.toast( "创建本地消息成功，请到系统消息中心查看！" );
+		    if(plus.os.name=="iOS"){
+		        plus.nativeUI.alert('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
+		    }	
+		}catch(e){
+			alert("还没有添加个推的SDK");
+		}
+		
+		//时间格式化为字符串
+		function dateToStr(now){
+			 var year = now.getFullYear();
+            var month =(now.getMonth() + 1).toString();
+            var day = (now.getDate()).toString();
+            if (month.length == 1) {
+                month = "0" + month;
+            }
+            if (day.length == 1) {
+                day = "0" + day;
+            }
+            var dateTime = year + "-" + month + "-" +  day;
+            return dateTime;
+		}
+	},
+	//清除推送信息
+	pushMsg_clear:function(){
+		plus.push.clear();
+	},
+	//获取所有推送信息
+	pushMsg_list:function(){
+		var msgs = null;
+		if(plus.os.name == "Android")  msgs = plus.push.getAllMessage();
+		if(!msgs) plus.nativeUI.alert( "此平台不支持枚举推送消息列表！" );
+		return msgs;
+	},
+	//文件系统管理功能
+	fileManage:function(){
+		
 	}
 };

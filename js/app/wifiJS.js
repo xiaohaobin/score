@@ -19,6 +19,8 @@ mui.plusReady(function() {
 
 	}
 
+	
+
 	/**  
 	 * * 获取wifi列表 
 	 * @return {String} wifi列表
@@ -28,13 +30,75 @@ mui.plusReady(function() {
 	}
 
 	/**
+	 * 获取之前连接过的wifi列表
+	 *@return [{object}] 	
+	 *@prop SSID 网络名称
+	 *@prop BSSID 基本服务集标识
+	 * .......
+	 * */
+	WIFI.prototype.aGetConfiguredNetworks = function(){
+		var resultList = this.wifiManager.getConfiguredNetworks();
+		len = resultList.size(),
+		aRes = [];
+
+		for(var i = 0; i < len; i++) {
+			aRes.push({
+				"SSID": resultList.get(i).plusGetAttribute('SSID').replace('\"','').replace('"',''),
+				"BSSID": resultList.get(i).plusGetAttribute('BSSID'),//基本服务集标识
+				
+				"FQDN": resultList.get(i).plusGetAttribute('FQDN'),
+				"REALM": resultList.get(i).plusGetAttribute('REALM'),
+				"PRIO": resultList.get(i).plusGetAttribute('PRIO'),
+				"KeyMgmt": resultList.get(i).plusGetAttribute('KeyMgmt'),
+				"Protocols": resultList.get(i).plusGetAttribute('Protocols'),//协议
+				"AuthAlgorithms": resultList.get(i).plusGetAttribute('AuthAlgorithms'),
+				"PariwiseCiphers": resultList.get(i).plusGetAttribute('PariwiseCiphers'),
+				"GroupCiphers": resultList.get(i).plusGetAttribute('GroupCiphers'),
+				"PSK": resultList.get(i).plusGetAttribute('PSK'),
+				
+				"Enterprise config": resultList.get(i).plusGetAttribute('Enterprise config'),
+				"IP config": resultList.get(i).plusGetAttribute('IP config'),
+				"IP assignment": resultList.get(i).plusGetAttribute('IP assignment'),
+				"Proxy settings": resultList.get(i).plusGetAttribute('Proxy settings'),
+				"triggeiedLow": resultList.get(i).plusGetAttribute('triggeiedLow'),
+				"triggeiedBad": resultList.get(i).plusGetAttribute('triggeiedBad'),
+				"triggeiedNotHigh": resultList.get(i).plusGetAttribute('triggeiedNotHigh'),
+				"ticksLow": resultList.get(i).plusGetAttribute('ticksLow'),
+				"ticksBad": resultList.get(i).plusGetAttribute('ticksBad'),
+				"ticksNotHigh": resultList.get(i).plusGetAttribute('ticksNotHigh'),
+				"triggeredJoin": resultList.get(i).plusGetAttribute('triggeredJoin'),
+				"autoJoinBailedDueToLowRssi": resultList.get(i).plusGetAttribute('autoJoinBailedDueToLowRssi'),
+				"autoJoinUseAggressiveJoinAttemptThreshold": resultList.get(i).plusGetAttribute('autoJoinUseAggressiveJoinAttemptThreshold')
+				
+			});
+		}
+		return aRes;
+	}
+	//获取之前连接过的wifi列表,返回源数据
+	WIFI.prototype.getConfiguredNetworks = function(){
+		return this.wifiManager.getConfiguredNetworks();
+	}
+	
+	//断开当前wifi网络连接
+	WIFI.prototype.disconnect = function(){
+		return this.wifiManager.disconnect();
+	}
+	
+	//获取DHCP 的信息
+	WIFI.prototype.getDhcpInfo = function(){
+		return this.wifiManager.getDhcpInfo();
+	}
+	
+	
+	
+	/**
 	 **获取wifi列表
 	 *@return [{object}] 
 	 *@prop SSID 网络名称
 	 *@prop BSSID 基本服务集标识
-	 *@prop level 
-	 *@prop capabilities 性能
-	 *@prop frequency 频率
+	 *@prop level 等级，主要来判断网络连接的优先数。
+	 *@prop capabilities 网络接入的性能，这里主要是来判断网络的加密方式等
+	 *@prop frequency  频率，每一个频道交互的MHz 数
 	 *@prop distance 距离
 	 *@prop timestamp 时间戳
 	 * */
@@ -59,6 +123,8 @@ mui.plusReady(function() {
 		return aRes;
 	}
 
+	
+	
 	/**  
 	 * * 校验ssid 返回的是有此ssid的wifi个数 
 	 * * @param {Object} ssid wifi名  */
@@ -151,6 +217,53 @@ mui.plusReady(function() {
 	WIFI.prototype.getWifiMAC = function() {
 		return this.wifiManager.getConnectionInfo().getMacAddress();
 	}
+	
+	//获取BSSID属性
+	WIFI.prototype.getBSSID = function() {
+		return this.wifiManager.getConnectionInfo().getBSSID();
+	}
+	
+	/**
+	 * 获取SSID 是否被隐藏
+	 * @return {Boolean}
+	 * */
+	WIFI.prototype.getHiddenSSID = function() {
+		return this.wifiManager.getConnectionInfo().getHiddenSSID();
+	}
+	
+	/**
+	 * 获取连接wifi的ip地址
+	 * @return {String}
+	 * */
+	WIFI.prototype.getIpAddress = function() {
+		return intToIp(this.wifiManager.getConnectionInfo().getIpAddress());
+		function intToIp(i){
+		  	return  (i & "0xFF" ) + "." +         
+			        ((i >> 8 ) & "0xFF") + "." +         
+			        ((i >> 16 ) & "0xFF") + "." +         
+			        ( i >> 24 & "0xFF") ;    
+		}
+	}
+	
+	/**
+	 * 获取连接的速度
+	 * @return {Number}
+	 * */
+	WIFI.prototype.getLinkSpeed = function() {
+		return this.wifiManager.getConnectionInfo().getLinkSpeed();
+	}
+	
+	//获取wifi连接的rssi信号强度
+	WIFI.prototype.getRssi = function() {
+		return this.wifiManager.getConnectionInfo().getRssi();
+	}
+	
+	//获取链接wifi的ssid
+	WIFI.prototype.getSSID = function() {
+		return this.wifiManager.getConnectionInfo().getSSID();
+	}
+	
+	
 	/**  
 	 * * 添加新的wifi并连接 
 	 * * @param {Object} ssid wifi名  

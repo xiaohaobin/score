@@ -926,9 +926,7 @@ try {
 			 	'yyyy'
 			 	.....
 			 */
-			timestampToTime: function(timestamp3, sFormat) {
-				// 将当前时间换成时间格式字符串
-				//	        var timestamp3 = 1550058811;
+			timestampToTime: function(timestamp3, sFormat) {				
 				var newDate = new Date();
 				newDate.setTime(timestamp3 * 1000);
 				Date.prototype.format = function(format) {
