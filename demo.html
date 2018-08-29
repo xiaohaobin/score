@@ -6,60 +6,71 @@
 	</head>
 	<body >
 		
-		<form action="">
-			<input type="file" name="" id="" value="" />
-			<textarea name="" rows="6" cols="20"></textarea>
-		</form>
+		<div style="width: 500px;height: 500px;overflow: auto;" id="test">
+			<p style="height: 1000px;">
+				
+			</p>
+		</div>
 		
 		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/layer/2.4/layer.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/jquery.xhb.plugin.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.xhb.otherPlugin.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			$("input").fileVaild({
-				width:400,//默认像素宽度
-				height:300,//默认像素高度
-				size:2,//限制几m
+			$("#test").T_or_B({
+				toTop:function(){
+					console.log("向上");
+				},
+				toDown:function(){
+					console.log("向下");
+				}
 			});
+			$.ajax_method_1(
+//				"http://zhangnan.xicp.net:9506/?do=LBS&devmac=DZ180601010000002W&action=getLBSLocation",
+				"http://zhangnan.xicp.net:9506/",
+				{
+					do:"LBS"
+				},
+				"post",
+				function(){
+					console.log(123);
+				}
+			)
 			
-			$("textarea").textareaVaild({
-				maxLength:300,
-				width:500,
-				height:220
-			});
-		</script>
-		<script type="text/javascript">
-			function getExplorerInfo() {
-	            var explorer = window.navigator.userAgent.toLowerCase();
-	            //ie 
-	            if (explorer.indexOf("msie") >= 0) {
-	                var ver = explorer.match(/msie ([\d.]+)/)[1];
-	                return { type: "IE", version: ver };
-	            }
-	                //firefox 
-	            else if (explorer.indexOf("firefox") >= 0) {
-	                var ver = explorer.match(/firefox\/([\d.]+)/)[1];
-	                return { type: "Firefox", version: ver };
-	            }
-	                //Chrome
-	            else if (explorer.indexOf("chrome") >= 0) {
-	                var ver = explorer.match(/chrome\/([\d.]+)/)[1];
-	                return { type: "Chrome", version: ver };
-	            }
-	                //Opera
-	            else if (explorer.indexOf("opera") >= 0) {
-	                var ver = explorer.match(/opera.([\d.]+)/)[1];
-	                return { type: "Opera", version: ver };
-	            }
-	                //Safari
-	            else if (explorer.indexOf("Safari") >= 0) {
-	                var ver = explorer.match(/version\/([\d.]+)/)[1];
-	                return { type: "Safari", version: ver };
-	            }
-	
-	        }
-
-alert("浏览器:" + getExplorerInfo().type + "\n 版本:" + getExplorerInfo().version);
+			console.log(timeToStr(60));
+			console.log(dateToStr(new Date()));
+			console.log($.formatDateTime(new Date()));
+			// 格式化时长字符串，格式为"HH:MM:SS"
+			function timeToStr(ts) {
+				if(isNaN(ts)) {
+					return "--:--:--";
+				}
+				var h = parseInt(ts / 3600);
+				var m = parseInt((ts % 3600) / 60);
+				var s = parseInt(ts % 60);
+				return(ultZeroize(h) + ":" + ultZeroize(m) + ":" + ultZeroize(s));
+			};
+			// 格式化日期时间字符串，格式为"YYYY-MM-DD HH:MM:SS"
+			function dateToStr(d) {
+				return(d.getFullYear() + "-" + ultZeroize(d.getMonth() + 1) + "-" + ultZeroize(d.getDate()) + " " + ultZeroize(d.getHours()) + ":" + ultZeroize(d.getMinutes()) + ":" + ultZeroize(d.getSeconds()));
+			};
+			/**
+			 * zeroize值和长度（默认值是2）。
+			 * @param {Object} v
+			 * @param {Number} l
+			 * @return {String} 
+			 */
+			function ultZeroize(v, l) {
+				var z = "";
+				l = l || 2;
+				v = String(v);
+				for(var i = 0; i < l - v.length; i++) {
+					z += "0";
+				}
+				return z + v;
+			};
 		</script>
 	</body>
 </html>

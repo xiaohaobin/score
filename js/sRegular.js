@@ -8,8 +8,8 @@
 	
 	// 电话号码
 	var phoneNum = /^(\(\d{3,4}\)|\d{3,4}-)?\d{7,8}$/;
-	//email
-	
+	//手机号码
+	var mobileNum = /^[1][3,4,5,7,8][0-9]{9}$/;
 	//验证InternetURL
  	var InternetURL=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
 	
@@ -73,4 +73,16 @@
 	var numAndLetter = /^[0-9a-zA-Z]{2,20}$/;
 	
 	//非汉字，6到15位，特殊字符只能是：~!@#$%^&*的格式
-	var moChinese2 = /^[0-9a-zA-Z~!@#$%^&*]{6,15}$/；
+	var moChinese2 = /^[0-9a-zA-Z~!@#$%^&*]{6,15}$/;
+	
+	//真实姓名只能是汉字或者英文字母
+	var nolyChineseAndEnglish = /^[\u4e00-\u9fa5],{0,}|[A-Za-z]+$/;
+	
+	//账号(账号只能由字母、数字、点和下划线组成)
+	var account = /^[a-zA-Z0-9_\.]+$/;
+	
+	
+	
+	
+	
+	

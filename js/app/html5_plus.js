@@ -46,6 +46,54 @@ try {
 			types[plus.networkinfo.CONNECTION_CELL4G] = "4G网络";
 			return types[plus.networkinfo.getCurrentType()];
 		},
+		//获取当前的加速度信息
+		getCurrentAcceleration:function(){
+			plus.accelerometer.getCurrentAcceleration(function(a) {
+				alert('X轴：' + a.xAxis + '\nY轴：' + a.yAxis + '\nZ轴：' + a.zAxis);
+			}, function(e) {
+				alert('获取失败:' + e.message);
+			});
+//			return _acc;
+		},
+		//扫描二维码
+		scan:null,
+		/**
+		 * 开始扫描
+		 * @param {String} id 要显示二维码控件的DOM节点的id值
+		 * @param {Function} fn 扫描成功的回调函数，回调参数 type, result, file
+		 * */
+		startScan:function(id,fn){
+			mobile_function.scan = new plus.barcode.Barcode(id);
+			mobile_function.scan.onmarked = function(type, result, file){
+				switch(type) {
+						case plus.barcode.QR:
+						type = 'QR';
+						break;
+					case plus.barcode.EAN13:
+						type = 'EAN13';
+						break;
+					case plus.barcode.EAN8:
+						type = 'EAN8';
+						break;
+					default:
+						type = '其它' + type;
+						break;
+				}
+				result = result.replace(/\n/g, '');
+				fn(type, result, file);
+//				alert(type + "," + result + "," + file);
+			};
+			mobile_function.scan.start();    
+		},
+		//开启闪光灯
+		ScanFlashlight:function(){
+			if(mobile_function.scan == null){
+				plus.nativeUI.alert("请先打开扫描二维码控件");
+			}else{
+//				alert(123);
+				mobile_function.scan.setFlash(true);
+			}
+		}
 	}
 } catch(e) {
 	alert("功能方法只是在手机上有效");

@@ -640,9 +640,7 @@ var android_function = {
 	pushMsg_create:function(content){
 		try{
 			var options = {cover:false};
-		    var str = dateToStr(new Date());
-		    str += content;
-		    plus.push.createMessage( str, "LocalMSG", options );
+		    plus.push.createMessage( content, "LocalMSG", options );
 		    plus.nativeUI.toast( "创建本地消息成功，请到系统消息中心查看！" );
 		    if(plus.os.name=="iOS"){
 		        plus.nativeUI.alert('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
@@ -651,34 +649,98 @@ var android_function = {
 			alert("还没有添加个推的SDK");
 		}
 		
-		//时间格式化为字符串
-		function dateToStr(now){
-			 var year = now.getFullYear();
-            var month =(now.getMonth() + 1).toString();
-            var day = (now.getDate()).toString();
-            if (month.length == 1) {
-                month = "0" + month;
-            }
-            if (day.length == 1) {
-                day = "0" + day;
-            }
-            var dateTime = year + "-" + month + "-" +  day;
-            return dateTime;
-		}
 	},
 	//清除推送信息
 	pushMsg_clear:function(){
 		plus.push.clear();
 	},
-	//获取所有推送信息
+	/**
+	 * 获取所有推送信息
+	 * @return {Array}
+	 * */
 	pushMsg_list:function(){
 		var msgs = null;
 		if(plus.os.name == "Android")  msgs = plus.push.getAllMessage();
 		if(!msgs) plus.nativeUI.alert( "此平台不支持枚举推送消息列表！" );
 		return msgs;
 	},
-	//文件系统管理功能
-	fileManage:function(){
-		
+	/**
+	 * 判断GPS是否开启
+	 * @return {Boolean}
+	 * */
+	getGPS_status:function(){
+		var context = plus.android.importClass("android.content.Context");
+        var locationManager=plus.android.importClass("android.location.LocationManager");
+        var main=plus.android.runtimeMainActivity();
+        var mainSvr=main.getSystemService(context.LOCATION_SERVICE);
+        return mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER);
+	},
+	/**
+	 * 修改系统壁纸
+	 * @param {String} imgPath 本地图片路劲
+	 * */
+	updateWallpaper:function(imgPath){
+		var WallpaperManager = plus.android.importClass("android.app.WallpaperManager");
+		//获取应用主activity实例对象
+		var Main = plus.android.runtimeMainActivity();
+		var wallpaperManager = WallpaperManager.getInstance(Main);
+		plus.android.importClass(wallpaperManager);
+		var BitmapFactory = plus.android.importClass("android.graphics.BitmapFactory");
+		var url = imgPath; // 换成要设置的壁纸图片路径
+
+		//将本地URL路径转换成平台绝对路径,如url为“_doc/a.png”
+		var path = plus.io.convertLocalFileSystemURL(url);
+		//解析图片文件并创建对应的Bitmap对象
+		var bitmap = BitmapFactory.decodeFile(path);
+		try {
+			wallpaperManager.setBitmap(bitmap); //设置壁纸
+			bitmap.recycle(); // 设置完毕桌面要进行 原生层的BITMAP回收 减少内存压力
+
+		} catch(e) {
+			//TODO handle the exception
+			alert(e);
+		}
+	},
+	/**
+	 * 录制视频
+	 * @param {Number} nTime 设置录像时间
+	 * */
+	videoRecording:function(nTime){
+		// 调用原生android摄像头
+		var VIDEOZOOM = 200;
+		var MediaStore = plus.android.importClass("android.provider.MediaStore");
+		var Intent = plus.android.importClass("android.content.Intent");
+		// 导入后可以使用new方法创建类的示例对象
+		var intent = new Intent("android.media.action.VIDEO_CAPTURE");
+		intent.putExtra("android.intent.extra.videoQuality", 1); //0 means low quality, 1 means high quality
+		//intent.putExtra("android.provider.MediaStore.EXTRA_OUTPUT", url);
+		intent.putExtra("android.intent.extra.durationLimit", nTime); //设置录像时间
+
+		var main = plus.android.runtimeMainActivity();
+		main.startActivityForResult(intent, VIDEOZOOM);
+		//获取返回参数
+		main.onActivityResult = function(requestCode, resultCode, data) {
+			var context = main;
+			plus.android.importClass(data);
+			var uri = data.getData();
+			var resolver = context.getContentResolver();
+			plus.android.importClass(resolver);
+			var cursor = resolver.query(uri, null, null, null, null);
+			plus.android.importClass(cursor);
+			cursor.moveToFirst();
+			var column = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+			// 获取录制的视频路径
+			var filePath = cursor.getString(column);
+
+			// 解析视频文件的属性
+			plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
+				entry.file(function(file) {
+					console.log("size==" + file.size);
+					console.log("name==" + file.name);
+				});
+			}, function(e) {
+				console.log("Resolve file URL failed: " + e.message);
+			});
+		};
 	}
 };
