@@ -11,7 +11,7 @@
 				
 			</p>
 		</div>
-		
+		<input type="file" name="fileInput" id="fileInput" value="" />
 		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/layer/2.4/layer.js" type="text/javascript" charset="utf-8"></script>
@@ -19,58 +19,7 @@
 		<script src="js/jquery.xhb.plugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.xhb.otherPlugin.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			$("#test").T_or_B({
-				toTop:function(){
-					console.log("向上");
-				},
-				toDown:function(){
-					console.log("向下");
-				}
-			});
-			$.ajax_method_1(
-//				"http://zhangnan.xicp.net:9506/?do=LBS&devmac=DZ180601010000002W&action=getLBSLocation",
-				"http://zhangnan.xicp.net:9506/",
-				{
-					do:"LBS"
-				},
-				"post",
-				function(){
-					console.log(123);
-				}
-			)
-			
-			console.log(timeToStr(60));
-			console.log(dateToStr(new Date()));
-			console.log($.formatDateTime(new Date()));
-			// 格式化时长字符串，格式为"HH:MM:SS"
-			function timeToStr(ts) {
-				if(isNaN(ts)) {
-					return "--:--:--";
-				}
-				var h = parseInt(ts / 3600);
-				var m = parseInt((ts % 3600) / 60);
-				var s = parseInt(ts % 60);
-				return(ultZeroize(h) + ":" + ultZeroize(m) + ":" + ultZeroize(s));
-			};
-			// 格式化日期时间字符串，格式为"YYYY-MM-DD HH:MM:SS"
-			function dateToStr(d) {
-				return(d.getFullYear() + "-" + ultZeroize(d.getMonth() + 1) + "-" + ultZeroize(d.getDate()) + " " + ultZeroize(d.getHours()) + ":" + ultZeroize(d.getMinutes()) + ":" + ultZeroize(d.getSeconds()));
-			};
-			/**
-			 * zeroize值和长度（默认值是2）。
-			 * @param {Object} v
-			 * @param {Number} l
-			 * @return {String} 
-			 */
-			function ultZeroize(v, l) {
-				var z = "";
-				l = l || 2;
-				v = String(v);
-				for(var i = 0; i < l - v.length; i++) {
-					z += "0";
-				}
-				return z + v;
-			};
+			$("input").fileVaild();
 		</script>
 	</body>
 </html>
