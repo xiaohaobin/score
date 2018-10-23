@@ -3,6 +3,27 @@
  * @depend jquery.1.91.js
  * */
 "use strict";
+
+/**
+ * 对象拓展函数,如果为数组，数组为哈希数组才有效
+ * @param {Boolean} deep 是否深拷贝
+ * @param {Object||Array} target 目标对象或者数组
+ * @param {Object||Array} options 要并集的对象或者数组
+ * */
+function _extend(deep, target, options) {
+	for(name in options) {
+		copy = options[name];
+		if(deep && copy instanceof Array) {
+			target[name] = $.extend(deep, [], copy);
+		} else if(deep && copy instanceof Object) {
+			target[name] = $.extend(deep, {}, copy);
+		} else {
+			target[name] = options[name];
+		}
+	}
+	return target;
+}
+
 (function($, window, document, undefined) {
 
 	//延迟加载器
@@ -13,9 +34,9 @@
 		$.extend({
 
 			/**
-			 * 指定地址参数的键，返回url请求指定的键值
+			 * 浏览器地址指定携带的参数参数，返回指定的键值
 			 * @param {String} name 要查询的地址参数的键
-			 * @return {String}
+			 * @return {String} 
 			 * */
 			getQueryString: function(name) {
 				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
@@ -222,7 +243,7 @@
 			 * 判断某字符串是否含有某个子字符串，如有，打印其第一次或者最后一次的索引
 			 * @param {String} stringText 指的是整个字符串变量，
 			 * @param {String} littleStr 指的是整个字符串变量中可能存在的字段,
-			 * @param {Boolean} isFrist 是布尔值，true指的是第一次出现的索引，false指的是最后一次
+			 * @param {Number} isFrist 是数值，为0，则是返回第一次出现的索引，为1，则是返回最后一次的索引
 			 * @return {Number}
 			 * */
 			hasStr: function(stringText, littleStr, isFrist) {
@@ -230,13 +251,16 @@
 				var str2 = littleStr;
 				var d = str.length - str.indexOf(str2);
 				if(d > str.length) {
-					return false;
+					return -1;
 				} else {
 
-					if(isFrist)
+					if(isFrist && isFrist == 0){
 						return str.indexOf(str2)
-					else
+					}
+					else if(isFrist && isFrist == 1){
 						return str.lastIndexOf(str2);
+					}
+						
 				}
 			},
 			/**
@@ -309,7 +333,11 @@
 				var flattened = Array.prototype.concat.apply([], arr);
 				return flattened;
 			},
-			// 统计数组中所有的值出现的次数,并以对象的形式返回
+			/**
+			 * 统计数组中所有的值出现的次数,并以对象的形式返回
+			 * @param {Array} arr 要统计的数组
+			 * @return {Object}
+			 * */ 
 			countif: function(arr) {
 				return arr.reduce(function(prev, next) {
 					//				console.log(prev); //obj，其属性为数组的每一个值，属性值为对应属性在数组中出现的次数
@@ -372,7 +400,7 @@
 			},
 			/**
 			 * 随机生成n个大写字母 ,返回数组
-			 * @param {Number} 字母个数
+			 * @param {Number} n 字母个数
 			 * @return {Array}
 			 * */
 			getCapital: function(n) {
@@ -782,7 +810,7 @@
 				if(opts.onlyImage){				
 					 //首先判断是否是图片			 
 				    if(!/image\/\w+/.test(file.type)){
-				        layer.alert('上传的不是图片');
+				        alert('上传的不是图片');
 				        $(this).val('');
 				        return false;
 				    }
@@ -792,7 +820,7 @@
 			    var imgSize = file.size;
 			    //35160  计算机存储数据最为常用的单位是字节(B)
 			    if(imgSize > opts.size*1024*1024){
-			       layer.alert('上传的文件大于'+ opts.size +'M,请重新选择!');
+			       alert('上传的文件大于'+ opts.size +'M,请重新选择!');
 			        $(this).val('');
 			        return false;
 			    }
@@ -808,12 +836,12 @@
 						$("body").append(oPreview);
 						$("#previewImg").load(function(){
 							if(this.naturalWidth*1 < opts.width || this.naturalHeight*1 < opts.height){
-								layer.alert("上传的图片像素最小必须是:" + opts.width + "*" + opts.height);
+								alert("上传的图片像素最小必须是:" + opts.width + "*" + opts.height);
 								_this.val("");
 								return false;
 							}
 							if((opts.width/opts.height) != ((this.naturalWidth*1)/(this.naturalHeight*1))){
-								layer.alert("上传的图片像素宽高比例必须是:" + opts.width + ":" + opts.height);
+								alert("上传的图片像素宽高比例必须是:" + opts.width + ":" + opts.height);
 								_this.val("");
 							}
 	//						console.log(this.naturalWidth + ' x ' + this.naturalHeight);
@@ -1050,7 +1078,7 @@
 				.on('blur', function() {
 					this.value = this.value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter);
 					if(this.value.length < opts.min) {
-						layer.alert('最少输入' + opts.min + '位账号信息！');
+						alert('最少输入' + opts.min + '位账号信息！');
 						obj.val("");
 					}
 				})
@@ -1100,7 +1128,7 @@
 		};
 
 	} catch(e) {
-		console.log("报错类型：" + e);
+		console.error("报错类型：" + e);
 	}
 
 })(jQuery, window, document);

@@ -1,5 +1,31 @@
+/**
+ * @author 肖浩彬
+ * @description android的wifi的 NJS API，android可使用
+ * @depend 依赖IDE HBuilder 的app开发环境
+ * */
+
+/**
+ * 对象拓展函数,如果为数组，数组为哈希数组才有效
+ * @param {Boolean} deep 是否深拷贝
+ * @param {Object||Array} target 目标对象或者数组
+ * @param {Object||Array} options 要并集的对象或者数组
+ * */
+function _extend(deep, target, options) {
+	for(name in options) {
+		copy = options[name];
+		if(deep && copy instanceof Array) {
+			target[name] = $.extend(deep, [], copy);
+		} else if(deep && copy instanceof Object) {
+			target[name] = $.extend(deep, {}, copy);
+		} else {
+			target[name] = options[name];
+		}
+	}
+	return target;
+}
+
 /**  * 此文件仅支持android  */
-mui.plusReady(function() {
+
 	window.WIFI = function() {
 		this.init();
 	}
@@ -355,7 +381,7 @@ mui.plusReady(function() {
 		this.main.startActivity(this.wifiIntent);
 	}
 
-});
+
 /**
  **处理wifi返回参数，返回数组对象
  * @param {String} 手机所连接的wifi信息数据

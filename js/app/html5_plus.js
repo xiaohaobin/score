@@ -1,3 +1,29 @@
+/**
+ * @author 肖浩彬
+ * @description html5 plus API，ios（4.3以上）和android（2.4以上）皆可使用
+ * @depend 依赖IDE HBuilder 的app开发环境
+ * */
+
+/**
+ * 对象拓展函数,如果为数组，数组为哈希数组才有效
+ * @param {Boolean} deep 是否深拷贝
+ * @param {Object||Array} target 目标对象或者数组
+ * @param {Object||Array} options 要并集的对象或者数组
+ * */
+function _extend(deep, target, options) {
+	for(name in options) {
+		copy = options[name];
+		if(deep && copy instanceof Array) {
+			target[name] = $.extend(deep, [], copy);
+		} else if(deep && copy instanceof Object) {
+			target[name] = $.extend(deep, {}, copy);
+		} else {
+			target[name] = options[name];
+		}
+	}
+	return target;
+}
+
 //只是在手机上才有效
 try {
 	var mobile_function = {
@@ -523,6 +549,90 @@ try {
 			dtask.abort();
 			plus.nativeUI.toast("取消下载任务了！");
 		},
+		
+		/**
+		 * 原生轮播控件
+		 * @param {String} id 原生轮播控件view的id
+		 * @param {Object} option 轮播控件的主要参数
+		 * @param {String} option.top 轮播控件距离页面顶部的间距
+		 * @param {String} option.left 轮播控件距离页面左侧的间距
+		 * @param {String} option.width 轮播控件宽度
+		 * @param {String} option.height 轮播控件高度
+		 * @param {String} option.position 轮播控件定位类型
+		 * @param {Boolean} option.autoplay 是否自动播放
+		 * @param {Boolean} option.loop 是否循环播放
+		 * @param {Number} option.interval 播放下一张的时间间隔
+		 * @param {Array} aImg 图片数组，哈希数组，如：[{src:'1.png'},{src:'2.png'},{src:'3.png'}]
+		 * */
+		nativeObj_ImageSlider:function(id,option,aImg){			
+			if(typeof id != "string" || !id){
+				id = "_test";
+			}
+			if(aImg && aImg.length > 0){
+				//默认参数
+				var _default = {
+					top: '100px',
+					left: '0px',
+					height: '200px',
+					width: '100%',
+					position: 'absolute',
+					autoplay:true,
+					loop:true,
+					interval:3000,		
+					images:aImg
+				};
+				var opts = _extend(true,_default,option);
+				view = new plus.nativeObj.ImageSlider(
+					id,opts
+				);
+				plus.webview.currentWebview().append(view);
+			}else{
+				plus.nativeUI.alert("没有设置图片参数");
+			}
+			
+		},
+		
+		//bitmap对象
+		nativeObj_bitmap:null,
+		
+		/**
+		 * 截图返回保存的图片信息
+		 * @param {String} sId 截图创建Bitmap对象id
+		 * @param {String} sUrl 截图保存图片的本地路径，如：_doc/demo.jpg
+		 * @param {Function} callback 截图成功保存的回调函数，参数为图片信息对象 
+		 * */
+		nativeObj_draw:function(sId,sUrl,callback){
+			wi = plus.webview.currentWebview();
+				// 创建Bitmap对象
+			nativeObj_bitmap = new plus.nativeObj.Bitmap(sId);
+			// 将首页Webview窗口截图保存到Bitmap中
+			wi.draw(nativeObj_bitmap, function() {
+				plus.nativeUI.toast("截图成功");
+				
+				//保存
+				nativeObj_bitmap.save(
+					sUrl, 
+					{
+						overwrite: true,
+//						format: "png",					
+					},
+					function(i) {
+						console.log('保存图片成功：' + JSON.stringify(i));
+						var base64 = nativeObj_bitmap.toBase64Data();//base64数据
+						i.base64 = base64;
+						callback(i);
+					},
+					function(e) {
+						plus.nativeUI.alert('保存图片失败：' + JSON.stringify(e));
+					}
+				);
+				
+			}, function(e) {
+				plus.nativeUI.alert("截图失败：" + JSON.stringify(e));
+			});
+			
+			
+		}
 	}
 } catch(e) {
 	alert("功能方法只是在手机上有效");

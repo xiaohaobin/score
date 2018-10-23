@@ -4,11 +4,31 @@
  * @depend layer.js(大于 v2.0)（弹出层插件）
    @depend laypage.js（大于 v2.0）（分页插件）
    @depend jsrsasign-all-min.js （加密插件）
-   @depend crypto-js.min.js （解密插件）
+   @depend crypto-js.min.js 
    @depend jquery.qrcode.js （二维码插件）
    @depend qrcode.js （二维码解析插件）
    @depend utf.js （二维码编译插进）
  * */
+
+/**
+ * 对象拓展函数,如果为数组，数组为哈希数组才有效
+ * @param {Boolean} deep 是否深拷贝
+ * @param {Object||Array} target 目标对象或者数组
+ * @param {Object||Array} options 要并集的对象或者数组
+ * */
+function _extend(deep, target, options) {
+	for(name in options) {
+		copy = options[name];
+		if(deep && copy instanceof Array) {
+			target[name] = $.extend(deep, [], copy);
+		} else if(deep && copy instanceof Object) {
+			target[name] = $.extend(deep, {}, copy);
+		} else {
+			target[name] = options[name];
+		}
+	}
+	return target;
+}
 
 //RAS和Crypto加密
 ;(function($, window, document, undefined) {
@@ -126,11 +146,16 @@
 			/**
 			 * 返回路由地址
 			 * @param {String} mUrl 后台控制器+函数
+			 * @return {String}
 			 * */
 			urlBack: function(mUrl) {
 				return sRequestUrl + '' + mUrl; //统一服务器
 			},
-			//Url指的是要跳转的路劲页面，如index.html		
+			/**
+			 * Url指的是要跳转的路劲页面，如index.html
+			 * @param {String} Url
+			 * @return {String}
+			 * */
 			toNewPage: function(Url) {
 				if(window.parent.parent.parent.parent) {
 					parent.parent.parent.parent.location.href = Url;
@@ -341,7 +366,7 @@
 			 * @param {Function} successFn 请求成功的回调函数
 			 * */
 			ajax_method_5:function(murl, mdata, method, successFn){
-				//token
+				//token 来自本地存储
 				var _token = $.enToken((localStorage.getItem("token") && localStorage.getItem("token")));				
 				var obj = $.backEncryptParam();
 				//加密字段标示
@@ -401,7 +426,7 @@
 			 * @param {Function} successFn 请求成功的回调函数
 			 * */
 			ajax_method_6:function(murl, mdata, method, successFn){
-				//token
+				//token 来自本地存储
 				var _token = $.enToken((localStorage.getItem("token") && localStorage.getItem("token")));				
 				var obj = $.backEncryptParam();
 				//加密字段标示
@@ -637,8 +662,7 @@
 		
 		
 	}catch(e){
-		//TODO handle the exception
-		console.log("错误类型：" +　e);
+		console.error("错误类型：" +　e);
 	}
 })(jQuery, window, document)
 

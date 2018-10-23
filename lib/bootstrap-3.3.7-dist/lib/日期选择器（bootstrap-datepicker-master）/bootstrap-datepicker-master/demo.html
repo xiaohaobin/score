@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="dist/css/bootstrap-datepicker.css"/>
+	</head>
+	<body>
+		<input type="text" name="" id="demo" value="" />
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script src="../../bootstrap-3.3.7-dist/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/js/bootstrap-datepicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/locales/bootstrap-datepicker.zh-TW.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#demo').datepicker({
+					   language:"zh-CN",    //语言选择中文
+					   format:"yyyy-mm-dd",    //格式化日期
+// 					   timepicker:true,     //关闭时间选项
+// 					   yearEnd:2050,        //设置最大年份
+// 					   todayButton:false,  //关闭选择今天按钮
+					   autoclose: 1,        //选择完日期后，弹出框自动关闭
+// 					   startView:3,         //打开弹出框时，显示到什么格式,3代表月
+// 					   minView: 3,          //能选择到的最小日期格式
+				});
+			});
+		</script>
+	</body>
+</html>

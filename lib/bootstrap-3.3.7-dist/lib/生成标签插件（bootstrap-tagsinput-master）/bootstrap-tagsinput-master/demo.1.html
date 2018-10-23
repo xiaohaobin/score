@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"> -->
+		<!-- <link rel="stylesheet" type="text/css" href="src/bootstrap-tagsinput.css"/> -->
+		<link rel="stylesheet" type="text/css" href="jquery.tagsinput.css"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+		<script src="jquery.tagsinput.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<input type="text" name="" id="demo" value="" />
+		<button type="button" id="btn">log</button>
+		<script type="text/javascript">
+			$('#demo').importTags('12040ae11111,12040ae01111,12040ae11117');//直接插入值
+			$("#demo").tagsInput({
+				'minChars' : 12, //每个标签的小最字符
+				'maxChars' : 12, //每个标签的最大字符，如果不设置或者为0，就是无限大
+				'onAddTag':function(e){//监听插入值成功的时候
+					console.log(e);
+// 					var r = /^[\u4E00-\u9FA5a-zA-Z0-9]{0,}$/;
+// 					if(!r.test(e)){
+// 						alert("不能输入特殊字符,‘" + e +"’含有特殊字符！")
+// 						$('#demo').removeTag(e);
+// 					}
+					//手机mac（中间没有符号）
+					var mac1 = /^([0-9a-fA-F]{2})(([0-9a-fA-F]{2}){5})$/;
+					if(!mac1.test(e)){
+						alert("‘" + e +"’不是正确的mac格式！")
+						$('#demo').removeTag(e);//删除指定值
+					}
+				},
+				'onRemoveTag':function(tag){
+				  console.log('remover'+'"'+tag+'"')
+				},
+			});
+			
+			$("#btn").on("click",function(){
+				console.log($("#demo").val().split(","));
+			});
+			
+		</script>
+	</body>
+</html>

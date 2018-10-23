@@ -18,8 +18,29 @@
 		<!--<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>-->
 		<script src="js/jquery.xhb.plugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.xhb.otherPlugin.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/plugins/extend.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			$("input").fileVaild();
+			
+			var _default = {
+				f:function(){
+					alert(1);
+				},
+				t:"mmp"
+			};
+			
+			var opt = {
+				t:"123"
+			};
+			
+			var _new = _extend(true,_default,opt);
+			console.log(_new);
+			
+			
+			var arr1 = [12,"abc",{type:"007"}];
+			var arr2 = [{name:"xx",id:1},{}];
+			var aNew = _extend(true,arr1,arr2);
+			console.log(aNew);
 		</script>
 	</body>
 </html>

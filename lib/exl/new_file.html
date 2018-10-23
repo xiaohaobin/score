@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../lib/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+		<script src="../../lib/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<table class="table table-bordered table-striped table-responsive tbTable table-hover">
+			<thead>
+				<tr>
+					<th>硬件版本</th>
+					<th>设备id</th>
+					<th>经纬度</th>
+					
+					<!--<th>操作</th>-->
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>121</td>
+					<td>12</td>
+					<td>5sd</td>
+				</tr>
+				<tr>
+					<td>121</td>
+					<td>12</td>
+					<td>5sd</td>
+				</tr>
+				<tr>
+					<td>121</td>
+					<td>12</td>
+					<td>5sd</td>
+				</tr>
+				<tr>
+					<td>121</td>
+					<td>12</td>
+					<td>5sd</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<script type="text/javascript" src="assets/js/third-party/exporter/jquery.base64-zhongwen.js"></script>		
+		<script type="text/javascript" src="assets/js/kidd.stickytable.min.js"></script>
+		<script type="text/javascript">
+			var options = {
+				"showExportBtn": true,
+				"exporter": {
+					"type": "xls",
+					"isTwoSide": false,
+					"position": "topright"
+				},
+				"style": "bordered",
+//				"color": "red",
+				"customColor": []
+			};
+			$('.table').stickyTable(options);
+		</script>
+	</body>
+</html>
