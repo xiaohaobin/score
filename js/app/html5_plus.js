@@ -479,14 +479,13 @@ try {
 			var opts = options || {};
 			var dtask = plus.downloader.createDownload(url, opts, function(d, status) {
 				// 下载完成
-				if(status == 200){
+				if(status == 200) {
 					console.log(d);
-				} 
-				else{
+				} else {
 					plus.nativeUI.alert("下载失败，失败状态码为: " + status);
 					console.log("下载最终结果：" + JSON.stringify(d));
 				}
-			});			
+			});
 			plus.nativeUI.alert("创建下载任务成功！");
 			return dtask;
 		},
@@ -496,14 +495,14 @@ try {
 		 * @param {Object} obj 显示下载进度数据的DOM节点对象
 		 * @param {Function} fn 下载成功的回调函数，参数为下载文件的对象
 		 * */
-		downloader_start:function(dtask,obj,fn){
-			if(!dtask){
-				plus.nativeUI.alert("请先创建下载任务!");	
+		downloader_start: function(dtask, obj, fn) {
+			if(!dtask) {
+				plus.nativeUI.alert("请先创建下载任务!");
 				return;
 			}
 			dtask.start();
 			//监听下载对象的下载变更状态
-			dtask.addEventListener("statechanged", function(task, status) {				
+			dtask.addEventListener("statechanged", function(task, status) {
 				switch(task.state) {
 					case 1: // 开始
 						plus.nativeUI.toast("开始下载...");
@@ -512,14 +511,14 @@ try {
 						plus.nativeUI.toast("链接到服务器...");
 						break;
 					case 3: // 已接收到数据						
-						obj.innerHTML = "下载数据:" + task.downloadedSize + "/" + task.totalSize ;
+						obj.innerHTML = "下载数据:" + task.downloadedSize + "/" + task.totalSize;
 						break;
 					case 4: // 下载完成
-						if(task.totalSize > 0){
+						if(task.totalSize > 0) {
 							plus.nativeUI.toast(task.filename + "下载完成！");
 							fn(task);
-						}						
-					break;
+						}
+						break;
 				}
 			});
 		},
@@ -527,7 +526,7 @@ try {
 		 * 暂停下载任务
 		 * @param {Object} dtask 下载任务对象,系创建下载任务时候返回的参数
 		 * */
-		downloader_pause:function(dtask){
+		downloader_pause: function(dtask) {
 			dtask.pause();
 			plus.nativeUI.toast("暂停下载！");
 		},
@@ -535,7 +534,7 @@ try {
 		 * 恢复下载任务
 		 * @param {Object} dtask 下载任务对象,系创建下载任务时候返回的参数
 		 * */
-		downloader_resume:function(dtask){
+		downloader_resume: function(dtask) {
 			dtask.resume();
 			plus.nativeUI.toast("恢复下载！");
 		},
@@ -544,12 +543,14 @@ try {
 		 * @param {Object} dtask 下载任务对象,系创建下载任务时候返回的参数
 		 * @param {Object} obj 显示下载进度数据的DOM节点对象,与创建下载任务的节点是同一个
 		 * */
-		downloader_cancel:function(dtask,obj){
-			if(obj){obj.innerHTML = "";}			
+		downloader_cancel: function(dtask, obj) {
+			if(obj) {
+				obj.innerHTML = "";
+			}
 			dtask.abort();
 			plus.nativeUI.toast("取消下载任务了！");
 		},
-		
+
 		/**
 		 * 原生轮播控件
 		 * @param {String} id 原生轮播控件view的id
@@ -564,11 +565,11 @@ try {
 		 * @param {Number} option.interval 播放下一张的时间间隔
 		 * @param {Array} aImg 图片数组，哈希数组，如：[{src:'1.png'},{src:'2.png'},{src:'3.png'}]
 		 * */
-		nativeObj_ImageSlider:function(id,option,aImg){			
-			if(typeof id != "string" || !id){
+		nativeObj_ImageSlider: function(id, option, aImg) {
+			if(typeof id != "string" || !id) {
 				id = "_test";
 			}
-			if(aImg && aImg.length > 0){
+			if(aImg && aImg.length > 0) {
 				//默认参数
 				var _default = {
 					top: '100px',
@@ -576,49 +577,48 @@ try {
 					height: '200px',
 					width: '100%',
 					position: 'absolute',
-					autoplay:true,
-					loop:true,
-					interval:3000,		
-					images:aImg
+					autoplay: true,
+					loop: true,
+					interval: 3000,
+					images: aImg
 				};
-				var opts = _extend(true,_default,option);
+				var opts = _extend(true, _default, option);
 				view = new plus.nativeObj.ImageSlider(
-					id,opts
+					id, opts
 				);
 				plus.webview.currentWebview().append(view);
-			}else{
+			} else {
 				plus.nativeUI.alert("没有设置图片参数");
 			}
-			
+
 		},
-		
+
 		//bitmap对象
-		nativeObj_bitmap:null,
-		
+		nativeObj_bitmap: null,
+
 		/**
 		 * 截图返回保存的图片信息
 		 * @param {String} sId 截图创建Bitmap对象id
 		 * @param {String} sUrl 截图保存图片的本地路径，如：_doc/demo.jpg
 		 * @param {Function} callback 截图成功保存的回调函数，参数为图片信息对象 
 		 * */
-		nativeObj_draw:function(sId,sUrl,callback){
+		nativeObj_draw: function(sId, sUrl, callback) {
 			wi = plus.webview.currentWebview();
-				// 创建Bitmap对象
+			// 创建Bitmap对象
 			nativeObj_bitmap = new plus.nativeObj.Bitmap(sId);
 			// 将首页Webview窗口截图保存到Bitmap中
 			wi.draw(nativeObj_bitmap, function() {
 				plus.nativeUI.toast("截图成功");
-				
+
 				//保存
 				nativeObj_bitmap.save(
-					sUrl, 
-					{
+					sUrl, {
 						overwrite: true,
-//						format: "png",					
+						//						format: "png",					
 					},
 					function(i) {
 						console.log('保存图片成功：' + JSON.stringify(i));
-						var base64 = nativeObj_bitmap.toBase64Data();//base64数据
+						var base64 = nativeObj_bitmap.toBase64Data(); //base64数据
 						i.base64 = base64;
 						callback(i);
 					},
@@ -626,12 +626,102 @@ try {
 						plus.nativeUI.alert('保存图片失败：' + JSON.stringify(e));
 					}
 				);
-				
+
 			}, function(e) {
 				plus.nativeUI.alert("截图失败：" + JSON.stringify(e));
 			});
-			
-			
+		},
+
+		/**
+		 * 原生日期选择器,返回年月日
+		 * @param {String} _sMinDate 最小年月日时间格式:2018-12-15
+		 * @param {String} _sMinDate 最大年月日时间格式:2018-12-15
+		 * @param {Function} callback 选择日期成功的回调函数，返回参数为日期时间对象，包含日期和星期
+		 * */
+		nativeUl_pickDate: function(_sMinDate, _sMaxDate, callback) {
+
+			/**
+			 * 返回年号
+			 * @param {String} _date 年月日时间格式:2018-12-15
+			 * @return {Object}
+			 * */
+			function backYear(_date) {
+				if(!_date) {
+					return null;
+				} else {
+					var _first_index = _date.indexOf("-"); //头索引
+					var _last_indext = _date.lastIndexOf("-"); //尾部索引
+					var nYear = _date.slice(0, _first_index) * 1; //年
+					var nMonth = _date.slice((_first_index + 1), _last_indext) * 1 - 1; //月
+					var nDate = _date.slice((_last_indext + 1)) * 1; //日
+					console.log(nYear, nMonth, nDate);
+					var _d = new Date();
+					_d.setFullYear(nYear, nMonth, nDate);
+					return _d;
+				}
+			}
+			plus.nativeUI.pickDate(
+				function(e) {
+					var d = e.date;
+					var _month = (d.getMonth() + 1) > 9 ? (d.getMonth() + 1) : ("0" + (d.getMonth() + 1));
+					var _day = d.getDate() > 9 ? d.getDate() : ("0" + d.getDate())
+					var mainDate = {
+						date: d.getFullYear() + "-" + _month + "-" + _day
+					};
+					var day = d.getDay();
+					switch(true) {
+						case(day === 0):
+							mainDate.day = "星期日";
+							break;
+						case(day === 1):
+							mainDate.day = "星期一";
+							break;
+						case(day === 2):
+							mainDate.day = "星期二";
+							break;
+						case(day === 3):
+							mainDate.day = "星期三";
+							break;
+						case(day === 4):
+							mainDate.day = "星期四";
+							break;
+						case(day === 5):
+							mainDate.day = "星期五";
+							break;
+						default:
+							mainDate.day = "星期六";
+					}
+
+					callback(mainDate);
+				},
+				function(e) {
+					plus.nativeUI.toast("未选择日期：" + e.message);
+				}, {
+					minDate: backYear(_sMinDate),
+					maxDate: backYear(_sMaxDate)
+				}
+			);
+		},
+		
+		/**
+		 * 原生时间选择器，返回时分
+		 * @param {Function} callback 选择时间成功的回调函数 ，参数是时分数据，如：01:12
+		 * */
+		nativeUI_pickTime:function(callback){
+			plus.nativeUI.pickTime(function(e) {
+				var d = e.date;
+				console.log("选择的时间：" + d.getHours() + ":" + d.getMinutes());
+				h_time = (d.getHours()*1 > 9) ? d.getHours() : ("0" + d.getHours());
+				m_time = (d.getMinutes()*1 > 9) ? d.getMinutes() : ("0" + d.getMinutes());
+				_time = h_time + ":" + m_time;
+				callback(_time);
+			}, function(e) {
+				plus.nativeUI.toast("未选择时间：" + e.message);
+			}, {
+				time: new Date(),
+				title:"请选择时间：",
+				is24Hour:false
+			});
 		}
 	}
 } catch(e) {
