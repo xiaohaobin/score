@@ -859,9 +859,8 @@ try {
 		 * @param {String} sActionSheetTitle 分享菜单标题
 		 * @param {String} sContent 分享内容
 		 * @param {String} sUrl 分享内容的链接地址
-		 * @param {String} mainTitle 分享连接的标题
 		 * */
-		share_path: function(sActionSheetTitle,sContent,sUrl,mainTitle) {
+		share_path: function(sActionSheetTitle,sContent,sUrl) {
 			// 判断是否为流应用环境
 //			var bStream = navigator.userAgent.indexOf('StreamApp') >= 0;
 
@@ -949,7 +948,7 @@ try {
 			function shareWithSystem() {
 				plus.share.sendWithSystem ? plus.share.sendWithSystem({
 					content: sContent,
-					title: mainTitle,
+					title: 'HelloH5',
 					href:sUrl
 				}) : shareWithSystemNativeJS();
 			}
@@ -969,7 +968,7 @@ try {
 				} else {
 					intent.setType('text/plain');
 				}
-				intent.putExtra(Intent.EXTRA_SUBJECT, mainTitle);
+				intent.putExtra(Intent.EXTRA_SUBJECT, 'HelloH5');
 				intent.putExtra(Intent.EXTRA_TEXT, sContent + '' + sUrl );
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				main.startActivity(Intent.createChooser(intent, sActionSheetTitle));
@@ -998,7 +997,86 @@ try {
 				});
 			}
 			
+		},
+		/**
+		 * 获取登录验证通道
+		 * @param {Function} callback 获取验证认证通道数据成功的回调函数，带参数
+		 * */
+		oauth_getServices:function(callback){			
+			// 获取登录认证通道
+			plus.oauth.getServices(function(services) {
+				for(var i in services) {
+					var service = services[i];
+					console.log(service.id + ": " + service.authResult + ", " + service.userInfo);
+					mobile_function.auths[service.id] = service;
+				}
+				callback(mobile_function.auths);
+			}, function(e) {
+				plus.nativeUI.alert("获取登录认证失败：" + e.message);
+			});
+		},
+		//登录认证数据存储
+		auths:{},
+		/**
+		 * 登录认证
+		 * @param {String} id 登录认证的id
+		 * @param {Function} callback 登录认证成功的回调函数，两个参数，第一个为token和加解密信息，第二个为用户信息
+		 * */
+		oauth_login:function(id,callback){
+			var auth = mobile_function.auths[id];
+			if(auth) {
+				var w = null;
+				if(plus.os.name == "Android") {
+					w = plus.nativeUI.showWaiting();
+				}
+				document.addEventListener("pause", function() {
+					setTimeout(function() {
+						w && w.close();
+						w = null;
+					}, 2000);
+				}, false);
+				auth.login(function() {
+					w && w.close();
+					w = null;
+					plus.nativeUI.toast("登录认证成功");
+					console.log("登录信息(token和加密签名信息)："+JSON.stringify(auth.authResult));
+					userinfo(auth);
+				}, function(e) {
+					w && w.close();
+					w = null;
+					plus.nativeUI.alert("登录认证失败:详情错误信息请参考授权登录(OAuth)规范文档：http://www.html5plus.org/#specification#/specification/OAuth.html", null, "登录失败[" + e.code + "]：" + e.message);
+				});
+			} else {
+				plus.nativeUI.alert("无效的登录认证通道！", null, "登录");
+			}
 			
+			// 获取用户信息
+			function userinfo(a) {
+				a.getUserInfo(function() {
+					plus.nativeUI.toast("获取用户信息成功");
+					console.log("用户信息："+JSON.stringify(a.userInfo));
+					var nickname = a.userInfo.nickname || a.userInfo.name || a.userInfo.miliaoNick;
+					plus.nativeUI.alert("欢迎“" + nickname + "”登录！");
+					callback(a.authResult,a.userInfo);
+				}, function(e) {
+					plus.nativeUI.alert("获取用户信息失败：" + "[" + e.code + "]：" + e.message);				
+				});
+			}
+		},
+		/**
+		 * 注销认证登录
+		 * @param {Object} a 要注销登录认证的通道对象，mobile_function.auths的子参数
+		 * */
+		oauth_logout:function(a){
+			plus.nativeUI.toast("注销登录认证 中...");			
+			logout(a);
+			function logout(auth) {
+				auth.logout(function() {
+					plus.nativeUI.toast("注销\"" + auth.description + "\"成功");
+				}, function(e) {
+					plus.nativeUI.toast("注销\"" + auth.description + "\"失败：" + e.message);
+				});
+			}
 		},
 	};
 
