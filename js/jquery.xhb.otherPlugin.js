@@ -39,6 +39,7 @@ function _extend(deep, target, options) {
 	
 	try{
 		var rsa = new RSAKey();
+		
 		rsa.setPublic(modulus, exponent);
 		var key,iv;
 		$.extend({

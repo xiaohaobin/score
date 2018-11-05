@@ -1,0 +1,19 @@
+//框架需要搭建的大前提，所有插件函数需内置为可以有排序的全局函数（源插件函数大改）
+{
+	"mainFile":"jquery.xhb.plugin.js",//方法所在的文件(必要)
+	"fname":"$.getQueryString",//方法名
+	"uid":1,//方法id（必要）
+	"depend":{//该方法需要依赖 的，框架，插件和库（必要）
+		"jquery.js"		
+	},
+	"about":{//该方法的关联函数（必要）
+		
+		
+	},
+	"param":{//方法输入参数（必要）
+		
+	},
+	"classObjectName":"",//方法函数的类对象
+	"controlName":"$"//方法函数 的命名空间名称
+	
+}

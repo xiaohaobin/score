@@ -265,7 +265,7 @@ function _extend(deep, target, options) {
 			},
 			/**
 			 * 序列化表单的字符串转化为对象
-			 * @param {String} serializedParams 序列化表单的字符串
+			 * @param {String} serializedParams 序列化表单的字符串。序列化的form数据，通过$("form").serialize()获取的，如：name=xhb&pwd=123
 			 * @return {Object}
 			 * */
 			serializeToObj: function(serializedParams) {
@@ -617,6 +617,26 @@ function _extend(deep, target, options) {
 			        return false;
 			    }
 			},
+			
+			/**
+			 * 十进制转换为各种进制字符（2到32进制）
+			 * @param {String} str 要转换其他进制的十进制字符串
+			 * @param {Number} num 十进制要转换的进制数（2到32）
+			 * @return {String} 
+			 * */
+			tenToAny:function(str,num){
+				return str.toString(num);
+			},
+			
+			/**
+			 * 其他进制（2到32）数据转换为十进制数据
+			 * @param {String} str 其他进制的字符数据
+			 * @param {Number} num 要转换为十进制的原进制数（2到32）
+			 * @return {String}
+			 * */
+			AnyToTen:function(str,num){
+				return parseInt(str,num);
+			}
 
 		});
 

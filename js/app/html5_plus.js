@@ -702,28 +702,306 @@ try {
 				}
 			);
 		},
-		
+
 		/**
 		 * 原生时间选择器，返回时分
 		 * @param {Function} callback 选择时间成功的回调函数 ，参数是时分数据，如：01:12
 		 * */
-		nativeUI_pickTime:function(callback){
+		nativeUI_pickTime: function(callback) {
 			plus.nativeUI.pickTime(function(e) {
 				var d = e.date;
 				console.log("选择的时间：" + d.getHours() + ":" + d.getMinutes());
-				h_time = (d.getHours()*1 > 9) ? d.getHours() : ("0" + d.getHours());
-				m_time = (d.getMinutes()*1 > 9) ? d.getMinutes() : ("0" + d.getMinutes());
+				h_time = (d.getHours() * 1 > 9) ? d.getHours() : ("0" + d.getHours());
+				m_time = (d.getMinutes() * 1 > 9) ? d.getMinutes() : ("0" + d.getMinutes());
 				_time = h_time + ":" + m_time;
 				callback(_time);
 			}, function(e) {
 				plus.nativeUI.toast("未选择时间：" + e.message);
 			}, {
 				time: new Date(),
-				title:"请选择时间：",
-				is24Hour:false
+				title: "请选择时间：",
+				is24Hour: false
 			});
-		}
-	}
+		},
+
+		/**
+		 * 预览图片
+		 * @param {Array} arr 图片地址数组 ，如 ["img/1.jpg"]
+		 * */
+		nativeUI_previewImage: function(arr) {
+			plus.nativeUI.previewImage(arr);
+		},
+
+		/**
+		 * 检查运行环境的权限
+		 * @param {String} 权限名称常量 ，如：CAMERA，CONTACTS，GALLERY，LOCATION，NOTIFITION，RECORD，SHORTCUT
+		 * 
+		 * */
+		navigator_checkPermission: function(permission) {
+			var p = null;
+			switch(permission) {
+				case "CAMERA":
+					p = "访问摄像头权限";
+					break;
+				case "CONTACTS":
+					p = "访问系统联系人权限";
+					break;
+				case "GALLERY":
+					p = "访问系统相册权限";
+					break;
+				case "LOCATION":
+					p = "定位权限";
+					break;
+				case "NOTIFITION":
+					p = "消息通知权限";
+					break;
+				case "RECORD":
+					p = "录音权限";
+					break;
+				case "SHORTCUT":
+					p = "创建桌面快捷方式权限";
+					break;
+				default:
+					break;
+			}
+
+			var res = plus.navigator.checkPermission(permission);
+			switch(res) {
+				case 'authorized':
+					plus.nativeUI.alert('已开启' + p);
+					break;
+				case 'denied':
+					plus.nativeUI.alert('已关闭' + p);
+					break;
+				case 'undetermined':
+					plus.nativeUI.alert('未确定' + p);
+					break;
+				case 'unknown':
+					plus.nativeUI.alert('无法查询' + p);
+					break;
+				default:
+					plus.nativeUI.alert('不支持' + p);
+					break;
+			}
+		},
+		/**
+		 * 调用第三方程序打开本地指定文件
+		 * @param {String} filepath 本地文件路径，如_www/index.html
+		 * */
+		runtime_openFile: function(filepath) {
+			plus.runtime.openFile(filepath, {}, function(e) {
+				plus.nativeUI.alert("打开文件失败，请指定正确的文档类型（html或者图片）");
+			});
+		},
+		/**
+		 * 启动语音设别，并返回说出的内容字段
+		 * @param {Object} options 语音设别参数
+		 * @param {String} options.engine 语音识别引擎标识,	"baidu"-百度语音识别； "iFly"-讯飞语音识别。
+		 * @param {Boolean} options.continue 语音识别是否采用持续模式
+		 * @param {String} options.lang 目前讯飞语音支持以下语言： "zh-cn"-中文，普通话； "en-us"-英语； "zh-cantonese"-中文，粤语； "zh-henanese"-中文，河南话（百度语音识别不支持此语言）。 
+		 * @param {Number} options.timeout 语音识别超时时间
+		 * @param {Function} callback 语音设别启动成功的回调函数，并返回说出的内容字段
+		 * */
+		speech_startRecognize: function(options, callback) {
+			var text = "";
+			var _default = {
+				engine: "iFly", //语音识别引擎标识,	"baidu"-百度语音识别； "iFly"-讯飞语音识别。 
+				continue: true, //语音识别是否采用持续模式
+				lang: "zh-cn", //目前讯飞语音支持以下语言： "zh-cn"-中文，普通话； "en-us"-英语； "zh-cantonese"-中文，粤语； "zh-henanese"-中文，河南话（百度语音识别不支持此语言）。 
+				timeout: 60000 //语音识别超时时间				
+			};
+
+			var opts = _extend(true, _default, options);
+			plus.nativeUI.toast("开启语音识别");
+			plus.speech.startRecognize(opts, function(s) {
+				text += s;
+				callback(text);
+			}, function(e) {
+				plus.nativeUI.alert("语音识别失败：" + e.message);
+			});
+		},
+		/**
+		 * 自定义actionSheet菜单框
+		 * @param {String} sTitle 自定义actionSheet菜单框的标题
+		 * @param {Array} aBtn 自定义actionSheet菜单框的按钮组 ，用例如：[{title:"按钮1"},{title:"按钮2"}]
+		 * @param {Function} callback 自定义actionSheet菜单框点击按钮后的回调函数，参数是所选按钮的索引值减1
+		 * */
+		nativeUI_actionSheet: function(sTitle, aBtn, callback) {
+			plus.nativeUI.actionSheet({
+					title: sTitle,
+					cancel: "取消",
+					buttons: aBtn
+				},
+				function(e) {
+					plus.nativeUI.toast("选择了\"" + ((e.index > 0) ? aBtn[e.index - 1].title : "取消") + "\"");
+					callback(e.index);
+				}
+			);
+		},
+		/**
+		 * 全屏设置
+		 * @param {Number} nFull 设置屏幕全屏的参数，0全屏，1非全屏；
+		 * */
+		navigator_setFullscreen: function(nFull) {
+			alert(nFull);
+			if(nFull == 0) {
+				plus.navigator.setFullscreen(true);
+				plus.nativeUI.toast("屏幕切换到全屏了");
+			} else if(nFull == 1) {
+				plus.navigator.setFullscreen(false);
+				plus.nativeUI.toast("屏幕切换到非全屏了");
+			} else {
+				plus.nativeUI.toast("参数输入错误，请输入参数0或者1");
+			}
+		},
+		/**
+		 * 分享微信，微博，朋友圈等等（安卓比较多）
+		 * @param {String} sActionSheetTitle 分享菜单标题
+		 * @param {String} sContent 分享内容
+		 * @param {String} sUrl 分享内容的链接地址
+		 * @param {String} mainTitle 分享连接的标题
+		 * */
+		share_path: function(sActionSheetTitle,sContent,sUrl,mainTitle) {
+			// 判断是否为流应用环境
+//			var bStream = navigator.userAgent.indexOf('StreamApp') >= 0;
+
+			// 分享应用
+			var shares = {},
+				shareBts = [];
+
+			// 更新分享按钮
+			plus.share.getServices(function(s) {
+				console.log(s);
+				for(var i in s) {
+					shares[s[i].id] = s[i];
+				}
+				var ss = shares['weixin'];
+				ss && ss.nativeClient && (shareBts.push({
+						title: '微信朋友圈',
+						s: ss,
+						x: 'WXSceneTimeline'
+					}),
+					shareBts.push({
+						title: '微信好友',
+						s: ss,
+						x: 'WXSceneSession'
+					}));
+				ss = shares['sinaweibo'];
+				ss && shareBts.push({
+					title: '新浪微博',
+					s: ss
+				});
+//				
+				('Android' === plus.os.name) && shareBts.push({
+					title: '更多'
+				});
+				
+				share();
+				
+			}, function(e) {
+				console.log('updateShare failed: ' + JSON.stringify(e));
+			});
+			// 在流应用环境下显示“创建桌面图标”
+			if(navigator.userAgent.indexOf('StreamApp') >= 0) {
+				shortcut.style.display = 'block';
+			}
+			// 设置窗口优化隐藏
+			dragHide();
+
+			function share() {
+				(shareBts.length > 1) || ('Android' !== plus.os.name && shareBts.length > 0) ? plus.nativeUI.actionSheet({
+					title: sActionSheetTitle,
+					cancel: '取消',
+					buttons: shareBts
+				}, function(e) {
+					(e.index > 0) && shareAction(shareBts[e.index - 1]);
+				}): (shareBts.length > 0 ? shareWithSystem() : plus.nativeUI.alert('当前环境无法支持分享操作!'));
+			}
+
+			function shareAction(sb) {
+				if(!sb.s) {
+					shareWithSystem();
+					return;
+				}
+				var msg = {};
+				msg.href = sUrl;
+				msg.content = sContent;
+				sb.x && (msg.extra = {
+					scene: sb.x
+				});
+				msg.thumbs = msg.pictures = ['_www/icon.png'];
+				console.log('share ' + sb.title + ' : ' + JSON.stringify(msg));
+				sb.s.authenticated ? shareMessage(sb.s, msg) : sb.s.authorize(function() {
+					shareMessage(sb.s, msg);
+				}, function(e) {
+					plus.nativeUI.toast('取消分享!');
+				});
+			}
+
+			function shareMessage(s, m) {
+				s.send(m, function() {
+					plus.nativeUI.toast('完成分享!');
+				}, function(e) {
+					plus.nativeUI.toast('取消分享!');
+				});
+			}
+
+			function shareWithSystem() {
+				plus.share.sendWithSystem ? plus.share.sendWithSystem({
+					content: sContent,
+					title: mainTitle,
+					href:sUrl
+				}) : shareWithSystemNativeJS();
+			}
+
+			function shareWithSystemNativeJS() {
+				var main = plus.android.runtimeMainActivity(),
+					Intent = plus.android.importClass('android.content.Intent'),
+					File = plus.android.importClass('java.io.File'),
+					Uri = plus.android.importClass('android.net.Uri');
+				var intent = new Intent(Intent.ACTION_SEND),
+					p = plus.io.convertLocalFileSystemURL('_www/icon.png'),
+					f = new File(p),
+					uri = Uri.fromFile(f);
+				if(f.exists() && f.isFile()) {
+					intent.setType('image/*');
+					intent.putExtra(Intent.EXTRA_STREAM, uri);
+				} else {
+					intent.setType('text/plain');
+				}
+				intent.putExtra(Intent.EXTRA_SUBJECT, mainTitle);
+				intent.putExtra(Intent.EXTRA_TEXT, sContent + '' + sUrl );
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				main.startActivity(Intent.createChooser(intent, sActionSheetTitle));
+			}
+
+			function dragHide() {
+				var ws = plus.webview.currentWebview();
+				// 窗口隐藏时调整到正确位置（drag操作会修改窗口位置），否则可能导致无法调用show方法显示
+				ws.addEventListener('hide', function() {
+					ws.setStyle({
+						left: '0px'
+					});
+				}, false);
+				// 设置拖动关闭当前窗口
+				ws.drag({
+					direction: 'right',
+					moveMode: 'followFinger'
+				}, {
+					view: plus.runtime.appid,
+					moveMode: 'silent'
+				}, function(e) {
+					if(e.type == 'end' && e.result) {
+						ws.hide();
+					}
+					console.log('Drag Event: ' + JSON.stringify(e));
+				});
+			}
+			
+			
+		},
+	};
+
 } catch(e) {
 	alert("功能方法只是在手机上有效");
 }

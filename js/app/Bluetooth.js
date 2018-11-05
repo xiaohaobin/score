@@ -23,7 +23,6 @@ function _extend(deep, target, options) {
 	}
 	return target;
 }
-
 //蓝牙信息相关
 window.Bluetooth = function() {
 	this.init();
@@ -316,10 +315,11 @@ Bluetooth.prototype.getPairedDevices = function(){
 
 /**
  * 根据蓝牙地址，连接设备
- * @param {Stirng} address
+ * @param {Stirng} address 要连接的蓝牙地址
  * @return {Boolean}
  */
 Bluetooth.prototype.connDevice = function(address){
+	plus.nativeUI.showWaiting("连接中...");
 	var InputStream = plus.android.importClass("java.io.InputStream");
 	var OutputStream = plus.android.importClass("java.io.OutputStream");
 	var BluetoothSocket = plus.android.importClass("android.bluetooth.BluetoothSocket");
@@ -341,10 +341,12 @@ Bluetooth.prototype.connDevice = function(address){
 	try {
 		this.invoke(this.btSocket, "connect");
 		this.readData(); //读数据
-		plus.nativeUI.toast("连接成功");
+		plus.nativeUI.closeWaiting();
+		plus.nativeUI.toast("连接成功");		
 	} catch(e) {
 		console.error(e);
-		plus.nativeUI.alert("连接失败"+e);
+		plus.nativeUI.closeWaiting();
+		plus.nativeUI.alert("连接失败，报错："+e);
 		try {
 			this.btSocket.close();
 			this.btSocket = null;
@@ -443,8 +445,7 @@ Bluetooth.prototype.readData = function(){
 
 /**
  * 发送数据
- * @param {String} dataStr
- * @return {Boolean}
+ * @param {String} dataStr 要发送的数据
  */
 Bluetooth.prototype.sendData = function(dataStr){	
 	if(!this.btOutStream) {
@@ -457,6 +458,6 @@ Bluetooth.prototype.sendData = function(dataStr){
 	} catch(e) {
 		return false;
 	}
-	plus.nativeUI.toast(dataStr);
+	plus.nativeUI.toast("发送了数据：" + dataStr);
 	return true;
 }
