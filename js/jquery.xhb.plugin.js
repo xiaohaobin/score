@@ -636,8 +636,113 @@ function _extend(deep, target, options) {
 			 * */
 			AnyToTen:function(str,num){
 				return parseInt(str,num);
-			}
+			},
+			
+			/**
+			 * 动态加载外部js文件
+			 * @param {String} path 本地路径，注意：末尾不要加“.js”后缀
+			 * @param {Function} callback 动态加载js成功的回调函数
+			 * */
+			_loadJs: function(path, callback) {
+				callback = !(typeof(callback) == "undefined") ? callback : function() {};
+				var oHead = document.getElementsByTagName('HEAD').item(0);
+				var script = document.createElement("script")
+				script.type = "text/javascript";
+				if(script.readyState) { //IE
+					script.onreadystatechange = function() {
+						if(script.readyState == "loaded" || script.readyState == "complete") {
+							script.onreadystatechange = null;
+							callback();
+						}
+					};
+				} else { //Others: Firefox, Safari, Chrome, and Opera
+					script.onload = function() {
+						callback();
+					};
+				}
+				script.src = path + ".js";
+				oHead.appendChild(script);
+			},
 
+			/**
+			 * 动态加载外部css文件
+			 * @param {String} path 本地路径，注意：末尾不要加“.css”后缀
+			 * */
+			_loadCss: function(path) {
+				if(!path || path.length === 0) {
+					throw new Error('参数“path”是必需的!');
+				}
+				var head = document.getElementsByTagName('head')[0];
+				var links = document.createElement('link');
+				links.href = path + ".css";
+				links.rel = 'stylesheet';
+				links.type = 'text/css';
+				head.appendChild(links);
+			},
+			
+			/**
+			 * 获取对象类型名
+			 * @param {Any} object 各种返回类型 ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String", "Window", "HTMLDocument"]
+			 * @return {String}
+			 * */
+			_getType: function(object) {
+				return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
+			},
+			
+			/**
+			 * 用来判断对象类型
+			 * @param {Any} object 需要判断的数据
+			 * @param {String} typeStr 预想的类型字符串
+			 * @return {Boolean}
+			 * */
+			_isType: function(object, typeStr) {
+				return $._getType(object) == typeStr;
+			},
+			
+			/**
+			 * 动态加载js文件,批量加载js,css文件，path可以是数组格式或用逗号隔开的字符串	
+			 * @param {String||Array} path path可以是数组格式或用逗号隔开的字符串,指的是需要加载的js或者css组，如["jquery","layer"]
+			 * @param {String} fileType 指定要动态加载的统一的类型，js或者css
+			 * */
+			_import: function(path, fileType) {
+				var loadfun;
+				switch(fileType) {
+					case "js":
+						loadfun = $._loadJs;
+						break;
+					case "css":
+						loadfun = $._loadCss;
+						break;
+					default:
+						alert("请检查文件类型");
+				}
+				//如果path是以逗号隔开的字符串		 
+				if(this._is(path, "String")) {
+					if(path.indexOf(",") >= 0) {
+						path = path.split(",");
+					} else {
+						path = [path];
+					}
+				}
+				//循环加载文件
+				for(var i = 0; i < path.length; i++) {
+					loadfun(path[i]);
+				}
+			},
+			/**
+			 * 对象数据序列化为带特定字符为分隔符的字符串
+			 * @param {Object} obj 需要序列化为带特地字符分割的对象
+			 * @param {String} symbol 分隔符字符串
+			 * @return {String}
+			 * */
+			objSerialize:function(obj,symbol) {					
+				var str = "";
+				for(each in obj) {
+					str += each + "=" + obj[each] + symbol;
+				}
+				return str.slice(0,str.length-(symbol.length));
+			},
+			
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
