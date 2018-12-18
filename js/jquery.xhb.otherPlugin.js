@@ -196,13 +196,14 @@ function _extend(deep, target, options) {
 						});
 					},
 					success: function(data) {
+						var data = (typeof data == "object" ? data : JSON.parse(data));
 						console.log(data);
 						layer.close(layerLoad);
 						if(data.code == 1) {
 							layer.alert(data.message);
 						}
 						else if(data.code == 0) {
-							successFn(data);
+							successFn(data.data);
 						}
 						else if(data.code == 2){//跳转到登录页
 							layer.confirm(data.message,function(){

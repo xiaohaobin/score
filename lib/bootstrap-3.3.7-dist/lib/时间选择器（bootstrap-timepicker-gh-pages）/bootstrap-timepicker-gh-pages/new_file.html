@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/timepicker.less" />
+
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">
+				<div class="input-group">
+					<input type="text" id="startTime" name="startTime"  class="form-control timepicker timepicker-default" placeholder="从" readonly>
+					<span class="input-group-btn">
+                        <button class="btn default" type="button">
+                            <i class="glyphicon glyphicon-adjust"></i>
+                        </button>
+                    </span>
+				</div>
+
+			</div>
+			<div class="col-md-4">
+				<div class="input-group">
+					<input type="text" id="endTime" name="endTime" class="form-control timepicker timepicker-default" placeholder="到" readonly="readonly">
+					<span class="input-group-btn">
+                        <button class="btn default" type="button">
+                            <i class="glyphicon glyphicon-warning-sign"></i>
+                        </button>
+                    </span>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="col-md-4" style="display: -webkit-inline-box;padding-left:0px">
+				<div class="input-group">
+					<input type="text" id="timepicker3" name="timepicker3"  class="form-control timepicker timepicker-default" placeholder="从" readonly="readonly">
+					<span class="input-group-btn">
+                        <button class="btn default" type="button">
+                            <i class="glyphicon glyphicon-adjust"></i>
+                        </button>
+                    </span>
+				</div>
+
+			</div>
+			<div class="col-md-4">
+				<div class="input-group">
+					<input type="text" id="timepicker4" name="timepicker4" class="form-control timepicker timepicker-default" placeholder="到" readonly="readonly">
+					<span class="input-group-btn">
+                        <button class="btn default" type="button">
+                            <i class="glyphicon glyphicon-warning-sign"></i>
+                        </button>
+                    </span>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-timepicker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+        	$("#startTime").timepicker({
+        		template: false,
+        	});
+        	$('#endTime').timepicker({
+                defaultTime:'9:00',//设置时间
+				showMeridian:true,//是否显示ampm
+				template: false,
+                minuteStep: 5
+            });
+            
+             $('#timepicker3').timepicker({
+                minuteStep: 5,
+                showInputs: false,
+                disableFocus: true,
+                template: false,
+            });
+
+            $('#timepicker4').timepicker({
+                minuteStep: 1,//设置分钟加减数
+                secondStep: 5,//设置秒加减数
+                showInputs: false,
+                modalBackdrop: true,
+                showSeconds: true,
+                showMeridian: false,
+                template: false,
+            });
+		</script>
+	</body>
+
+</html>

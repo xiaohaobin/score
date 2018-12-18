@@ -529,6 +529,11 @@ function _extend(deep, target, options) {
 				second = second < 10 ? ('0' + second) : second;
 				return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 			},
+			//获取当前时间的时间戳
+			getCurrTimestamp:function(){
+				var sTime = $.formatDateTime(new Date());
+				return $.backDateNum(sTime);
+			},
 			/**
 			 * 时间戳转换格式
 			 * @param {Number} timestamp3 时间戳
@@ -743,6 +748,34 @@ function _extend(deep, target, options) {
 				return str.slice(0,str.length-(symbol.length));
 			},
 			
+			/**
+			 * 根据字符串获取其长度，中文汉字为2个长度，特殊字符长度有多有少
+			 * @param {String} str 要计算长度个数的字符串
+			 * @return {Number}
+			 * */
+			strGetLength:function(str){ 
+			
+			    var realLength = 0;
+			    for (var i = 0; i < str.length; i++) 
+			    {
+			        charCode = str.charCodeAt(i);
+			        if (charCode >= 0 && charCode <= 128) 
+					realLength += 1;
+			        else 
+					realLength += 2;
+			    }
+			    return realLength;
+			},
+			//中文数组排序
+			sortChinese:function(arr){ // 参数： 排序的数组
+//			    arr.sort(function (item1, item2) {
+//			      return item1.localeCompare(item2, 'zh-CN');
+//			    })
+				if(arr.length > 0){
+					return (arr.sort(function(a, b){return (a + '').localeCompare(b + '')}))
+				}
+				
+			},
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/

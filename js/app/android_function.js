@@ -770,6 +770,26 @@ try {
 					console.log("Resolve file URL failed: " + e.message);
 				});
 			};
+		},
+		//按返回键退出应用
+		toBack:function(){
+			if(plus.os.name == "Android") {
+				//监听安卓返回键退出
+				var first = null;
+				mui.back = function() {
+					if(!first) {
+						first = new Date().getTime();
+						plus.nativeUI.toast("再按一次退出应用");
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if(new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				};
+			}
 		}
 	};
 } catch(e) {

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="dist/css/bootstrap-select.css"/>
+	</head>
+	<body>
+		<div class="container">
+			<form class="form-horizontal" role="form" >
+				<select name="" class="form-control show-tick" id="select" data-live-search-style="begins" title="请选择（可多选）" multiple="multiple" data-live-search="true" data-live-search-placeholder="可模糊搜索" data-actions-box="true">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select>   
+			</form>
+		</div>
+		 
+		<script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/js/bootstrap-select.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/js/i18n/defaults-zh_CN.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$("#select").selectpicker();
+		</script>
+	</body>
+</html>
