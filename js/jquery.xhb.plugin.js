@@ -574,10 +574,10 @@ function _extend(deep, target, options) {
 			},
 			/**
 			 * 秒数转化为时分秒时间格式
-			 * @param {Number} nSecond 秒数
+			 * @param {Number} ts 秒数
 			 * @return {String}
 			 * */
-			secondToStr:function(nSecond){
+			secondToStr:function(ts){
 				/**
 				 * zeroize值和长度（默认值是2）。
 				 * @param {Object} v
