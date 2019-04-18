@@ -529,6 +529,7 @@ function _extend(deep, target, options) {
 				second = second < 10 ? ('0' + second) : second;
 				return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 			},
+			
 			//获取当前时间的时间戳
 			getCurrTimestamp:function(){
 				var sTime = $.formatDateTime(new Date());
@@ -547,15 +548,18 @@ function _extend(deep, target, options) {
 			 	.....
 			 */
 			timestampToTime: function(timestamp3, sFormat) {
+				function addZero(n){
+					return (n <= 9 ? ("0"+n) : n);
+				}
 				var newDate = new Date();
 				newDate.setTime(timestamp3 * 1000);
 				Date.prototype.format = function(format) {
 					var date = {
-						"M+": this.getMonth() + 1,
-						"d+": this.getDate(),
-						"h+": this.getHours(),
-						"m+": this.getMinutes(),
-						"s+": this.getSeconds(),
+						"M+": addZero(this.getMonth() + 1),
+						"d+": addZero(this.getDate()),
+						"h+": addZero(this.getHours()),
+						"m+": addZero(this.getMinutes()),
+						"s+": addZero(this.getSeconds()),
 						"q+": Math.floor((this.getMonth() + 3) / 3),
 						"S+": this.getMilliseconds()
 					};
@@ -568,9 +572,94 @@ function _extend(deep, target, options) {
 								date[k] : ("00" + date[k]).substr(("" + date[k]).length));
 						}
 					}
+				
 					return format;
 				}
 				return newDate.format(sFormat);
+			},
+			/**
+			 * 根据年月日时间计算星期几
+			 * @param {String} sDate 年月日时间，有可能是yyyy-mm-dd格式，也有可能是yyyy/mm/dd格式
+			 * @return {String} 返回星期几
+			 * */
+			getWeeDay:function(sDate){
+				var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]; 
+				if(sDate.indexOf("/") > -1){//yyyy/mm/dd格式
+					var myDate = new Date(Date.parse(sDate));
+					return weekDay[myDate.getDay()];
+				}else if(sDate.indexOf("-") > -1){//yyyy-mm-dd格式
+					var myDate = new Date(Date.parse(sDate.replace(/-/g, '/')));
+					return weekDay[myDate.getDay()];
+				}else{
+					alert("日期格式不对");
+				}
+			},
+			incrementInitDate:0,//增量初始时间戳
+			incrementTimer:null,//增量定时器变量
+			decrementInitDate:0,//减量初始时间戳
+			decrementTimer:null,//减量定时器变量
+			/**
+			 * 增量时间（顺时钟）
+			 * @param {Number} nIncrement 增量（指某一刻平均递增的秒数）
+			 * @param {Number} nSpeed 增速 （指平均多少ms执行一次函数的增速）
+			 * @param {Function} callback 回调函数，参数为递增的时间对象
+			 * @param {String} sInitDate 初始时间（包含年月日时分秒 yyyy-mm-ss hh:mm:ss格式）(可选)
+			 * */
+			incrementTime:function(nIncrement,nSpeed,callback,sInitDate){
+				var _this = this;
+				if(sInitDate == undefined || !sInitDate){//加载本地时间
+					$.incrementInitDate = $.getCurrTimestamp();//初始化增量时间，转化时间戳
+				}else{
+					$.incrementInitDate = $.backDateNum(sInitDate);//初始化增量时间，转化时间戳
+				}
+				$.incrementTimer = setInterval(function(){
+					$.incrementInitDate += nIncrement;
+					currTime = $.timestampToTime($.incrementInitDate, "yyyy-MM-dd h:m:s");
+					nIndex = currTime.indexOf(" ");
+					
+					_this.oDate = {
+						cTime:currTime.slice(nIndex,currTime.length),//计算时分秒
+						cDate:currTime.slice(0,nIndex),//计算年月日
+						cWeek:$.getWeeDay(currTime.slice(0,nIndex))//计算周几
+					}
+					callback(_this.oDate);
+//					console.log(JSON.stringify(_this.oDate));
+					_this.cTime = currTime.slice(nIndex,currTime.length);//计算时分秒
+					_this.cDate = currTime.slice(0,nIndex);//计算年月日
+					_this.cWeek = $.getWeeDay(currTime.slice(0,nIndex));//计算周几
+				},nSpeed);
+			},
+			
+			/**
+			 * 减量时间（逆时钟）
+			 * @param {Number} nDecrement 减量（指某一刻平均递减的秒数）
+			 * @param {Number} nSpeed 减速 （指平均多少ms执行一次函数的减速）
+			 * @param {Function} callback 回调函数，参数为递增的时间对象
+			 * @param {String} sInitDate 初始时间（包含年月日时分秒 yyyy-mm-ss hh:mm:ss格式）(可选)
+			 * */
+			decrementTime:function(nDecrement,nSpeed,callback,sInitDate){
+				var _this = this;
+				if(sInitDate == undefined || !sInitDate){//加载本地时间
+					$.decrementInitDate = $.getCurrTimestamp();//初始化增量时间，转化时间戳
+				}else{
+					$.decrementInitDate = $.backDateNum(sInitDate);//初始化增量时间，转化时间戳
+				}
+				$.decrementTimer = setInterval(function(){
+					$.decrementInitDate -= nDecrement;
+					currTime = $.timestampToTime($.decrementInitDate, "yyyy-MM-dd h:m:s");
+					nIndex = currTime.indexOf(" ");
+					
+					_this.oDate = {
+						cTime:currTime.slice(nIndex,currTime.length),//计算时分秒
+						cDate:currTime.slice(0,nIndex),//计算年月日
+						cWeek:$.getWeeDay(currTime.slice(0,nIndex))//计算周几
+					}
+					callback(_this.oDate);
+//					console.log(JSON.stringify(_this.oDate));
+					_this.cTime = currTime.slice(nIndex,currTime.length);//计算时分秒
+					_this.cDate = currTime.slice(0,nIndex);//计算年月日
+					_this.cWeek = $.getWeeDay(currTime.slice(0,nIndex));//计算周几
+				},nSpeed);
 			},
 			/**
 			 * 秒数转化为时分秒时间格式
@@ -1156,7 +1245,43 @@ function _extend(deep, target, options) {
 					return opts.paste;
 				});
 		}
-
+		
+		/**
+		 * 显示局部隐藏的文本内容(指定几行)
+		 * @param {String} options 传递参数
+		 * @property {String} options.rowCount 设置显示的文本要出现几行
+		 * */
+		$.fn.textOverflow_moreRow = function(options) {
+			var defaults = {
+				rowCount: '3' // 默认显示行数
+			};
+			var opts = $.extend({}, defaults, options);
+			var obj = $(this);
+		
+			$("#moreOverflow_style") && $("#moreOverflow_style").remove();
+			var text_overflow = {			
+			    "overflow":"hidden",
+				"-webkit-box-orient": "vertical",
+				"-webkit-line-clamp": opts.rowCount,
+				"position": "relative",
+			    "cursor": "pointer"
+			};
+			obj.css(text_overflow).on("mouseover",function(e){
+//				console.log(e.target);
+				var target = e.target;
+		        var containerLength = $(target).width();
+		        var textLength = target.scrollWidth;
+		        var text = $(target).html();
+		        $(target).attr( "title", text);
+			}).addClass("moreOverflow");
+			var _style = '<style type="text/css" id="moreOverflow_style">' +
+						 '.moreOverflow{display: -webkit-box;}' +
+						 '.moreOverflow::after{content: "........................"; position: absolute; bottom: 0; right: 0;}' +
+						 '</style>'
+			$('head').append($(_style));	
+				
+		}
+		
 		/**
 		 *  验证只能输入数字和小数
 		 * */
@@ -1175,6 +1300,30 @@ function _extend(deep, target, options) {
 			$(this).on("keyup",function(){
 				var e = this;
 				e.value = e.value.replace(/[^0-9.]/g,'');
+			});
+		};
+		
+		/**
+		 * 显示局部隐藏的文本内容(单行)
+		 * */
+		$.fn.textOverflow = function(options) {						
+			var text_overflow = {			
+			    "overflow":"hidden",
+			    "textOverflow":"ellipsis",
+			    "whiteSpace":"nowrap",
+			    "cursor": "pointer"
+			};
+			$(this).css(text_overflow).on("mouseover",function(e){
+				console.log(e.target);
+				var target = e.target;
+		        var containerLength = $(target).width();
+		        var textLength = target.scrollWidth;
+		        var text = $(target).html();
+		        if (textLength > containerLength) {
+		            $(target).attr( "title", text);
+		        } else {
+		            $(target).removeAttr( "title");
+		        }
 			});
 		};
 		

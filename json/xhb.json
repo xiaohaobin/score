@@ -4,7 +4,7 @@
 	"fname":"$.getQueryString",//方法名
 	"uid":1,//方法id（必要）
 	"depend":{//该方法需要依赖 的，框架，插件和库（必要）
-		"jquery.js"		
+		
 	},
 	"about":{//该方法的关联函数（必要）
 		

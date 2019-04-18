@@ -198,3 +198,47 @@
 .pd-20{padding:20px}/*填充20像素*/
 .pd-25{padding:25px}/*填充25像素*/
 .pd-30{padding:30px}/*填充30像素*/
+
+
+/*flex布局*/
+.dis-flex{
+	display:flex;
+　　display:-webkit-flex;
+}
+/*水平从左到右排列*/
+.dis-flex .flex-row{
+	flex-direction:row;
+}
+/*水平从右到左排列*/
+.dis-flex .flex-row-rev{
+	flex-direction:row;
+}
+/*垂直从上到下排列*/
+.dis-flex .flex-col{
+	flex-direction:column; 
+}
+/*垂直从下到上排列*/
+.dis-flex .flex-col-rev{
+	flex-direction:column-reverse;
+}
+
+/*有间隔的全部左对齐*/
+.justify-flex-start{
+	justify-content:flex-start;
+}
+/*有间隔的全部右对齐*/
+.justify-flex-end{
+	justify-content:flex-end;
+}
+/*有间隔的全部居中*/
+.justify-center{
+	justify-content:center;
+}
+/*有间隔的两端对齐*/
+.justify-space-between{
+	justify-content:space-between;
+}
+/*每个项目两侧的间隔相等。*/
+.justify-space-around{
+	justify-content:space-around;
+}
