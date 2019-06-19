@@ -3,20 +3,17 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="demo/css/must.css"/>
+		<!--<link rel="stylesheet" type="text/css" href="demo/css/must.css"/>-->
+		<!--<link rel="stylesheet" href="demo/css/style.css" type="text/css" media="all" />-->
 		<script src="demo/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="demo/js/Validform_v5.3.2.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script type="text/javascript" src="demo/plugin/passwordStrength/passwordStrength-min.js"></script>-->
 		
-		<style type="text/css">
-			.gray{
-				color: red;
-			}
-		</style>
 	</head>
 	<body>
 		<div>
-			<form action="#" method="post" class="demoForm">
-				<input type="text" name="user" id="user" value="" placeholder="输入用户名" class="inputxt" datatype="s6-18" nullmsg="请输入昵称！" errormsg="昵称至少6个字符,最多18个字符！" /><br />
+			<form action="demo/ajax_post.php" method="post" class="demoForm">
+				<input type="text" name="user" id="user" value="" placeholder="输入用户名" class="" datatype="s6-18" nullmsg="请输入昵称！" errormsg="昵称至少6个字符,最多18个字符！" /><br />
 				<input type="password" name="pwd" id="pwd" value="" placeholder="输入密码" class="inputxt" datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间！" /><br />
 				<input type="password" name="surepwd" id="surepwd" value="" placeholder="确认密码" class="inputxt" datatype="*" recheck="pwd" nullmsg="请再输入一次密码！" errormsg="您两次输入的账号密码不一致！" /><br />
 				<input type="text" name="Email" id="Email" value="" placeholder="输入邮箱" datatype="e" nullmsg="请再输入邮箱！" errormsg="您输入的格式不对！" class="inputxt"/><br />
@@ -30,7 +27,38 @@
 		</div>
 		
 		<script type="text/javascript">
-			$(".demoForm").Validform();  //就这一行代码！;
+			
+			$.Tipmsg.r=null;
+			
+			var showmsg=function(msg){//假定你的信息提示方法为showmsg， 在方法里可以接收参数msg，当然也可以接收到o及cssctl;
+				alert(msg);
+			}
+					
+			
+			$(".demoForm").Validform({
+				tiptype:function(msg,a,b){
+					console.log(msg,a,b)
+					showmsg(msg);
+					
+					console.log(a.obj.attr('id'));
+//					console.log($("#niname"));
+				},
+				tipSweep:true,
+				ajaxPost:true,
+//				beforeCheck:function(curform){
+//					alert('beforeCheck');
+//					//在表单提交执行验证之前执行的函数，curform参数是当前表单对象。
+//					//这里明确return false的话将不会继续执行验证操作;	
+//				},
+//				beforeSubmit:function(curform){
+//					alert('beforeSubmit');
+//					//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
+//					//这里明确return false的话表单将不会提交;	
+//				},
+				callback:function(data){
+					
+				}
+			});
 		</script>
 		
 	</body>

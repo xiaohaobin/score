@@ -11,6 +11,10 @@
 			<h2>My97DatePicker日期控件的使用</h2>
 		</center>
 		基本用法：
+		<br/>
+		只能选择月：<input id="" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM'})" /><br><br> 
+		只能选择年：<input id="" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy'})" /><br><br>
+		
 		<input id="" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" /><br><br> 只能选择今天以前的日期：
 		<input id="" class="Wdate" onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" /><br><br> 使用运算表达式 只能选择 20小时前 至 30小时后 的日期
 		<input id="" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'%y-%M-%d {%H-20}:%m:%s',maxDate:'%y-%M-%d {%H+30}:%m:%s'})" /><br><br> 开始，结束日期：
@@ -18,6 +22,19 @@
 		<!-- $dp.$ 相当于 document.getElementById 函数. -->
 		<input id="sdate" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'#F{$dp.$D(\'edate\')}'})" /> -
 		<input id="edate" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true,minDate:'#F{$dp.$D(\'sdate\')}',startDate:'#F{$dp.$D(\'sdate\',{d:+1})}'})" /><br><br>
+			
+		<div>
+			日期格式的任意切换：
+			<div>
+				<button type="button" class="sys_date_btn" data-param="1">时</button>
+				<button type="button" class="sys_date_btn" data-param="2">日</button>
+				<button type="button" class="sys_date_btn" data-param="3">月</button>
+				<button type="button" class="sys_date_btn" data-param="4">年</button>
+			</div>
+			<div>
+				<input type="text" class="Wdate sys_date_input">
+			</div>
+		</div>	
 			
 		<div>
 			<pre>
@@ -65,5 +82,32 @@
 				   }
 			</pre>
 		</div>
+		
 		<script src="WdatePicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var date_param = "1";
+			var dateConfing = {readOnly:true,maxDate:'%y-%M-%d'};
+			$('.sys_date_btn').on('click',function(){
+				var p = $(this).attr("data-param");
+				// date_param = p;
+				if(p == 1){
+					dateConfing = {readOnly:true,maxDate:'%y-%M-%d'};
+					$('.sys_date_input').unbind('click');
+				}else if(p == 2){
+					dateConfing = {dateFmt:'yyyy-MM-dd',readOnly:true};
+					$('.sys_date_input').unbind('click');
+				}else if(p == 3){
+					dateConfing = {dateFmt:'yyyy-MM',readOnly:true};
+					$('.sys_date_input').unbind('click');
+				}else if(p == 4){
+					dateConfing = {dateFmt:'yyyy',readOnly:true};
+					$('.sys_date_input').unbind('click');
+				}
+			});
+			$('.sys_date_input').bind("click",function(){							
+				WdatePicker(dateConfing);
+				console.log(12);
+			});
+		</script>
 	</body>

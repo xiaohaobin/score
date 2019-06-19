@@ -31,7 +31,8 @@
                 <tr>
                     <td class="need" style="width:10px;">*</td>
                     <td style="width:70px;">昵称：</td>
-                    <td style="width:205px;"><input type="text" value="" name="name" class="inputxt" datatype="s6-18" nullmsg="请输入昵称！" errormsg="昵称至少6个字符,最多18个字符！" /></td>
+                    <td style="width:205px;">
+                    	<input type="text" value="" name="name" class="inputxt" datatype="s6-18" nullmsg="请输入昵称！" errormsg="昵称至少6个字符,最多18个字符！" id="niname"/></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -86,8 +87,12 @@ $(function(){
 		alert(msg);
 	}
 	$(".registerform").Validform({
-		tiptype:function(msg){
+		tiptype:function(msg,a,b){
+			console.log(msg,a,b)
 			showmsg(msg);
+			
+			console.log(a.obj.attr('id'));
+			console.log($("#niname"));
 		},
 		tipSweep:true,
 		ajaxPost:true

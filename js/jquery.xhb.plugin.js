@@ -928,7 +928,116 @@ function _extend(deep, target, options) {
 				}
 				script.src = url;
 				document.getElementsByTagName("head")[0].appendChild(script);
-			}
+			},
+			/**
+			 * 以几分钟为间隔，获取两个时间范围内的所有时间点，返回数组
+			 * @param {String} startDate 开始时间（yyyy-mm-dd hh:mm:ss）
+			 * @param {String} endDate 结束时间（yyyy-mm-dd hh:mm:ss）
+			 * @param {Number} space 时间间隔（单位分钟），默认间隔30分钟
+			 * @param {Boolean} isReverse 时间点是否从结束时间开始计算返回，如true，则倒叙，否则或者不传为正序
+			 * @return {Array}
+			 * */
+			getDateArr:function(startDate, endDate, space, isReverse){
+				if(!startDate || !endDate){
+					alert('时间参数缺省');
+					return;
+				}
+				var _startDate = new Date(startDate);
+				var _endDate = new Date(endDate);
+
+				if(!space) {
+					space = 30 * 60 * 1000;
+				} else {
+					space = space * 60 * 1000;
+				}
+				var endTime = _endDate.getTime();
+				var startTime = _startDate.getTime();
+				var mod = endTime - startTime;				
+			
+				if(mod <= space) {
+					return;
+					alert("时间太短");
+				}
+				var dateArray = [];				
+				if(isReverse){
+					//倒叙插入
+					while(mod - space >= space) {
+						var d = new Date();
+						d.setTime(endTime - space);
+						dateArray.push(d);
+						mod = mod - space;
+						endTime = endTime - space;
+					}
+				}else{
+					//正序插入
+					while(mod >= space) {
+						var d = new Date();
+						d.setTime(startTime + space);
+						dateArray.push(d);
+						mod = mod - space;
+						startTime = startTime + space;
+					}					
+				}				
+				dateArray.reverse();
+				var aRes = [];
+				for(var i = dateArray.length - 1; i >= 0; i--) {					
+					aRes.push($.conversionTime(dateArray[i]));
+				}
+				return aRes;
+			},
+			/**
+			 * 系统时间格式转化为 yyyy-mm-dd hh-mm-ss时间格式
+			 * @param {String} dt 系统时间格式时间
+			 * @return {String}
+			 * */
+			conversionTime:function(dt){
+				return(
+					dt.getFullYear() +
+					"-" +
+					(dt.getMonth() + 1 < 10 ?
+						"0" + (dt.getMonth() + 1) :
+						dt.getMonth() + 1) +
+					"-" +
+					(dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate()) +
+					" " +
+					(dt.getHours() < 10 ? "0" + dt.getHours() : dt.getHours()) +
+					":" +
+					(dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes()) +
+					":" +
+					(dt.getSeconds() < 10 ? "0" + dt.getSeconds() : dt.getSeconds())
+				);
+			},
+			/**
+			 * 大于0的正整数转化为大写字母
+			 * @param {Number} num 大于零的正整数
+			 * @return {String}
+			 * */
+			numToLetter:function(num){
+				var stringName = "";
+			    if(num > 0) {
+				    if(num >= 1 && num <= 26) {
+				        stringName = String.fromCharCode(64 + parseInt(num));
+				    } 
+				    else {
+				        while(num > 26) {
+				          var count = parseInt(num/26);
+				          var remainder = num%26;
+				          if(remainder == 0) {
+				            remainder = 26;
+				            count--;
+				            stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
+				          } else {
+				            stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
+				          }
+				          num = count;
+				        }
+				        stringName = String.fromCharCode(64 + parseInt(num)) + stringName;
+				    }
+			    }
+			    
+			    return stringName;
+			    
+			},
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
