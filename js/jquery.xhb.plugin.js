@@ -32,7 +32,7 @@ function _extend(deep, target, options) {
 	try {
 		/**************************************************全局插进*********************************************************************/
 		$.extend({
-
+			
 			/**
 			 * 浏览器地址指定携带的参数参数，返回指定的键值
 			 * @param {String} name 要查询的地址参数的键
@@ -598,6 +598,7 @@ function _extend(deep, target, options) {
 			incrementTimer:null,//增量定时器变量
 			decrementInitDate:0,//减量初始时间戳
 			decrementTimer:null,//减量定时器变量
+			dd_currTime:null,//增量减量对象
 			/**
 			 * 增量时间（顺时钟）
 			 * @param {Number} nIncrement 增量（指某一刻平均递增的秒数）
@@ -614,19 +615,19 @@ function _extend(deep, target, options) {
 				}
 				$.incrementTimer = setInterval(function(){
 					$.incrementInitDate += nIncrement;
-					currTime = $.timestampToTime($.incrementInitDate, "yyyy-MM-dd h:m:s");
-					nIndex = currTime.indexOf(" ");
+					$.dd_currTime = $.timestampToTime($.incrementInitDate, "yyyy-MM-dd h:m:s");
+					_this.nIndex = $.dd_currTime.indexOf(" ");
 					
 					_this.oDate = {
-						cTime:currTime.slice(nIndex,currTime.length),//计算时分秒
-						cDate:currTime.slice(0,nIndex),//计算年月日
-						cWeek:$.getWeeDay(currTime.slice(0,nIndex))//计算周几
+						cTime:$.dd_currTime.slice(_this.nIndex+1,$.dd_currTime.length),//计算时分秒
+						cDate:$.dd_currTime.slice(0,_this.nIndex),//计算年月日
+						cWeek:$.getWeeDay($.dd_currTime.slice(0,_this.nIndex))//计算周几
 					}
 					callback(_this.oDate);
 //					console.log(JSON.stringify(_this.oDate));
-					_this.cTime = currTime.slice(nIndex,currTime.length);//计算时分秒
-					_this.cDate = currTime.slice(0,nIndex);//计算年月日
-					_this.cWeek = $.getWeeDay(currTime.slice(0,nIndex));//计算周几
+					_this.cTime = $.dd_currTime.slice(_this.nIndex,$.dd_currTime.length);//计算时分秒
+					_this.cDate = $.dd_currTime.slice(0,_this.nIndex);//计算年月日
+					_this.cWeek = $.getWeeDay($.dd_currTime.slice(0,_this.nIndex));//计算周几
 				},nSpeed);
 			},
 			
@@ -646,19 +647,19 @@ function _extend(deep, target, options) {
 				}
 				$.decrementTimer = setInterval(function(){
 					$.decrementInitDate -= nDecrement;
-					currTime = $.timestampToTime($.decrementInitDate, "yyyy-MM-dd h:m:s");
-					nIndex = currTime.indexOf(" ");
+					$.dd_currTime = $.timestampToTime($.decrementInitDate, "yyyy-MM-dd h:m:s");
+					_this.nIndex = $.dd_currTime.indexOf(" ");
 					
 					_this.oDate = {
-						cTime:currTime.slice(nIndex,currTime.length),//计算时分秒
-						cDate:currTime.slice(0,nIndex),//计算年月日
-						cWeek:$.getWeeDay(currTime.slice(0,nIndex))//计算周几
+						cTime:$.dd_currTime.slice(_this.nIndex+1,$.dd_currTime.length),//计算时分秒
+						cDate:$.dd_currTime.slice(0,_this.nIndex),//计算年月日
+						cWeek:$.getWeeDay($.dd_currTime.slice(0,_this.nIndex))//计算周几
 					}
 					callback(_this.oDate);
 //					console.log(JSON.stringify(_this.oDate));
-					_this.cTime = currTime.slice(nIndex,currTime.length);//计算时分秒
-					_this.cDate = currTime.slice(0,nIndex);//计算年月日
-					_this.cWeek = $.getWeeDay(currTime.slice(0,nIndex));//计算周几
+					_this.cTime = $.dd_currTime.slice(_this.nIndex,$.dd_currTime.length);//计算时分秒
+					_this.cDate = $.dd_currTime.slice(0,_this.nIndex);//计算年月日
+					_this.cWeek = $.getWeeDay($.dd_currTime.slice(0,_this.nIndex));//计算周几
 				},nSpeed);
 			},
 			/**
@@ -1038,6 +1039,228 @@ function _extend(deep, target, options) {
 			    return stringName;
 			    
 			},
+			//清除所有缓存
+			clearCacheFn:function(callback){
+				var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+				if (keys) {
+				    for (var i = keys.length; i--;) {
+				        document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+				        document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+				        document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+				    }
+					if(callback) callback();
+				}
+			},
+			/**
+			 * 设置cookie
+			 * @param {String} name 设置的键
+			 * @param {String} value 设置的值
+			 * @param {Number} time 设置的过期时间，单位毫秒，如1000，则为1秒
+			 * */
+			_set_cookie:function(name,value,time){
+				var exp = new Date();
+				exp.setTime(exp.getTime() + time*1);
+				document.cookie = name + "="+ escape(value) + ";expires=" + exp.toGMTString();
+			},
+			/**
+			 * 读取cookie
+			 * @param {String} name 设置的键
+			 * */
+			_get_cookie:function(name){			
+				var arr,
+					reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+				if(arr = document.cookie.match(reg)) return unescape(arr[2]);
+				else return null;
+			},
+			/**
+			 * 删除cookie
+			 * @param {String} name 设置的键
+			 * */
+			_del_cookie:function(name){			
+				var exp = new Date();
+				exp.setTime(exp.getTime() - 1);
+				var cval = getCookie(name);
+				if(cval != null) document.cookie = name + "="+cval+";expires=" + exp.toGMTString();
+			},
+			/**
+			 * 获取元素的实际宽高，偏移量和x,y位置
+			 * @param {String} selector 元素的选择器，id要带#，class要带.
+			 * */
+			getDOMTrueData:function(selector){
+				 return document.querySelector(selector).getBoundingClientRect();
+			},
+			/**
+			 * 获取昨天时间（返回年月日yyyy-mm-dd格式）
+			 * @return {String}
+			 * */
+			getYesterdayDate:function(){
+				var today = $.getOnTime('y-m-d');
+				var nYesterday = $.backDateNum(today) - 86400;//昨天时间戳
+				return $.timestampToTime(nYesterday,"yyyy-MM-dd");
+			},
+			//阻止事件冒泡
+			stopEventBubble:function(){
+				//阻止事件冒泡
+				window.event? window.event.cancelBubble = true : e.stopPropagation();
+			},
+			/**
+			 * 获取video视频第一针图片，生成地址
+			 * @param {Object} jsObj js元素对象
+			 * @param {Function} fn 回调函数，返回参数是img地址
+			 * */
+			getVideoImg:function(jsObj,fn){
+				var video;
+				var scale = 0.8;
+				var initialize = function() {
+					video = jsObj;
+					video.addEventListener('loadeddata', captureImage); // 用于向指定元素添加事件句柄。
+				};
+
+				var captureImage = function() {
+					var canvas = document.createElement("canvas"); // 创建一个画布
+					canvas.width = video.videoWidth * scale;
+					canvas.height = video.videoHeight * scale;
+					canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); // getContext:设置画布环境；drawImage:画画 
+					var imgUrl = canvas.toDataURL("image/png");
+					if(fn) fn(imgUrl);
+					
+				};
+
+				initialize();
+			},
+			isLoad:true,//加个节流阀,避免尚未加载出的时间段里,上拉多次而导致加载太多
+			
+			/**
+			 * 监听window滚动条滚动到底部的事件
+			 * @param {Function} fn 回调函数
+			 * */
+			window_to_bottom_fn:function(fn){
+				//开启事件监听
+				window.addEventListener('scroll', function() {
+					let clientHeight = document.documentElement.clientHeight //可视区高度
+	
+					let scrollHeight = document.documentElement.scrollHeight //文档流高度
+	
+					let scrollDistance = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0 //滚动出去高度
+	
+					//文档剩余区域的高度
+					// 文档高度-可视区高度-滚动出去的高度 = 文档剩余高度
+					let surplus = scrollHeight - clientHeight - scrollDistance //尚未滚出来的文档流高度
+	
+					//注意判断条件,当剩余文档流的高度小于0时
+	
+					if(surplus <= 0 && $.isLoad) {
+	
+						$.isLoad = false
+	
+						setTimeout(function() {
+							if(fn) fn();
+							$.isLoad = true;
+	
+						}, 100) //迟疑三秒再加载出来
+	
+					}
+	
+				}, false);
+			},
+			/**
+			 * Date.UTC() 格式的时间转化为中国时区的 “yyyy-mm-dd hh:mm:ss”时间格式
+			 * @param {Number} n Date.UTC()之后的时间串
+			 * */
+			UTC_to_CTime:function(n){
+				var t = 28800000;				
+				var xVal = n;
+				var s_utc_time = new Date(xVal);
+				var sTime = s_utc_time.toUTCString();//UTC时间转换为国际GMT时间
+				// var resTime = $.formatDateTime(new Date(sTime));
+				var nT = Date.parse(new Date(sTime)) - t;//转化时间戳
+				return $.timestampToTime(nT/1000,"yyyy-MM-dd h:m:s");
+			},
+			/**
+			 * 根据年月返回该月份的天数
+			 * @param {Number} year 年份
+			 * @param {Number} month 月份
+			 * @return {Number}
+			 * */
+			getDaysInMonth:function(year,month){
+				month = parseInt(month,10);  //parseInt(number,type)这个函数后面如果不跟第2个参数来表示进制的话，默认是10进制。
+				var temp = new Date(year,month,0);
+				return temp.getDate();	
+			},
+			/**
+			 * 根据指定年月日，获取该天前几天的天数返回数组
+			 * @param {Number} n 要返回的天数
+			 * @param {String} sDate 指定时间，“yyyy-mm-dd”格式 ,如果不传该参数，则默认未当前系统日期
+			 * */
+			getPrevDays:function(n,sDate){
+				var nDayC = 24 * 60 * 60;//一天的时间戳数。秒单位
+				if(sDate){
+					var nTargetDate = $.backDateNum(sDate);
+				}else{
+					var curtime = $.getOnTime("y-m-d");
+					var nTargetDate = $.backDateNum(curtime);
+				}
+				var list = [];
+				for(var i=0;i<n;i++){
+					var nRes = nTargetDate - (nDayC*i);
+					var sRes = $.timestampToTime(nRes,"yyyy-MM-dd");
+					list.push(sRes);
+				}
+				return list;
+			},
+			/**
+			 * 根据指定年月日，获取该天后几天的天数返回数组
+			 * @param {Number} n 要返回的天数
+			 * @param {String} sDate 指定时间，“yyyy-mm-dd”格式 ,如果不传该参数，则默认未当前系统日期
+			 * */
+			getNextDays:function(n,sDate){
+				var nDayC = 24 * 60 * 60;//一天的时间戳数。秒单位
+				if(sDate){
+					var nTargetDate = $.backDateNum(sDate);
+				}else{
+					var curtime = $.getOnTime("y-m-d");
+					var nTargetDate = $.backDateNum(curtime);
+				}
+				var list = [];
+				for(var i=0;i<n;i++){
+					var nRes = nTargetDate + (nDayC*i);
+					var sRes = $.timestampToTime(nRes,"yyyy-MM-dd");
+					list.push(sRes);
+				}
+				return list;
+			},
+			/**
+			 * 根据年月日，返回对应的星期
+			 * @param {String} sDate 日期年月日"yyyy-mm-dd"或者"yyyy/mm/dd"
+			 * @param {String} sLang 语言版本，cn代表中文星期名称，en代表英文星期名称
+			 * */
+			getWeekName:function(sDate,sLang){
+				var nWeek = new Date(sDate).getDay();
+				switch (nWeek){
+					case 1:
+						return (sLang == "en" ? "Mon." : "星期一");
+						break;
+					case 2:
+						return (sLang == "en" ? "Tue." : "星期二");
+						break;
+					case 3:
+						return (sLang == "en" ? "Wed." : "星期三");
+						break;
+					case 4:
+						return (sLang == "en" ? "Thur." : "星期四");
+						break;
+					case 5:
+						return (sLang == "en" ? "Fri." : "星期五");
+						break;
+					case 6:
+						return (sLang == "en" ? "Sat." : "星期六");
+						break;
+					default:
+						return (sLang == "en" ? "Sun." : "星期日");
+						break;
+				}
+			},
+			
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
@@ -1607,6 +1830,33 @@ function _extend(deep, target, options) {
 				});
 		};
 
+		/**
+		 * 指定某个元素内容从某数字逐渐递增到某数，以动画形式展示
+		 * @param {Object} options 传递参数 
+		 * @property {Number} options.min 开始数字
+		 * @property {Number} options.max 结束数字，最终确定数字
+		 * @property {Number} options.speed 递增速度，单位毫秒
+		 * */
+		$.fn.numToRun = function(options) {
+			var defaults = {
+				min: 0, //默认开始数字0
+				max: 10,
+				speed:100,//默认100毫秒
+			};
+			var opts = $.extend({}, defaults, options);
+			var obj = $(this);
+			
+			var timer = setInterval(function(){
+				opts.min++; // 调节速度
+				if(opts.min >= opts.max){
+					obj.text(opts.max);					
+					clearInterval(timer);
+				} else {					
+					obj.text(~~(opts.min));
+				}
+			},opts.speed); // 也可以调节速度
+		};
+		
 	} catch(e) {
 		console.error("报错类型：" + e);
 	}

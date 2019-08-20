@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/echarts.js"></script>
+		<script src="ecStat.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="echarts-all.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="ace.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+
+	<body>
+		
+		<div id="main" style="width: 1200px;height:400px;"></div>
+		<div>
+			<button type="button" onclick="stopFn()">暂停</button>
+			<button type="button" onclick="runFn()">继续开始</button>
+			<button type="button" onclick="toPrevFn()">前进</button>
+			<button type="button" onclick="toNextFn()">后退</button>
+			
+			<select name="" onchange="editFn()" id="setDateSelect">
+				<option value="0">07:00</option>
+				<option value="1">08:00</option>
+				<option value="2">09:00</option>
+				<option value="3">10:00</option>
+				<option value="4">11:00</option>
+				<option value="5">12:00</option>
+				<option value="6">13:00</option>
+			</select>
+		</div>
+		<script type="text/javascript">
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('main'));
+			var confing = {
+				baseOption: {
+		            timeline: {
+		            	axisType: 'category',
+						autoPlay: true,
+						playInterval: 800,
+		                data: ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00'],
+//		                show: false,
+		            },
+		            
+		            calculable : true,
+		            grid: {
+	            	    top: 80,
+            			bottom: 100
+		            },
+		            xAxis: {
+		            	type: 'category',
+		                axisLine: {
+		                    show: true
+		                },
+		                axisTick: {
+		                    length: 0
+		                },
+		                axisLabel: {
+		                    interval: 0,
+		                    textStyle: {
+		                        color: '#00c5d7'
+		                    }
+		                },
+
+        				boundaryGap: false,
+			        	data:['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00']
+		            },
+		            yAxis: {
+				        type: 'value',
+				        name: 'kWh',
+				        max: 7000,
+				        show:false
+				    },
+				     tooltip: {
+				        trigger: 'axis',
+				        position: function (pt) {
+				            return [pt[0], '10%'];
+				        }
+				    },
+				    title: {
+				        left: 'center',
+				        text: '面板产电',
+				    },
+//				    toolbox: {
+//				        feature: {
+//				            dataZoom: {
+//				                yAxisIndex: 'none'
+//				            },
+//				            restore: {},
+//				            saveAsImage: {}
+//				        }
+//				    },
+		            series: [
+		                 {
+		                 	name: '产电',
+				            type:'line',
+				            smooth: true,
+			                symbol: 'circle', // 拐点类型
+			                symbolSize: 0, // 拐点圆的大小
+			                itemStyle: {
+			                    normal: {
+			                        color: '#289df5', // 折线条的颜色
+			                        borderColor: '#289df5', // 拐点边框颜色
+			                        areaStyle: {
+			                            type: 'default',
+			                            opacity: 0.1
+			                        }
+			                    }
+			                },
+
+		                 },
+		            ]
+		        },
+			   options:[
+			   		{
+			   			title: {text: '07:00产生电量'},
+		                series: [
+		                    {
+		                    	data:[
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 0},
+		                    		{name: "09:00", value: 0},
+		                    		{name: "10:00", value: 0},
+		                    		{name: "11:00", value: 0},
+		                    		{name: "12:00", value: 0},
+		                    		{name: "13:00", value: 0},
+		                   		]
+		                    }
+		                   
+		                ]
+			   		},
+			   		{
+			   			title: {
+		                    text: '08:00产生电量'
+		                },
+		                series: [
+		                    {
+		                    	data: [
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 6018.28},
+		                    		{name: "09:00", value: 0},
+		                    		{name: "10:00", value: 0},
+		                    		{name: "11:00", value: 0},
+		                    		{name: "12:00", value: 0},
+		                    		{name: "13:00", value: 0},
+		                    	],
+		                    	
+		                    }, // 系列一的数据
+		                   
+		                ]
+			   		},
+			   		{
+			   			title: {
+		                    text: '09:00产生电量'
+		                },
+		                series: [
+		                    {
+		                    	data: [
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 6018.28},
+		                    		{name: "09:00", value: 2324.8},
+		                    		{name: "10:00", value: 0},
+		                    		{name: "11:00", value: 0},
+		                    		{name: "12:00", value: 0},
+		                    		{name: "13:00", value: 0},
+		                    	],
+		                    	
+		                    }, // 系列一的数据
+		                   
+		                ]
+			   		},
+			   		{
+			   			title: {
+		                    text: '10:00产生电量'
+		                },
+		                series: [
+		                    {
+		                    	data: [
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 6018.28},
+		                    		{name: "09:00", value: 2324.8},
+		                    		{name: "10:00", value: 1940.94},
+		                    		{name: "11:00", value: 0},
+		                    		{name: "12:00", value: 0},
+		                    		{name: "13:00", value: 0},
+		                    	],
+		                    	
+		                    }, // 系列一的数据
+		                   
+		                ]
+			   		},
+			   		{
+			   			title: {
+		                    text: '11:00产生电量'
+		                },
+		                series: [
+		                    {
+		                    	data: [
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 6018.28},
+		                    		{name: "09:00", value: 2324.8},
+		                    		{name: "10:00", value: 1940.94},
+		                    		{name: "11:00", value: 5458.22},
+		                    		{name: "12:00", value: 0},
+		                    		{name: "13:00", value: 0},
+		                    	],
+		                    	
+		                    }, // 系列一的数据
+		                   
+		                ]
+			   		},
+			   		{
+			   			title: {
+		                    text: '12:00产生电量'
+		                },
+		                series: [
+		                    {
+		                    	data: [
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 6018.28},
+		                    		{name: "09:00", value: 2324.8},
+		                    		{name: "10:00", value: 1940.94},
+		                    		{name: "11:00", value: 5458.22},
+		                    		{name: "12:00", value: 2348.54},
+		                    		{name: "13:00", value: 0},
+		                    	],
+		                    	
+		                    }, // 系列一的数据
+		                   
+		                ]
+			   		},
+			   		{
+			   			title: {
+		                    text: '13:00产生电量'
+		                },
+		                series: [
+		                    {
+		                    	data: [
+		                    		{name: "07:00", value: 2150.76},
+		                    		{name: "08:00", value: 6018.28},
+		                    		{name: "09:00", value: 2324.8},
+		                    		{name: "10:00", value: 1940.94},
+		                    		{name: "11:00", value: 5458.22},
+		                    		{name: "12:00", value: 2348.54},
+		                    		{name: "13:00", value: 10606.85},
+		                    	],
+		                    	
+		                    }, // 系列一的数据
+		                   
+		                ]
+			   		},
+			   ]
+			    
+			};
+			myChart.setOption(confing);
+			
+			
+			myChart.on('timelinechanged', function (timeLineIndex){
+				console.log(timeLineIndex);
+			});
+
+			
+			//停止
+			function stopFn(){
+				
+			}
+			
+			//继续
+			function runFn(){
+				
+			}
+			
+			function toPrevFn(){
+				
+			}
+			
+			function toNextFn(){
+				
+			}
+			
+			function editFn(){
+				var n = $('#setDateSelect').val()*1;
+			}
+		</script>
+	</body>
+
+</html>

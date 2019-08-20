@@ -13,34 +13,40 @@
 		</div>
 		<input type="file" name="fileInput" id="fileInput" value="" />
 		
+		<div class="ssss"></div>
+		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="lib/layer/2.4/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 		<!--<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>-->
 		<script src="js/jquery.xhb.plugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.xhb.otherPlugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/plugins/extend.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			$("input").fileVaild();
+			layer.msg(1321)
+			$(function(){
+				$.ajaxFn(
+					"json/xhb.json",
+					{id:1,name:"xhb"},
+					"get",
+					function(data){
+						console.log(data,"数据格式")
+					}
+				);
+			});
 			
-			var _default = {
-				f:function(){
-					alert(1);
-				},
-				t:"mmp"
-			};
+			// $.decrementTime(24*60*60,1000,function(p){
+			// 	console.log(p)
+			// },"2019-08-17 00:00:00");
 			
-			var opt = {
-				t:"123"
-			};
+			console.log($.getPrevDays(7),"res");
+			console.log($.getNextDays(7),"add");
+			console.log($.getWeekName("2019-08-17","cn"));
 			
-			var _new = _extend(true,_default,opt);
-			console.log(_new);
-			
-			
-			var arr1 = [12,"abc",{type:"007"}];
-			var arr2 = [{name:"xx",id:1},{}];
-			var aNew = _extend(true,arr1,arr2);
-			console.log(aNew);
+			$(".ssss").numToRun({
+				min: 0.1, //默认开始数字0
+				max: 10.58,
+				speed:1000,//默认100毫秒
+			});
 		</script>
 	</body>
 </html>

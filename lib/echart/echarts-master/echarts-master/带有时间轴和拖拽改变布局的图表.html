@@ -11,7 +11,7 @@
 	<body>
 		<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 		<div id="main" style="width: 600px;height:400px;"></div>
-		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = echarts.init(document.getElementById('main'));
@@ -32,7 +32,7 @@
 				);
 
 				myChart.hideLoading();
-
+				console.log(dataMap.dataGDP['2002']);
 				var categoryData = [
 					'北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江',
 					'上海', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南',
@@ -104,7 +104,8 @@
 //							}
 						},
 						calculable: true,
-						series: [{
+						series: [
+							{
 								name: 'GDP',
 								type: 'bar'
 							},
@@ -247,7 +248,8 @@
 							}
 						}
 					],
-					options: [{
+					options: [
+						{
 							title: {
 								text: '2002全国宏观经济指标'
 							},

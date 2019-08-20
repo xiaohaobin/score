@@ -170,6 +170,49 @@ function _extend(deep, target, options) {
 					window.location.href = Url;
 				}
 			},
+			
+			/**
+			 * 普通ajax请求
+			 * @param {String} murl 请求地址
+			 * @param {Object} mdata 请求数据
+			 * @param {String} method 请求类型
+			 * @param {Function} successFn 请求成功的回调函数
+			 * */
+			ajaxFn:function(murl, mdata, method, successFn){
+				$.ajax({
+					type: method,
+					url: murl,
+					dataType: "json",//后台数据返回格式
+					contentType:"application/json",//发送到后台的数据格式
+					data: mdata || {},
+					// data:JSON.stringify(mdata) || {},
+					async: true,
+					timeout: 10000,							
+					// dataFilter:function(data,t){//返回参数预处理
+					// 	console.log(data,t);
+					// },
+					beforeSend: function() {
+						layerLoad = layer.load(3);
+					},
+					error: function(data) {
+						layer.close(layerLoad);
+						console.log(data);
+						layer.alert("请求失败，请检查服务器端！", {
+							icon: 5
+						});
+					},
+					success: function(data) {
+						
+						var data = (typeof data == "object" ? data : JSON.parse(data));
+						console.log(data);
+						layer.close(layerLoad);
+						successFn(data);
+					},
+				
+				});
+				
+			},
+			
 			/**
 			 * 普通ajax请求
 			 * @param {String} murl 请求地址
@@ -182,6 +225,7 @@ function _extend(deep, target, options) {
 					type: method,
 					url: murl,
 					dataType: "json",
+					contentType:"application/json",//发送到后台的数据格式
 					data: mdata || {},
 					async: true,
 					timeout: 10000,		

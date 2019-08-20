@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" content="">
+		<title>core - d3.timer</title>
+		<style type="text/css">
+			svg text{
+				fill: orange;
+			}
+		</style>
+		<script type="text/javascript" src="../../d3.js"></script>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+			var svg = d3.select('body')
+				.append('svg')	//向body标签增加svg子元素
+				.attr({
+					"width": 700,"height": 500
+				});
+			
+			//追加测试元素
+			svg.append('text')
+				.attr({
+					x: 100,y: 100
+				});
+			
+			//翻滚动画引擎，参数一，函数类型，返回数字，执行函数次数为最终返回数字大小，
+			//参数2为执行定时器之前的延迟时间，
+			//参数3，可有可无
+			d3.timer(notify,1000,Date.now());
+			
+			
+			var i = 0;
+			//返回翻滚计数
+			function notify(d) {
+				svg.select('text').text(i);
+				return i++ >= 500;
+			}
+			
+		
+		</script>
+	</body>
+</html>
