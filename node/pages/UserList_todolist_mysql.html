@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数据列表的增删查改</title>
+		<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			table td,table th{border: 1px solid #000;text-align: center;}
+			td input{width: 100px;}
+		</style>
+	</head>
+	<body>
+		<div>
+			<div>
+				<input type="text" name="" id="" value="" class="search_str" placeholder="模糊检索"/>
+				<button type="button" onclick="searchStr()">查询</button>
+			</div>
+			<div><h4>list</h4></div>
+			<div class="tableBox">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>姓名</th>
+							<th>年龄</th>
+							<th>电话</th>
+							<th>邮箱</th>
+							<th>班级</th>
+							<th>年级</th>
+							<th>地址</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>
+								
+							</td>
+							<td>
+								<input type="text" name="name" placeholder="请输入名字"/>
+							</td>
+							<td>
+								<input type="text" name="age" placeholder="请输入年龄"/>
+							</td>
+							<td>
+								<input type="text" name="phone" placeholder="请输入电话"/>
+							</td>
+							<td>
+								<input type="text" name="email" placeholder="请输入邮箱"/>
+							</td>
+							<td>
+								<input type="text" name="_class" placeholder="请输入班级"/>
+							</td>
+							<td>
+								<input type="text" name="grade" placeholder="请输入年级"/>
+							</td>
+							<td>
+								<input type="text" name="address" placeholder="请输入地址"/>
+							</td>
+							<td>
+								<button type="button"  class="saveInfo">保存</button>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			
+			<div class="pageBox" style="text-align: center;">
+				<button type="button" onclick="prevFn()">上一页</button>
+				<span class="currPageNum">1</span>
+				<button type="button" onclick="nextFn()">下一页</button>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var isAdd = true;
+			var editId = 0;//编辑id
+			var pageNum = $(".currPageNum").text()*1;//当前页码
+			
+			
+			//新增数据
+			function addUser(){
+				$.ajax({
+					type:"post",
+					url:"/addUser",
+					async:true,
+					data:{
+						name:$("[name=name]").val(),
+						age:$("[name=age]").val(),
+						phone:$("[name=phone]").val(),
+						email:$("[name=email]").val(),
+						_class:$("[name=_class]").val(),
+						grade:$("[name=grade]").val(),
+						address:$("[name=address]").val()
+					},
+					dataType:"json",
+					success:function(data){
+						console.log(data,"新增用户成功")
+						if(data.code == 0){
+							alert(data.data);
+							setTimeout(function(){
+								window.location.reload();
+							},100)
+						}else{
+							alert(data.data);
+						}
+						
+					}
+				});
+			}
+			
+			//修改
+			function editUserInfo(){
+				$.ajax({
+					type:"post",
+					url:"/editUser",
+					async:true,
+					data:{
+						name:$("[name=name]").val(),
+						age:$("[name=age]").val(),
+						phone:$("[name=phone]").val(),
+						email:$("[name=email]").val(),
+						_class:$("[name=_class]").val(),
+						grade:$("[name=grade]").val(),
+						address:$("[name=address]").val(),
+						uid:editId
+					},
+					dataType:"json",
+					success:function(data){
+						console.log(data,"编辑用户成功")
+						if(data.code == 0){
+							alert(data.data);
+							setTimeout(function(){
+								window.location.reload();
+							},100)
+						}else{
+							alert(data.data);
+						}
+						
+					}
+				});
+			}
+			
+			//获取列表list
+			function getList(callback){
+				$.ajax({
+					type:"get",
+					url:"/listUsers",
+					async:true,
+					data:{
+						uid:111,
+						pageNum:pageNum
+					},
+					dataType:"json",
+					success:function(data){
+						console.log(data,"获取list成功",typeof data.data);
+						
+						if(typeof data.data == "object"){
+							renderList(data.data);
+							if(callback) callback();
+						}else{
+							alert(data.data);
+							
+						}
+						
+					}
+				});
+			}
+			
+			//渲染list
+			function renderList(aData){
+				var tem = "";
+				if(aData.length > 0){
+					
+					for(var i=0;i<aData.length;i++){
+						tem += '<tr data-uid="'+ aData[i].uid +'"><td>'+ (i+1) +'</td>'+
+								'<td class="mainName">'+ aData[i].name +'</td>'+
+								'<td>'+ aData[i].age +'</td>'+
+								'<td>'+ aData[i].phone +'</td>'+
+								'<td>'+ aData[i].email +'</td>'+
+								'<td>'+ aData[i]._class +'</td>'+
+								'<td>'+ aData[i].grade +'</td>'+
+								'<td>'+ aData[i].address +'</td>'+
+								'<td><button type="button" class="updateInfo" >修改</button><button type="button" class="del" onclick="delFn(\''+ aData[i].uid +'\')">删除</button></td>'+
+							   '</tr>';
+					}
+					$(".table tbody").html(tem);
+				}else{
+					tem = "<tr><td colspan='9'>暂无数据</td></tr>"
+					$(".table tbody").html(tem);
+				}
+			}
+			
+			getList();
+			
+			//修改用户信息(name是唯一id)
+			$("body").on("click",".updateInfo",function(){
+				isAdd = false;
+				editId = $(this).parents("tr").attr("data-uid")*1;
+//				$("[name=name]").attr("readonly","readonly");
+				$(this).parents("tr").find("td").each(function(i){
+					if(i > 0 && i < 8){
+						var txt = $(this).text();
+						$("tfoot td").eq(i).children("input").val(txt);
+					}
+				});
+			});
+			
+		
+			//删除
+			function delFn(n){
+				//alert(name);
+				$.ajax({
+					type:"post",
+					url:"/delUsers",
+					async:true,
+					data:{
+						uid:n
+					},
+					dataType:"json",
+					success:function(data){
+						console.log(data,"删除成功");
+						if(data.code == 0){
+							alert(data.data);
+							setTimeout(function(){
+								window.location.reload();
+							},100)
+						}else{
+							alert(data.data);
+						}
+					}
+				});
+			}
+			
+			//新增和修改
+			$(".saveInfo").on("click",function(){				
+				isAdd ? addUser() : editUserInfo();
+			});
+			
+			//上一页
+			function prevFn(){			
+				if(pageNum > 1){
+					pageNum--;
+					
+					getList(function(){
+						$(".currPageNum").text(pageNum);
+					});
+				}else{
+					alert("已经是第一页了")
+				}
+			}
+			
+			//下一页
+			function nextFn(){
+				pageNum++;
+				getList(function(){
+					$(".currPageNum").text(pageNum);
+				});
+			}
+			
+			//模糊查询
+			function searchStr(){
+				
+			}
+		</script>
+	</body>
+</html>

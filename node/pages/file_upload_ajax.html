@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<h3>文件上传：</h3> 选择一个文件上传: <br />
+		<form action="#" method="post" enctype="multipart/form-data" id="form">
+			<input type="file" name="image" size="50" />
+			<br />
+			<input type="button" value="上传文件" onclick="fileUploadFn()"/>
+		</form>
+		
+		<script type="text/javascript">
+			function fileUploadFn(){
+				var formData = new FormData();
+//			    var f = $("#form")[0];
+//			    console.log(f.files);
+//			    var file = f.files[0];
+			    //var ff = document.getElementById('form')[0].files[0];
+			    var ff = $("input[type=file]")[0].files[0];
+			    console.log(ff,"files obj");
+			    formData.append("image", ff);
+				
+				$.ajax({
+					type:"post",
+					url:"/file_upload",
+					data:formData,
+//					dataType:'json',
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+					timeout: 10000,	
+					success:function(data){
+						console.log(data,"req success")
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

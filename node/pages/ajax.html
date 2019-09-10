@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div>
+			<h2>get请求</h2>
+				First Name: <input type="text" name="first_name" value="xhb" class="first_name"> 
+			<br> Last Name: <input type="text" name="last_name" value="15122" class="last_name">
+			<button type="button" onclick="getFn()">get请求</button>
+		</div>
+		<div>
+			<button type="button" onclick="postFn()">post请求</button>
+		</div>
+		<script type="text/javascript">
+			function getFn(){
+				$.ajax({
+					type:"get",
+					url:"http://127.0.0.1:8081/process_get",
+					data:{
+						first_name:$(".first_name").val(),
+						last_name:$(".last_name").val()
+					},
+					dataType:"json",
+					async:true,
+					success:function(data){
+						console.log("get res",data);
+					}
+				});
+			}
+			
+			function postFn(){
+				$.ajax({
+					type:"post",
+					url:"http://127.0.0.1:8081/process_post",
+					data:{
+						id:007,
+						name:"xhb"
+					},
+					dataType:"json",
+					async:true,
+					success:function(data){
+						console.log("post res",data);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
