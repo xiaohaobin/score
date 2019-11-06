@@ -455,47 +455,54 @@ function _extend(deep, target, options) {
 			 * */
 			getOnTime: function(oTime) {
 				//获取当前具体时间
-				var oDate = new Date();
-				var nYear = oDate.getFullYear();
-				var nMonth = oDate.getMonth() * 1 + 1;
-				var nDate = oDate.getDate();
-
-				var nHours = oDate.getHours();
-				var nMinutes = oDate.getMinutes();
-				var nSeconds = oDate.getSeconds();
-
-				(nHours < 10) && (nHours = "0" + nHours);
-				(nMinutes < 10) && (nMinutes = "0" + nMinutes);
-				(nSeconds < 10) && (nSeconds = "0" + nSeconds);
-
-				switch(true) {
-					case(oTime === 'y-m-d'):
-						return nYear + "-" + nMonth + "-" + nDate;
-						break;
-					case(oTime === 'y-m'):
-						return nYear + "-" + nMonth;
-						break;
-					case(oTime === 'm-d'):
-						return nMonth + "-" + nDate;
-						break;
-					case(oTime === 'h-m-s'):
-						return nHours + ":" + nMinutes + ":" + nSeconds;
-						break;
-					case(oTime === 'm-s'):
-						return nMinutes + ":" + nSeconds;
-						break;
-					case(oTime === 'h-m'):
-						return nHours + ":" + nMinutes;
-						break;
-					case(oTime === 'w'):
-						return "今天是星期" + "日一二三四五六".charAt(new Date().getDay());
-						break;
-					case(oTime === 'ZW'):
-						return nYear + "年" + nMonth + "月" + nDate + "日  " + nHours + ":" + nMinutes + ":" + nSeconds;
-						break;
-					default:
-						return nYear + "-" + nMonth + "-" + nDate + "\0" + nHours + ":" + nMinutes + ":" + nSeconds;
-				}
+					var oDate = new Date();
+					var nYear = oDate.getFullYear();
+					var nMonth = oDate.getMonth() * 1 + 1;
+					if(nMonth < 10) nMonth = "0" + nMonth;
+					var nDate = oDate.getDate();
+					if(nDate < 10) nDate = "0" + nDate;
+					var nHours = oDate.getHours();
+					var nMinutes = oDate.getMinutes();
+					var nSeconds = oDate.getSeconds();
+				
+					(nHours < 10) && (nHours = "0" + nHours);
+					(nMinutes < 10) && (nMinutes = "0" + nMinutes);
+					(nSeconds < 10) && (nSeconds = "0" + nSeconds);
+				
+					switch(true) {
+						case(oTime === 'y-m-d'):
+							return nYear + "-" + nMonth + "-" + nDate;
+							break;
+						case(oTime === 'y-m'):
+							return nYear + "-" + nMonth;
+							break;
+						case(oTime === 'm-d'):
+							return nMonth + "-" + nDate;
+							break;
+						case(oTime === 'h-m-s'):
+							return nHours + ":" + nMinutes + ":" + nSeconds;
+							break;
+						case(oTime === 'm-s'):
+							return nMinutes + ":" + nSeconds;
+							break;
+						case(oTime === 'h-m'):
+							return nHours + ":" + nMinutes;
+							break;
+						case(oTime === 'y'):
+							return nYear;
+							break;
+						case(oTime === 'd'):
+							return nDate;
+							break;
+						case(oTime === 'w'):
+							return "今天是星期" + "日一二三四五六".charAt(new Date().getDay());
+							break;
+						case(oTime === 'ZW'):
+							return nYear + "年" + nMonth + "月" + nDate + "日  " + nHours + ":" + nMinutes + ":" + nSeconds;
+							break;
+						default:
+							return nYear + "-" + nMonth + "-" + nDate + " " + nHours + ":" + nMinutes + ":" + nSeconds;
+					}
 			},
 
 			/**
@@ -874,34 +881,34 @@ function _extend(deep, target, options) {
 			 * */
 			changeScript:function(url, srckey, callback){
 				
-				// 删除之前的script
-				const scripts = document.querySelectorAll('script');
-				for(const script of scripts) {
-					if(script.src.includes(srckey)) {
-						script.parentNode.removeChild(script);
-					}
-				}
-				document.execCommand('Refresh');
+			// 	// 删除之前的script
+			// 	const scripts = document.querySelectorAll('script');
+			// 	for(const script of scripts) {
+			// 		if(script.src.includes(srckey)) {
+			// 			script.parentNode.removeChild(script);
+			// 		}
+			// 	}
+			// 	document.execCommand('Refresh');
 			
-				// 重新创建script
-				const script = document.createElement("script");
-				script.type = "text/javascript";
-				script.async = true;
-				script.defer = true;
-				if(script.readyState) { // IE
-					script.onreadystatechange = function() {
-						if(script.readyState === "loaded" || script.readyState === "complete") {
-							script.onreadystatechange = null;
-							callback();
-						}
-					};
-				} else { // Others
-					script.onload = function() {
-						callback();
-					};
-				}
-				script.src = url;
-				document.getElementsByTagName("head")[0].appendChild(script);
+			// 	// 重新创建script
+			// 	const script = document.createElement("script");
+			// 	script.type = "text/javascript";
+			// 	script.async = true;
+			// 	script.defer = true;
+			// 	if(script.readyState) { // IE
+			// 		script.onreadystatechange = function() {
+			// 			if(script.readyState === "loaded" || script.readyState === "complete") {
+			// 				script.onreadystatechange = null;
+			// 				callback();
+			// 			}
+			// 		};
+			// 	} else { // Others
+			// 		script.onload = function() {
+			// 			callback();
+			// 		};
+			// 	}
+			// 	script.src = url;
+			// 	document.getElementsByTagName("head")[0].appendChild(script);
 				
 			},
 			/**
@@ -943,8 +950,8 @@ function _extend(deep, target, options) {
 					alert('时间参数缺省');
 					return;
 				}
-				var _startDate = new Date(startDate);
-				var _endDate = new Date(endDate);
+				var _startDate = new Date(startDate.replace(/-/g,"/"));
+				var _endDate = new Date(endDate.replace(/-/g,"/"));
 
 				if(!space) {
 					space = 30 * 60 * 1000;
@@ -1137,15 +1144,15 @@ function _extend(deep, target, options) {
 			window_to_bottom_fn:function(fn){
 				//开启事件监听
 				window.addEventListener('scroll', function() {
-					let clientHeight = document.documentElement.clientHeight //可视区高度
+					var clientHeight = document.documentElement.clientHeight //可视区高度
 	
-					let scrollHeight = document.documentElement.scrollHeight //文档流高度
+					var scrollHeight = document.documentElement.scrollHeight //文档流高度
 	
-					let scrollDistance = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0 //滚动出去高度
+					var scrollDistance = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0 //滚动出去高度
 	
 					//文档剩余区域的高度
 					// 文档高度-可视区高度-滚动出去的高度 = 文档剩余高度
-					let surplus = scrollHeight - clientHeight - scrollDistance //尚未滚出来的文档流高度
+					var surplus = scrollHeight - clientHeight - scrollDistance //尚未滚出来的文档流高度
 	
 					//注意判断条件,当剩余文档流的高度小于0时
 	
@@ -1260,7 +1267,113 @@ function _extend(deep, target, options) {
 						break;
 				}
 			},
-			
+			/**
+			 * UTC通用标准,以z来标识的时间 ，如2019-04-24T02:30:00.000+0000，转化为“yyyy-mm-dd HH:mm:ss”格式
+			 * @param {String} date UTC通用标准时间，如，2019-04-24T02:30:00.000+0000
+			 * @return {String}
+			 * */
+			resolvingDate:function(date){
+				//date是传入的时间
+				  var d = new Date(date);
+				
+				  var month = (d.getMonth() + 1) < 10 ? '0'+(d.getMonth() + 1) : (d.getMonth() + 1);
+				  var day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
+				  var hours = d.getHours()<10 ? '0'+d.getHours() : d.getHours();
+				  var min = d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
+				  var sec = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+				
+				  var times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+				
+				  return times;
+			},
+			/**
+			 * 根据各种时间类型增量时间（年月日，年月，年）
+			 * @param {String} sType 要增量的时间类型 0，1，2，分别代表“yyyy-mm-dd”,"yyyy-mm","yyyy"格式时间
+			 * @param {String} sDate 要增量的时间 可能值：“yyyy-mm-dd”,"yyyy-mm","yyyy"
+			 * @param {Boolean} isLimiting 增量时间是否在当前现实时间范围内，如果传参数true，则增量后的时间必须不能大于 new Date()
+			 * */
+			addAnyTime:function(sType,sDate,isLimiting){
+				if(sType == "0"){
+					var speed = 1 * 60 * 60 * 24;//秒为单位进制
+					var nTime = $.backDateNum(sDate) + speed;//增量后时间戳
+					var cur_date = $.getOnTime('y-m-d');
+					var nCurrDate = $.backDateNum( cur_date );//当前现实时间戳间
+					if(isLimiting && nTime > nCurrDate){//有限制
+						return cur_date;
+					}
+					var res = $.timestampToTime(nTime,"yyyy-MM-dd");
+					return res;
+				}else if(sType == "1"){
+					var oMonth = $.get_string(sDate);
+					var cur_date = $.getOnTime('y-m');
+					var oMonth2 = $.get_string(cur_date);//当前的时间（yyyy-mm）
+					if(oMonth.last === 12){
+						oMonth.last = 1;
+						oMonth.first++; 
+					}else{
+						oMonth.last++;
+					}
+					
+					if(isLimiting){
+						if( oMonth2.first < oMonth.first || (oMonth2.first == oMonth.first && oMonth2.last < oMonth.last) ){//有限制
+							return cur_date;
+						}
+					}
+					if(oMonth.last < 10) oMonth.last = 0 + "" +oMonth.last;
+					var res = oMonth.first + "-" + oMonth.last;
+					return res;
+				}else if(sType == "2"){
+					var currYear = $.getOnTime('y')*1;
+					var newYear = sDate*1 + 1;
+					return (newYear > currYear ? currYear : newYear);
+				}
+			},
+			/**
+			 * 根据各种时间类型减量时间（年月日，年月，年）
+			 * @param {String} sType 要减量的时间类型 0，1，2，分别代表“yyyy-mm-dd”,"yyyy-mm","yyyy"格式时间
+			 * @param {String} sDate 要减量的时间 可能值：“yyyy-mm-dd”,"yyyy-mm","yyyy"
+			 * */
+			desAnyTime:function(sType,sDate){
+				if(sType == "0"){
+					var speed = 1 * 60 * 60 * 24;//秒为单位进制
+					var nTime = $.backDateNum(sDate) - speed;//减量后时间戳					
+					var res = $.timestampToTime(nTime,"yyyy-MM-dd");
+					return res;
+				}else if(sType == "1"){
+					var oMonth = $.get_string(sDate);
+					if(oMonth.last === 1){
+						oMonth.last = 12;
+						oMonth.first--; 
+					}else{
+						oMonth.last--;
+					}
+					if(oMonth.last < 10) oMonth.last = 0 + "" +oMonth.last;
+					var res = oMonth.first + "-" + oMonth.last;
+					return res;
+				}else if(sType == "2"){
+					var newYear = sDate*1 - 1;
+					if(newYear < 0){
+						return sDate;
+					}else{
+						return newYear;
+					}
+				
+				}
+			},
+			/**
+			 * 截取带有“-”的字符串，分为两段
+			 * @param {String} location 带有一个“-”的字符串
+			 * @return {Object}
+			 * */
+			get_string:function(location){
+				var sign = location.indexOf("-");
+				var ra_x = location.slice(0,sign)*1;//x轴数
+				var ra_y = location.slice(sign+1,location.length)*1;//y轴数
+				return {
+					first:ra_x,
+					last:ra_y
+				};
+			}
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/

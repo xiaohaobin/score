@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+	<head>
+		<meta charset="utf-8">
+		<script src="dist/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="dist/echarts.min.js"></script>
+		<script type="text/javascript" src="dist/echarts-gl.min.js"></script>
+		<script type="text/javascript" src="dist/ecStat.min.js"></script>
+		<script type="text/javascript" src="dist/dataTool.min.js"></script>
+		<script type="text/javascript" src="dist/bmap.min.js"></script>
+	</head>
+	<body style="height: 100%; margin: 0">
+		<div id="container" style="height: 100%"></div>
+		
+		<script type="text/javascript">
+			var dom = document.getElementById("container");
+			var myChart = echarts.init(dom);
+			var app = {};
+			var option = null;
+			myChart.showLoading();
+			
+			
+			$.get('treeData.json', function(data) {
+				myChart.hideLoading();
+
+				echarts.util.each(data.children, function(datum, index) {
+					index % 2 === 0 && (datum.collapsed = true);
+				});
+				
+				//数据配置
+				option = {
+					tooltip: {
+						trigger: 'item',
+						triggerOn: 'mousemove'
+					},
+					series: [{
+						type: 'tree',
+						data: [data],
+						top: '1%',
+						left: '7%',
+						bottom: '1%',
+						right: '20%',
+						symbolSize: 10,//(标志大小)
+						// symbol:'image://img/inverter.png',//标志(可用图片)
+						roam:true,//是否缩放和平移
+						label: {
+							normal: {
+								position: 'left',
+								verticalAlign: 'middle',
+								align: 'right',
+								fontSize: 9,
+								formatter:function(params){
+									console.log(params,"zucuan.png")
+									var res = '';
+									var myseries = option.series;									
+									for (var j = 0; j < myseries[0].data.length; j++) {
+										if (myseries[0].data[j].name == params.name) {    
+											res = '\n {img1|}' + params.name;		//									
+										}
+										var lv2_arr = myseries[0].data[j].children;
+										for(var i=0;i<lv2_arr.length;i++){
+											if(lv2_arr[i].name == params.name){
+												res = '\n {img2|}' + params.name;
+											}
+											var lv3_arr = lv2_arr[i].children;
+											for(var k=0;k<lv3_arr.length;k++){
+												if(lv3_arr[k].name == params.name){
+													res = '\n {img3|}' + params.name;
+												}
+												
+												// var lv4_arr = lv3_arr[k].children;
+												// for(var l=0;l<lv4_arr.length;l++){
+												// 	if(lv4_arr[l].name == params.name){
+												// 		res = '\n {img3|}' + params.name;
+												// 	}
+												// }
+											}
+										}
+										
+										
+									}
+									return res;								
+								},
+								rich : {
+								   //这里设置您的图片引用名称
+									img1 : {
+											   //引入图片
+										backgroundColor : {
+											image : 'img/bigPower.png',											
+										},
+										width:82,
+										height:47
+									},
+									img2 : {
+										backgroundColor : {
+											image : 'img/inverter.png'
+										},
+									},
+									img3 : {
+										backgroundColor : {
+											image : 'img/zucuan.png'
+										},
+									},
+								},
+
+								position : 'right',
+								show : true,
+								
+							},
+							
+						},
+					
+						leaves: {
+							label: {
+								normal: {
+									position: 'right',
+									verticalAlign: 'middle',
+									align: 'left'
+								}
+							}
+						},
+					
+						expandAndCollapse: true,
+						animationDuration: 550,
+						animationDurationUpdate: 750
+					}]
+				};
+
+				myChart.setOption(
+					option
+				);
+			});
+			if (option && typeof option === "object") {
+				myChart.setOption(option, true);
+			}
+		</script>
+	</body>
+</html>

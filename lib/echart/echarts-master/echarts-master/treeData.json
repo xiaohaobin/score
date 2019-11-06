@@ -1,0 +1,153 @@
+{
+	"lv": 1,
+	"name": "flare",
+	"children": [
+		{
+			"lv": 2,
+			"name": "analytics",
+			"children": [{
+					"lv": 3,
+					"name": "cluster",
+					"children": [
+						{
+							"lv": 4,
+							"name": "AgglomerativeCluster",
+							"value": 3938
+						},
+						{
+							"lv": 4,
+							"name": "CommunityStructure",
+							"value": 3812
+						},
+						{
+							"lv": 4,
+							"name": "HierarchicalCluster",
+							"value": 6714
+						},
+						{
+							"lv": 4,
+							"name": "MergeEdge",
+							"value": 743
+						}
+					]
+				},
+				{
+					"lv": 3,
+					"name": "graph",
+					"children": [
+						{
+							"lv": 4,
+							"name": "BetweennessCentrality",
+							"value": 3534
+						},
+						{
+							"lv": 4,
+							"name": "LinkDistance",
+							"value": 5731
+						},
+						{
+							"lv": 4,
+							"name": "MaxFlowMinCut",
+							"value": 7840
+						},
+						{
+							"lv": 4,
+							"name": "ShortestPaths",
+							"value": 5914
+						},
+						{
+							"lv": 4,
+							"name": "SpanningTree",
+							"value": 3416
+						}
+					]
+				},
+				{
+					"lv": 3,
+					"name": "optimization",
+					"children": [
+						{
+						"lv": 4,
+						"name": "AspectRatioBanker",
+						"value": 7074
+					}]
+				}
+			]
+		},
+		{
+			"lv": 2,
+			"name": "animate",
+			"children": [
+				{
+					"lv": 3,
+					"name": "Easing",
+					"value": 17010
+				},
+				{
+					"lv": 3,
+					"name": "FunctionSequence",
+					"value": 5842
+				},
+				{
+					"lv": 3,
+					"name": "interpolate",
+					"children": [
+						{
+							"lv": 4,
+							"name": "ArrayInterpolator",
+							"value": 1983
+						},
+						{
+							"lv": 4,
+							"name": "ColorInterpolator",
+							"value": 2047
+						},
+						{
+							"lv": 4,
+							"name": "DateInterpolator",
+							"value": 1375
+						},
+						{
+							"lv": 4,
+							"name": "Interpolator",
+							"value": 8746
+						},
+						{
+							"lv": 4,
+							"name": "MatrixInterpolator",
+							"value": 2202
+						},
+						{
+							"lv": 4,
+							"name": "NumberInterpolator",
+							"value": 1382
+						},
+						{
+							"lv": 4,
+							"name": "ObjectInterpolator",
+							"value": 1629
+						},
+						{
+							"lv": 4,
+							"name": "PointInterpolator",
+							"value": 1675
+						},
+						{
+							"lv": 4,
+							"name": "RectangleInterpolator",
+							"value": 2042
+						}
+					]
+				},
+				
+				{
+					"lv": 3,
+					"name": "Tween",
+					"value": 6006
+				}
+			]
+		}
+
+
+	]
+}
