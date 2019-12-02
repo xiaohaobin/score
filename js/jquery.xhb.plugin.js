@@ -1373,7 +1373,32 @@ function _extend(deep, target, options) {
 					first:ra_x,
 					last:ra_y
 				};
-			}
+			},
+			/**
+			 * 截取带有特殊字符的字符串，分为两段
+			 * @param {String} location 带有一个特殊字符的字符串
+			 * @param {String} str 特殊字符
+			 * @return {Object}
+			 * */
+			get_string2:function(location,str){
+				var sign = location.indexOf(str);
+				var ra_x = location.slice(0,sign)*1;//第一个
+				var ra_y = location.slice(sign+1,location.length)*1;//第二个
+				return {
+					first:ra_x,
+					last:ra_y
+				};
+			},
+			/**
+			 * 数组中的两个元素互换位置
+			 * @param {Array} arr 数组
+			 * @param {Number} index1 数组元素1的索引
+			 * @param {Number} index2 数组元素2的索引
+			 * */
+			swapArr:function(arr, index1, index2) {
+			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+			    return arr;
+			},
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
