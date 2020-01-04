@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+
+    <title>分步显示插件</title>
+    <link rel="stylesheet" media="screen" href="css/step.css"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	
+    <script src="js/jquery.min.js"></script>
+    <script src="js/step.js"></script>
+	
+  </head>
+
+  <body style="background-color: #efeff0 ;">
+    <div class="steps"></div>
+
+
+    <button onClick="previousStep()">上一步</button>
+    <button onClick="nextStep()">下一步</button>
+    <br/>
+    <button onclick='gotoStep(1)'>1</button>
+    <button onclick='gotoStep(2)'>2</button>
+    <button onclick='gotoStep(3)'>3</button>
+    <button onclick='gotoStep(4)'>4</button>
+    <button onclick='gotoStep(5)'>5</button>
+    <button onclick='gotoStep(6)'>6</button>
+
+    <script>
+
+      $(function () {
+        initStep();
+      });
+
+      function initStep() {
+        $(".steps").step({
+          stepNames: ['购买', '付款', '发货', '收货', '评价', '完成'],
+          initStep: 3
+        })
+      }
+
+      function previousStep() {
+        $(".steps").step("previous");
+      }
+
+      function nextStep() {
+        $(".steps").step("next");
+      }
+
+      function gotoStep(step) {
+        $(".steps").step("goto", step)
+      }
+
+    </script>
+
+  </body>
+</html>

@@ -14,6 +14,7 @@
 		<input type="file" name="fileInput" id="fileInput" value="" />
 		
 		<div class="ssss"></div>
+		<button onclick="closeCurrPage()">关闭当前页面</button>
 		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/layer/layer.js" type="text/javascript" charset="utf-8"></script>
@@ -64,6 +65,25 @@
 				"2010"
 			);
 			console.log(s2)
+			
+			//关闭当前页面
+			function closeCurrPage(){
+				if (navigator.userAgent.indexOf('MSIE') > 0) { // close IE
+				   if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+				      window.opener = null;
+				      window.close();
+				   } else {
+				      window.open('', '_top');
+				      window.top.close();
+				   }
+				} else { // close chrome;It is effective when it is only one.
+				   window.opener = null;
+				   window.open('', '_self');
+				   window.close();
+				}
+				
+			}
+			
 		</script>
 	</body>
 </html>

@@ -1399,6 +1399,58 @@ function _extend(deep, target, options) {
 			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
 			    return arr;
 			},
+			//关闭当前页面
+			closeCurrPage:function(){
+				if (navigator.userAgent.indexOf('MSIE') > 0) { // close IE
+				   if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+				      window.opener = null;
+				      window.close();
+				   } else {
+				      window.open('', '_top');
+				      window.top.close();
+				   }
+				} else { // close chrome;It is effective when it is only one.
+				   window.opener = null;
+				   window.open('', '_self');
+				   window.close();
+				}
+			},
+			/**
+			 * 获取数组元素最大值
+			 * @param {Array} arr 一维数组(里面皆是数字)
+			 * @return {Number}
+			 * */
+			max:function(arr){
+				Array.prototype.max = function() { 
+					var max = this[0];
+					var len = this.length; 
+					for (var i = 1; i < len; i++){ 
+						if (this[i] > max) { 
+							max = this[i]; 
+						} 
+					} 
+					return max;
+				}
+				return arr.max();
+			},
+			/**
+			 * 获取数组元素最小值
+			 * @param {Array} arr 一维数组(里面皆是数字)
+			 * @return {Number}
+			 * */
+			min:function(arr){
+				Array.prototype.min = function() {
+					var min = this[0];
+					var len = this.length;
+					for (var i = 1; i < len; i++){ 
+						if (this[i] < min){ 
+							min = this[i]; 
+						} 
+					} 
+					return min;
+				}
+				return arr.min();
+			}
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/

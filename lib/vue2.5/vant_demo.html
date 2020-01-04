@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+		<!-- 引入样式文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+
+		<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+		<title></title>
+		
+	</head>
+	<body>
+		<div id="app">
+			<div class="flex_space-around pd-5 mg-5">
+				<van-button type="info" @click="showPopup()">时间选择器</van-button>
+				<van-button type="primary" @click="NumberKeyboard.show = true">数字键盘</van-button>
+				<!-- <van-button icon="star-o" type="primary" /> -->
+				<van-button icon="star-o" type="primary">按钮</van-button>
+				<van-button icon="https://img.yzcdn.cn/vant/logo.png" type="info">按钮</van-button>
+			</div>
+			<div class="pd_5 mg-5">
+				<van-slider v-model="v_slide_val" active-color="#ee0a24" :min="0" :max="100">
+					<div slot="button" class="custom-button">						
+						<van-tag round type="primary">{{ v_slide_val }}</van-tag>
+					</div>
+				</van-slider>
+
+			</div>
+			
+			<div class="pd_5 mg-5">
+				
+				<van-popup v-model="popup_show"
+				  position="bottom"
+				  :style="{ height: '30%' }">
+				  
+				  <van-datetime-picker
+				    v-model="datetime_picker.currentDate"
+				    type="datetime"
+					@confirm="complteDatetime()"
+					@change="datetimeChange()"
+				    :max-date="datetime_picker.maxDate"
+				  />
+				  
+				  </van-popup>
+			</div>
+			
+			
+			<div class="pd-5 mg-5">
+				<van-number-keyboard
+				  :show="NumberKeyboard.show"
+				  extra-key="."
+				  close-button-text="完成"
+				  @blur="NumberKeyboard.show = false"
+				  @input="onInput"
+				  @delete="onDelete"
+				/>
+			</div>
+		</div>
+
+		<script>
+			// 在 #app 标签下渲染一个按钮组件
+			new Vue({
+				el: '#app',
+				data: {
+					v_slide_val: 20,
+					popup_show:false,//弹出层的显示值
+					datetime_picker:{//时间选择器
+						maxDate: new Date(),
+						currentDate: new Date(),
+						currentDate_f:""
+					},
+					NumberKeyboard:{//数字键盘
+						show:false,
+					}
+				},
+				created() {
+					
+				},
+				mounted() {
+					
+				},
+				methods:{
+					showPopup(){
+						this.popup_show = !this.popup_show;
+					},
+					complteDatetime(){
+						console.log(this.datetime_picker.currentDate,"event confirm");
+						this.popup_show = false;
+					},
+					datetimeChange(){
+						console.log(this.datetime_picker.currentDate,"event change");
+					},
+					onInput(value) {
+					  vant.Toast(value);
+					},
+					onDelete() {
+					  vant.Toast('删除');
+					}
+				}
+			});
+
+			// 调用函数组件，弹出一个 Toast
+			vant.Toast('提示');
+		</script>
+	</body>
+</html>

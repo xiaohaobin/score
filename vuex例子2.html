@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+		<script src="lib/vue2.5/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/vue2.5/vuex.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div class="wrap" id="app">
+		    <App></App>
+		</div>
+		
+		
+		
+		
+		<script type="text/javascript">
+			//Vue.use(Vuex);//如果是window引入方式，vuex会自动附加到Vue上。
+			var state = {
+			    list: [{"id":1, "name": "001"}]
+			};
+			var mutations = {
+			    ADDITEM: function(argState, item){
+			        argState.list.push(item);
+			    }
+			};
+			var getters = {
+			    getList:function(argState){
+			        return argState.list;
+			    }
+			}
+			var actions = {
+			    addItem:function(dis,item){
+			        dis.commit('ADDITEM',item);
+			    }
+			}
+			var _storeObj = new Vuex.Store({
+			    "state": state,
+			    "mutations": mutations,
+			    "getters": getters,
+			    "actions": actions
+			});
+			
+			//定义组件模版
+			var inputComp = {
+			    render:function(createElement){
+			        var self = this; 
+			        return createElement('div',{
+			            attrs:{
+			                "data-id": "001"
+			            },
+			            class:{
+			                "form-inline":true
+			            },
+			            style:{
+			                "display": "inline-block"
+			            }
+			        },[createElement('input',{
+			           attrs:{
+			               type: 'text'
+			           },
+			           class:{
+			                "form-control": true
+			           },
+			           domProps:{
+			               value: self.value
+			           },
+			           on:{
+			               input:function(event){
+			                   self.value = event.target.value;
+			               }
+			           } 
+			        }),createElement('button',{
+			            on:{
+			                "click": function(event){
+			                   self.$store.dispatch('addItem',{"id":2,"name": self.value});
+			                }
+			            },
+			            class:{
+			                "btn":true,
+			                "btn-primary": true
+			            },
+			            domProps:{
+			                type: 'button'
+			            }
+			        },"添加")]);
+			    }
+			};
+			//下拉列表组件
+			var ComboComp = {
+			    render:function(createElement){ 
+			        var self = this;
+			        return createElement("div",{
+			            attrs:{
+			                "data-id": "ComboComp"
+			            },
+			            class:{
+			                "dropdown":true
+			            },
+			            style:{
+			                "display": "inline-block"
+			            }
+			        },[
+			            createElement("button",{
+			                class:{
+			                    "btn": true,
+			                    "btn-default": true,
+			                    "dropdown-toggle": true
+			                },
+			                attrs:{
+			                    "type": "button",
+			                    "id": "dr02",
+			                    "data-toggle": "dropdown"
+			                }
+			            },[ createElement("span", "选择"), createElement("span",{
+			                class:{
+			                    "caret":true
+			                }
+			            })])
+			            ,
+			            createElement("ul",
+			            {
+			                class:{
+			                    "dropdown-menu":true
+			                },
+			                attrs:{
+			                    "aria-labelledby":"dr02"
+			                }
+			            }, self.$store.getters["getList"].map(function(item){
+			                return createElement("li",item.name);
+			            }))
+			        ])
+			    }
+			};
+			Vue.component('App',{
+			    template:'<div class="wrap" ><ComboComp></ComboComp> <InputComp></InputComp></div>',
+			    components:{
+			        "InputComp": inputComp,
+			        "ComboComp": ComboComp
+			    }
+			});
+			
+			
+			var _vue = new Vue({
+			    el: '#app',
+			    store: _storeObj
+			});
+			
+			//======================================================================
+		</script>
+	</body>
+</html>

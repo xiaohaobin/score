@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+		<script src="lib/vue2.5/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/vue2.5/vuex.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		
+		
+		<div class="container" id="app2">
+			<div class="row">
+				<div class="pull-left">
+					<div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					    Dropdown
+					    <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					    <li v-for="(v,i) in list"><a href="#">{{v.name}}</a></li>
+					  </ul>
+					</div>
+				</div>
+				<div class="pull-left">
+					<form class="form-inline">
+					  <div class="form-group">
+					    <label class="sr-only" for="exampleInputAmount">输入内容：</label>
+					    <div class="input-group">
+					    
+					      <input type="text" class="form-control" id="exampleInputAmount" placeholder="输入" v-model="inputVal">
+					      <div class="input-group-addon" @click="addItem()">添加</div>
+					    </div>
+					  </div>
+					 
+					</form>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<script type="text/javascript">
+			//Vue.use(Vuex);//如果是window引入方式，vuex会自动附加到Vue上。
+			var state = {
+			    list: [{"id":1, "name": "我是你爸爸"}]
+			};
+			var mutations = {
+			    ADDITEM: function(argState, item){
+			        argState.list.push(item);
+			    }
+			};
+			var getters = {
+			    getList:function(argState){
+			        return argState.list;
+			    }
+			}
+			var actions = {
+			    addItem:function(dis,item){
+			        dis.commit('ADDITEM',item);
+			    }
+			}
+			var _storeObj = new Vuex.Store({
+			    "state": state,
+			    "mutations": mutations,
+			    "getters": getters,
+			    "actions": actions
+			});
+			
+			
+			
+			var _vue = new Vue({
+			    el: '#app2',
+			    // store: _storeObj
+				data:{
+					inputVal:"",
+				},
+				computed: {
+				  list () {
+				      return _storeObj.state.list
+				  }
+				},
+				methods:{
+					addItem(){
+						var _this = this;
+						// _storeObj.dispatch('addItem',{"id":2,"name": _this.inputVal});//可以异步操作
+						_storeObj.commit('ADDITEM',{"id":2,"name": _this.inputVal});//必须同步操作
+					}
+				}
+			});
+			
+			//======================================================================
+		</script>
+	</body>
+</html>
