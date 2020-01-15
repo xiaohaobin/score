@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 500px;
+           overflow: scroll;
+        }
+        .inbox {
+            height: 100px;
+            width: 3000px;
+            background-color: aqua
+        }
+        .inbox td,.inbox th{
+            width: 300px
+        }
+        .inbox tbody td{
+            text-align: center;
+        }
+        .left{
+            width: 300px;
+            color: blue;
+            font-weight: bold;
+            background-color: aqua;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .right{
+            width: 300px;
+            color: blue;
+            font-weight: bold;
+            background-color: aqua;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .left td,.left th{
+            width: 300px
+        }
+        .left tbody td{
+            text-align: center
+        }
+        .right td,.right th{
+            width: 300px
+        }
+        .right tbody td{
+            text-align: center
+        }
+    </style>
+</head>
+ 
+<body>
+    <div id="ex"  class="box">
+         <div id="inL"class="left">
+                <table border="1" width="100%">
+                        <thead>
+                                <tr>
+                                           <th>1</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <!-- <tr>
+                                            <td>1</td>
+                                    </tr> -->
+                            </tbody>
+                </table>
+         </div>
+        <table class="inbox" border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                        </tr>
+            </tbody>
+        </table>
+        <div id="inR"class="right">
+                <table border="1" width="100%">
+                        <thead>
+                                <tr>
+                                           <th>10</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <!-- <tr>
+                                            <td>10</td>
+                                    </tr> -->
+                            </tbody>
+                </table>
+        </div>
+    </div>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+       $("#ex").scroll(()=>{
+        let left = $("#ex").scrollLeft()
+        $("#inL").css({"position":"absolute","left":left,"top":"0"})
+        $("#inR").css({"position":"absolute","right":-left,"top":"0"})
+       })
+    </script>
+</body>
+</html>

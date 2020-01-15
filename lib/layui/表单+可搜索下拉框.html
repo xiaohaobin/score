@@ -11,6 +11,18 @@
 	<body class="layui-layout-body">
 		<div class="layui-layout layui-layout-admin">
 			<form class="layui-form" action="">
+				<div style="width: 200px;">
+					<select name="city" lay-verify="required" id="select2" lay-search lay-filter="select">
+						<option value=""></option>
+						<option value="0">北京</option>
+						<option value="1">上海</option>
+						<option value="2">广州</option>
+						<option value="3">深圳</option>
+						<option value="4">杭州</option>
+					</select>
+				</div>
+				
+				
 				<div class="layui-form-item">
 					<label class="layui-form-label">日期框</label>
 					<!--内置验证规则lay-verify-->
@@ -49,6 +61,8 @@
 							<option value="3">深圳</option>
 							<option value="4">杭州</option>
 						</select>
+						
+						
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -86,6 +100,7 @@
 				</div>
 			</form>
 		</div>
+	
 		<div id="testView">
 			
 		</div>

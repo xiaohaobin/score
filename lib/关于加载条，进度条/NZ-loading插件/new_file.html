@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>NZ-Loading</title>
+		<script src="JS/jquery.min.js"></script>
+		<link href="JS/NZ-Plugin/Css/NZ-Loading.min.css" rel="stylesheet" />
+		<script src="JS/NZ-Plugin/Js/NZ-Loading.min.js"></script>
+		<link href="CSS/displaystyle.css" rel="stylesheet" />
+		<script src="JS/syntaxhighlighter_3.0.83/shCore.js"></script>
+		<script src="JS/syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+		<link href="JS/syntaxhighlighter_3.0.83/styles/shCoreRDark.css" rel="stylesheet" />
+		<script>
+			SyntaxHighlighter.all();
+        var s = null;
+        $(function () {
+            var loading_all_id = null;
+            $("#btn_all").click(function () {
+                loading_all_id = $(document.body).NZ_Loading("show");
+                setTimeout(function () {
+                    $(document.body).NZ_Loading("hide", { loadingid: loading_all_id });
+                }, 5000);
+            });
+            var loading_locally_id = null;
+            $("#btn_loading_locallyshow").click(function () {
+                loading_locally_id = $("#testarea").NZ_Loading('show', { content: "模块加载中..." });
+            });
+            $("#btn_loading_locallyhide").click(function () {
+                $("#testarea").NZ_Loading('hide', { loadingid: loading_locally_id });
+            });
+            $("#btn_loading_con").click(function () {
+                var loadingid_con = $(document.body).NZ_Loading('show', { content: "正在获取信息，请稍后..." });
+                setTimeout(function () {
+                    $(document.body).NZ_Loading("hide", { loadingid: loadingid_con });
+                }, 6000);
+            });
+            $("#btn_loading_iframe").click(function () {
+                var iframe = $("<div style=\"width:90%;height:500px;border:2px solid #eee;padding:0;margin:0;overflow:hidden;background-color:#fefefe;\"><iframe src=\"http://qtip2.com/\" style=\"width:100%;height:100%;border:0;padding:0;margin:0;\"></iframe></div>");
+                $(this).before(iframe);
+                var loadingid_iframe = iframe.NZ_Loading("show", { content: "正在打开新世界..." });
+                iframe.children("iframe").load(function () {
+                    iframe.NZ_Loading("hide", { loadingid: loadingid_iframe });
+                });
+
+            });
+        });
+    </script>
+		<style>
+			#testarea {
+            position: relative;
+            width: 800px;
+            height: 300px;
+            border: 4px solid #c7c7c7;
+            border-radius: 5px;
+            background-color: #b5b5b5;
+        }
+    </style>
+	</head>
+	<body>
+		<h2 class="pagetitle">NZ-Loading</h2>
+		<ul class="conlist">
+			<li>
+				<div class="contitle">应用实例</div>
+				<ul>
+					<li>
+						<h3>基本应用</h3>
+						<input id="btn_all" type="button" value="打开一个【全局】Loading" class="button" />
+						<h5>演示代码：</h5>
+						<pre class="brush:js">                        var loading_all_id = null;
+                        $("#btn_all").click(function () {
+                            loading_all_id = $(document.body).NZ_Loading("show");
+                            setTimeout(function () {
+                                $(document.body).NZ_Loading("hide", { loadingid: loading_all_id });
+                            }, 5000);
+                        });
+                    </pre>
+					</li>
+					<li>
+						<h3>局部显示</h3>
+						<input id="btn_loading_locallyshow" type="button" value="点我加载" class="button" />
+						<input id="btn_loading_locallyhide" type="button" value="点我关闭" class="button" />
+						<div id="testarea"></div>
+						<h5>演示代码：</h5>
+						<pre class="brush:js">                        var loading_locally_id = null;
+                        $("#btn_loading_locallyshow").click(function () {
+                            loading_locally_id = $("#testarea").NZ_Loading('show', { content: "模块加载中..." });
+                        });
+                        $("#btn_loading_locallyhide").click(function () {
+                            $("#testarea").NZ_Loading('hide', { loadingid: loading_locally_id });
+                        });
+                    </pre>
+					</li>
+					<li>
+						<h3>自定义加载内容</h3>
+						<input id="btn_loading_con" type="button" value="自定义加载内容" class="button" />
+						<h5>演示代码：</h5>
+						<pre class="brush:js">                        var loadingid_con = $(document.body).NZ_Loading('show', { content: "正在获取信息，请稍后..." });
+                        setTimeout(function () {
+                            $(document.body).NZ_Loading("hide", { loadingid: loadingid_con });
+                        }, 6000);
+                    </pre>
+					</li>
+					<li>
+						<h3>iframe加载应用</h3>
+						<button id="btn_loading_iframe" class="button" type="button">加载一个iframe</button>
+						<pre class="brush:js">                        var iframe = $('<div style=\"width:90%;height:500px;border:2px solid #eee;padding:0;margin:0;\"><iframe src=\"mode_delay.aspx\" style=\"width:100%;height:100%;border:0;padding:0;margin:0;\"></iframe></div>');
+                        $(this).before(iframe);
+                        var loadingid_iframe = iframe.NZ_Loading("show", { content: "正在打开新世界..." });
+                        iframe.children("iframe").load(function () {
+                            iframe.NZ_Loading("hide", { loadingid: loadingid_iframe });
+                        });
+                    </pre>
+					</li>
+					<li>
+						<h3>参数说明</h3>
+						<pre class="brush:js">                        ("show"/"hide"//显示/关闭
+                        ,{
+                            autohide:false//是否自动检测页面加载完毕（自动关闭）
+                            ,cotent:"正在加载..."//加载显示内容
+                        })
+                    </pre>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</body>
+</html>

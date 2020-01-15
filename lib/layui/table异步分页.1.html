@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+		<style type="text/css">
+			.red{
+				color: red !important;
+			}
+			.green{
+				color: green !important;
+			}
+			.blue{
+				color: blue !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="width: 500px;">
+			<table id="demo" lay-filter="test" style="width: 500px;">
+				
+			</table>
+			
+		</div>
+		
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/html" id="titleTpl_1">
+		  <a href="javascript:;" class="layui-table-link" data-id="{{d.id}}">{{d.wealth}}</a>
+		</script>
+		
+
+		<script>
+			layui.use(['laytpl', 'table', 'layer', 'jquery'], function() {
+				var laytpl = layui.laytpl;
+				var table = layui.table;
+				var layer = layui.layer;
+				var $ = layui.jquery;
+
+				//第一个实例
+				table.render({
+					elem: '#demo',
+					height: 600,
+					url: 'data.json', //数据接口(跨域)
+//					url:'../table.json',
+					where: {
+						page:1
+					}, //如果无需传递额外参数，可不加该参数
+					method: 'get', //如果无需自定义HTTP类型，可不加该参数
+					request: {//可修改请求参数的键名
+						pageName: 'page', //页码的参数名称，默认：page
+						limitName: 'per_page' //每页数据量的参数名，默认：limit
+					}, //如果无需自定义请求参数，可不加该参数
+					response: {
+						  statusName: 'code' //数据状态的字段名称，默认：code
+						  ,statusCode: 0 //成功的状态码，默认：0
+						  ,msgName: 'message' //状态信息的字段名称，默认：msg
+						  ,countName: 'total' //数据总数的字段名称，默认：count
+						  ,dataName: 'data' //数据列表的字段名称，默认：data
+					}, //如果无需自定义数据响应名称，可不加该参数
+					page: false, //开启分页
+//					page: {
+//				    	curr: 1, //设置从第  几页开始
+//				    },
+				    // limit:12,//设置一次请求几条
+					cols: [
+						[ //表头
+							
+							{
+								field: 'id',
+								title: 'ID',
+								width: 80,
+								// sort: true,
+								fixed: 'left'
+							}, {
+								field: 'city',
+								title: '城市',
+								width: 150,
+								fixed: 'left'
+							}, {
+								field: 'classify',
+								title: 'classify',
+								width: 150,
+								// sort: true,
+								fixed: 'left'
+							}, {
+								field: 'experience',
+								title: 'experience',
+								width: 150
+							}, {
+								field: 'logins',
+								title: '登录',
+								width: 177
+							}, {
+								field: 'score',
+								title: '作用score',
+								width: 180,
+								sort: true
+							}, {
+								field: 'sex',
+								title: '性别',
+								width: 180,
+								sort: true
+							}, {
+								field: 'sign',
+								title: '标签',
+								width: 180
+							}, {
+								field: 'username',
+								title: 'username',
+								width: 135,
+								sort: true
+							},
+							// {
+							// 	field: 'wealth',
+							// 	title: 'wealth',
+							// 	width: 135,
+								
+							// },
+							{
+								field: 'diy_1',
+								title: '自定义模版1',
+								width: 135,
+								templet: function(d){
+									if(d.id % 3 == 0){
+										var className = 'red';
+									}else if(d.id % 3 == 1){
+										var className = 'green';
+									}else if(d.id % 3 == 2){
+										var className = 'blue';
+									}
+									
+									return '<a href="javascript:;" class="layui-table-link" data-id="'+ d.id +'">000'+ d.wealth +'</a>'
+								}
+							},
+							
+						]
+					],
+					done: function(res, curr, count) {
+						//如果是异步请求数据方式，res即为你接口返回的信息。
+						//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+						console.log(res);
+
+						//得到当前页码
+						console.log(curr);
+
+						//得到数据总量
+						console.log(count);
+						
+						
+//						var checkStatus = table.checkStatus('idTest'); //test即为基础参数id对应的值
+// 
+//						console.log(checkStatus.data) //获取选中行的数据
+//						console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
+//						console.log(checkStatus.isAll ) //表格是否全选
+//						
+						
+					},
+//					id: 'idTest'
+				});
+			
+			});
+		</script>
+
+	</body>
+
+</html>

@@ -39,7 +39,18 @@
 					{id:11,name:'xx'}
 				]}
 			];
-			console.log(aObj);
+			
+			setImmediate(function(){
+				console.log("setImmediate 延迟");
+			})
+			
+			$.each(aObj,function(i,v){
+				$.each(v.children,function(e,q){
+					console.log(q.id + e);
+				})
+			});
+			
+			
 		</script>
 	</body>
 </html>

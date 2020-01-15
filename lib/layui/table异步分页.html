@@ -36,7 +36,7 @@
 				table.render({
 					elem: '#demo',
 					height: 600,
-					url: 'http://123.58.43.16:9555/Device/queryDevice', //数据接口(跨域)
+					url: 'data.json', //数据接口(跨域)
 //					url:'../table.json',
 					where: {
 						page:1
@@ -61,22 +61,22 @@
 					cols: [
 						[ //表头
 							//复选框=====
-							{
-								LAY_CHECKED:true,//默认加载全选
-								type:'checkbox',
-								field: 'checkbox',
-								width:50,
-								fixed: 'left'
-							},
-							//序号====
-							{
-								type:'numbers',
-								field: 'numbers',
-								title:'序号',
-								width:80,
-								sort: true,
-								fixed: 'left'
-							},
+							// {
+							// 	LAY_CHECKED:true,//默认加载全选
+							// 	type:'checkbox',
+							// 	field: 'checkbox',
+							// 	width:50,
+							// 	fixed: 'left'
+							// },
+							// //序号====
+							// {
+							// 	type:'numbers',
+							// 	field: 'numbers',
+							// 	title:'序号',
+							// 	width:80,
+							// 	sort: true,
+							// 	fixed: 'left'
+							// },
 							{
 								field: 'id',
 								title: 'ID',
@@ -84,45 +84,53 @@
 								sort: true,
 								fixed: 'left'
 							}, {
-								field: 'hardver',
-								title: '版本',
+								field: 'city',
+								title: '城市',
 								width: 80
 							}, {
-								field: 'address',
-								title: '地址',
+								field: 'classify',
+								title: 'classify',
 								width: 80,
 								sort: true
 							}, {
-								field: 'antennaPower',
-								title: '天线功率',
+								field: 'experience',
+								title: 'experience',
 								width: 80
 							}, {
-								field: 'areas',
-								title: '区域',
+								field: 'logins',
+								title: '登录',
 								width: 177
 							}, {
-								field: 'deviceId',
-								title: '设备id',
+								field: 'score',
+								title: '作用score',
 								width: 80,
 								sort: true
 							}, {
-								field: 'locationType',
-								title: '位置类型',
+								field: 'sex',
+								title: '性别',
 								width: 80,
 								sort: true
 							}, {
-								field: 'status',
-								title: '设备状态',
+								field: 'sign',
+								title: '标签',
 								width: 80
 							}, {
-								field: 'createtime',
-								title: '创建时间',
+								field: 'username',
+								title: 'username',
 								width: 135,
 								sort: true
-							},{
+							},
+							{
+								field: 'wealth',
+								title: 'wealth',
+								width: 135,
+								sort: true
+							},
+							{
 								field: 'option',
 								title: '操作',
 								align:'center',
+								width: 235,
 								toolbar: '#barDemo'
 							}
 						]

@@ -27,6 +27,12 @@
 		<div>
 			<table id='table-demo-baseCode2'></table>
 		</div>
+		<hr>
+		<br>
+		<div>
+			<table id='table-demo-baseCode3'></table>
+		</div>
+		<br>
 		
 		<script src="js/data.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
@@ -39,6 +45,9 @@
 						data:paramse,
 						url:"js/data.json",
 						success:function(data){
+							for(var i=0;i<data.data.length;i++){
+								data.data[i].NO = (i+1);
+							}
 							var data = JSON.stringify(data);
 							resolve(data);//请求成功，数据（string类型）作为参数，resolve返回
 						},
@@ -236,6 +245,141 @@
 					console.log('setAjaxData', data);
 				});
 			};
+			
+			
+			
+			//ajax请求的
+			document.querySelector('#table-demo-baseCode3').GM(
+				{
+					gridManagerName: 'demo-baseCode3',//表格管理唯一标示名称,//销毁，重置可以用到
+					// ajaxData:'js/data.json',//如果为请求地址（sting类型），则get请求该数据，否则则为静态数据。主要数据来源，格式参考data.js
+					ajaxData:function(settings, params){//es6							
+						 // 传入参数信息
+						var res_data = getBlogList(params);
+						console.log(res_data,"res_data");
+						return res_data; 							
+					},
+				
+					query: {//设置请求参数（内置分页参数，cPage当前页码；pSize每页显示条数）
+						pluginId: 1,
+						type:123
+					},
+					supportDrag: false,//是否使用拖拽位置更换，默认true
+					supportCheckbox: false,//是否使用全选组件，默认true
+					supportAutoOrder: false,//是否显示序号，默认true 	
+					emptyTemplate: '<div class="gm-empty-template">什么也没有</div>',//自定义无数据视图模版					
+					ajaxSuccess: function(data){//ajax请求成功
+						console.log( JSON.parse(data) );
+					},
+				
+					columnData: [
+						{
+							key:'NO',
+							width:'50px',
+							text: '编号',
+							align: 'center',//对齐方式
+							width:'200px'
+						},
+						{
+							key: 'name',
+							// remind: '数据名称',//表头提醒tip
+							width: '200px',//单元宽度
+							align: 'center',//对齐方式
+							text: '名称',//表头对应key的字段
+							template:function(val,item){//自定义DOM节点模版
+								// console.log(item,val);//
+								return '<b class="sys_red_c">'+ val +'</b>';
+							}
+						},{
+							key: 'info',
+							text: '说明',
+							width:'200px'
+							
+						},{
+							key: 'url',
+							text: 'url',
+							width:'200px'
+						},{
+							key:'type',
+							width: '50px',//单元宽度
+							text:'类型'
+						},{
+							key:'status',
+							width: '50px',//单元宽度
+							text:'状态'
+						},{
+							key:'createDate',
+							text:'创建日期',
+							// sorting: 'ASC'//升序
+						},{
+							key:'lastDate',
+							text:'最后日期',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate2',
+							text:'最后日期2',
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate3',
+							text:'最后日期3',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate4',
+							text:'最后日期4',
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate5',
+							text:'最后日期5',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate6',
+							text:'最后日期6',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate7',
+							text:'最后日期7',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate8',
+							text:'最后日期8',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						{
+							key:'lastDate9',
+							text:'最后日期9',
+							width:'200px'
+							// sorting:'DESC'//降序
+						},
+						// {
+						// 	key:'id',
+						// 	text:'操作',
+						// 	template:function(val,item){//定义DOM节点模版
+						// 		// console.log(item,val);//
+						// 		return '<a class="sys_red_c" href="javascript:;" onclick="delFn('+ val +')">删除</a>';
+						// 	}
+						// }
+						
+					]
+				},
+				function(query){
+					// 渲染完成后的回调函数
+					console.log(query,"渲染完成后的回调函数");
+					// GM.setCheckedData('test', ajaxData1.data[2]);
+				}
+			);
 		</script>
 	</body>
 </html>
