@@ -12,8 +12,8 @@
 	<body>
 		<div>
 			
-			<select name="dept" data-placeholder="选择部门" style="width:210px;" id="dept" class="dept_select">
-				<option value="-1"></option>
+			<select name="dept" data-placeholder="选择部门" style="width:210px;" id="dept" class="dept_select" multiple="multiple">
+				<!-- <option value="-1"></option> -->
 				<option value="部门11111">部门1</option>
 				<option value="部门2">部门2</option>
 				<option value="部门3">部门3</option>
@@ -38,17 +38,36 @@
 			
 		</div>
 		<button type="button" onclick="getSelect()">打印选中的值</button>
+		<button type="button" onclick="updateSelect()">更新select</button>
 		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/chosen.jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+			var list = [
+				"1213","s1213","时尚"
+			];
+		
 			$(function(){
-			    $('.dept_select').chosen();
+			   $('.dept_select').chosen();
 			});
 			
 			function getSelect(){
 				console.log($('.dept_select').val());
 			}
 			
+			
+			function updateSelect(){
+				console.log("update")
+				var tem = "";
+				for(var i=0;i<list.length;i++){
+					tem += '<option value="'+ list[i] +'">'+ list[i] +'</option>';
+				}
+				$(function(){
+					$(".dept_select").html(tem);
+				   $(".dept_select").trigger("chosen:updated");
+				});
+			
+				
+			}
 		</script>
 	</body>
 </html>

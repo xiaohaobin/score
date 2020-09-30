@@ -5,9 +5,42 @@
 		<title>for test</title>
 		<style type="text/css">
 		</style>
-		<script type="text/javascript" src="d3.js"></script>
+		<!-- <script type="text/javascript" src="d3.js"></script> -->
+		<!-- <script src="d3/V4/d3.v4.min.js" type="text/javascript" charset="utf-8"></script> -->
+	
+		<script src="d3/V5/d3.v5.min.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <script src="https://d3js.org/d3-axis.v1.min.js"></script> -->
 	</head>
 	<body>
-	<svg></svg>
+		<script type="text/javascript">
+			//基本的统计类方法.
+			var arr = [2,10,6,5];
+			console.log(d3.extent(arr));//返回最小跟最大值
+			
+			console.log(d3.sum(arr));//对指定的 array 计算和. 如果数组为空则返回 0,
+			
+			console.log(d3.mean(arr));//对指定的数组返回数组的均值. 如果数组为空则返回 undefined. 
+			
+			console.log(d3.median(arr));//对指定的数组使用 R-7 方法返回数组的中位数. 如果数组为空则返回 undefined.
+			
+			
+			//查找类方法.
+			var array = [{foo: 42}, {foo: 91},{foo:20}];
+			console.log( d3.scan(array, function(a, b) { return a.foo - b.foo; }) ); // 获取对应属性值最小元素索引
+			console.log( d3.scan(array, function(a, b) { return b.foo - a.foo; }) ); // 获取对应属性值最大元素索引
+			
+			//数组变换类方法, 生成新的数组
+			// 返回两个数组 a 和 b 的 Cartesian product(笛卡尔积)
+			var arr_1 = [1,2];
+			var arr_2 = ["a","b"];
+			console.log( d3.cross(arr_1,arr_2) );//返回两个数组里面的子元素互相组合的数组组合
+			var newArr = d3.cross(arr_1,arr_2,function(n,m){//返回两个数组里面的子元素互相拼接组合的数组组合
+				return n+m;
+			});  
+			console.log(newArr);
+		</script>
+		<script type="text/javascript">
+		
+		</script>
 	</body>
 </html>

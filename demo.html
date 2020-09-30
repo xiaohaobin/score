@@ -16,12 +16,29 @@
 		<div class="ssss"></div>
 		<button onclick="closeCurrPage()">关闭当前页面</button>
 		
+		<form action="" method="post" id="form1">
+			<input type="" name="sname" id="" value="" />
+			<textarea rows="" cols="" name="des">
+				
+			</textarea>
+			
+			<button type="button" onclick="sumit()">tijiao</button>
+		</form>
+		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 		<!--<script src="js/jquery.myPlugIn_v1.0.js" type="text/javascript" charset="utf-8"></script>-->
 		<script src="js/jquery.xhb.plugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.xhb.otherPlugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/plugins/extend.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			function sumit(){
+				var se_data = $("#form1").serialize().replace(/\+/g," ");
+				console.log(se_data,"序列化");
+			}
+		</script>
+		
 		<script type="text/javascript">
 			layer.msg(1321)
 			$(function(){

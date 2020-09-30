@@ -4,6 +4,11 @@
 		<meta charset="utf-8">
 		<title></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src = "https://polyfill.io/v2/polyfill.min.js"></script>	
+		
+		<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js" type="text/javascript" charset="utf-8"></script>
+			<script src="https://cdn.polyfill.io/v2/polyfill.min.js" type="text/javascript" charset="utf-8"></script>
+		
 		<link rel="stylesheet" type="text/css" href="css/gm.min.css">
 		<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 		<script src="js/gm.min.js" type="text/javascript" charset="utf-8"></script>
@@ -38,25 +43,25 @@
 		<script type="text/javascript">
 			
 			// 模拟了一个简单的promise请求
-			const getBlogList = function(paramse) {
-			    return new Promise((resolve, reject) => {
-					$.ajax({
-						type:"get",
-						data:paramse,
-						url:"js/data.json",
-						success:function(data){
-							for(var i=0;i<data.data.length;i++){
-								data.data[i].NO = (i+1);
-							}
-							var data = JSON.stringify(data);
-							resolve(data);//请求成功，数据（string类型）作为参数，resolve返回
-						},
-						error:function(e){
-							reject(e);//请求失败，返回失败信息
-						}
-					});
-			    });
-			};
+			// const getBlogList = function(paramse) {
+			//     return new Promise((resolve, reject) => {
+			// 		$.ajax({
+			// 			type:"get",
+			// 			data:paramse,
+			// 			url:"js/data.json",
+			// 			success:function(data){
+			// 				for(var i=0;i<data.data.length;i++){
+			// 					data.data[i].NO = (i+1);
+			// 				}
+			// 				var data = JSON.stringify(data);
+			// 				resolve(data);//请求成功，数据（string类型）作为参数，resolve返回
+			// 			},
+			// 			error:function(e){
+			// 				reject(e);//请求失败，返回失败信息
+			// 			}
+			// 		});
+			//     });
+			// };
 			
 			window.onload = function(){
 				//静态数据（数据结构参考data.js）
@@ -65,8 +70,8 @@
 						gridManagerName: 'demo-baseCode',
 						ajaxData:mainData,
 						// ajaxData: 'https://www.lovejavascript.com/learnLinkManager/getLearnLinkList',	
-						disableLine:true,//是否设置单元格子线（边框）,和参数disableBorder一起用
-						disableBorder: true,				
+						// disableLine:true,//是否设置单元格子线（边框）,和参数disableBorder一起用
+						// disableBorder: true,				
 						// topFullColumn: {//设置每一行item数据的顶部小标题
 						// 		template: function(){
 						// 			return '<div style="padding: 12px; text-align: center;">'
@@ -103,116 +108,116 @@
 				
 				
 				//ajax请求的
-				document.querySelector('#table-demo-baseCode2').GM(
-					{
-						gridManagerName: 'demo-baseCode2',//表格管理唯一标示名称,//销毁，重置可以用到
-						// ajaxData:'js/data.json',//如果为请求地址（sting类型），则get请求该数据，否则则为静态数据。主要数据来源，格式参考data.js
-						ajaxData:function(settings, params){//es6							
-							 // 传入参数信息
-							var res_data = getBlogList(params);
-							console.log(res_data,"res_data");
-							return res_data; 							
-						},
-						supportAjaxPage: true,//是否分页,最好配合动态数据
-						// pageSize:50,//分页条数设置参数，和supportAjaxPage参数一起用，但发送到后台的字段是pSize，默认20条
-						// sizeData：[10,20,30,50,100],//配置每页显示条数的下拉项，数组元素仅允许为正整数。
-						// ajaxType: 'POST',//如果不设置该参数，请求动态数据的时候默认get请求
-						query: {//设置请求参数（内置分页参数，cPage当前页码；pSize每页显示条数）
-							pluginId: 1,
-							type:123
-						},
-						i18n: 'zh-tw',//国际化'en-us','zh-cn','zh-tw';默认中文简体
-						supportDrag: false,//是否使用拖拽位置更换，默认true
-						// supportCheckbox: false,//是否使用全选组件，默认true
-						// supportAutoOrder: false,//是否显示序号，默认true 	
-						emptyTemplate: '<div class="gm-empty-template">什么也没有</div>',//自定义无数据视图模版
-						// supportTreeData: true,//是否支持树状数据，true，则和treeConfig参数联用
-						// treeConfig: {//树状配置
-						// 	openState: false,//初始化是否打开状态
-						// 	treeKey: 'children',//树状子数据列表key,子列表的参数key都要和父列表一致
-						// },
-						pagingBefore:function(query){//分页组件请求之前的回调函数，参数为请求的数据
-							console.log('Event: 分页前', query);
-						},
-						pagingAfter: function(query){//分页组件请求之后的回调函数，参数为请求的数据
-							console.log('Event: 分页后', query);
-						},
-						sortingBefore:function(query){
-							console.log('Event: 排序前', query);
-						},
-						sortingAfter: function(query){
-							console.log('Event: 排序后', query);
-						},
-						ajaxSuccess: function(data){//ajax请求成功
-							console.log( JSON.parse(data) );
-						},
-						checkedAfter: function(list){//勾选列表，返回勾选的list
-							console.log(list,"勾选");
-						},
-						columnData: [
-							{
-								key: 'name',
-								remind: '数据名称',//表头提醒tip
-								width: '110px',//单元宽度
-								align: 'center',//对齐方式
-								text: '名称',//表头对应key的字段
-								template:function(val,item){//自定义DOM节点模版
-									// console.log(item,val);//
-									return '<b class="sys_red_c">'+ val +'</b>';
-								}
-							},{
-								key: 'info',
-								text: '说明',
-								sorting: '',//排序参数（）默认升序，设置升降序发送后台，会将对应key参数和"sort"拼接发送到后台，值ASC或者DESC;如以info为主做排序升序，则发送{sort_info:'ASC'}
-								// 表头筛选条件, 该值由用户操作后会将选中的值以{key: value}的形式覆盖至query参数内。非必设项
-								// filter: {
-								// 	// 筛选条件列表, 数组对象。格式: [{value: '1', text: 'HTML/CSS'}],在使用filter时该参数为必设项。
-								// 	option: [
-								// 		{value: 'esLint', text: '查询1'},
-								// 		{value: '数据', text: '查询2'},
-								// 	],
-								// 	// 筛选选中项，字符串, 未存在选中项时设置为''。 在此设置的选中的过滤条件将会覆盖query
-								// 	selected: '3',
-								// 	// 否为多选, 布尔值, 默认为false。非必设项
-								// 	isMultiple: true
-								// },
+			// 	document.querySelector('#table-demo-baseCode2').GM(
+			// 		{
+			// 			gridManagerName: 'demo-baseCode2',//表格管理唯一标示名称,//销毁，重置可以用到
+			// 			// ajaxData:'js/data.json',//如果为请求地址（sting类型），则get请求该数据，否则则为静态数据。主要数据来源，格式参考data.js
+			// 			ajaxData:function(settings, params){//es6							
+			// 				 // 传入参数信息
+			// 				var res_data = getBlogList(params);
+			// 				console.log(res_data,"res_data");
+			// 				return res_data; 							
+			// 			},
+			// 			supportAjaxPage: true,//是否分页,最好配合动态数据
+			// 			// pageSize:50,//分页条数设置参数，和supportAjaxPage参数一起用，但发送到后台的字段是pSize，默认20条
+			// 			// sizeData：[10,20,30,50,100],//配置每页显示条数的下拉项，数组元素仅允许为正整数。
+			// 			// ajaxType: 'POST',//如果不设置该参数，请求动态数据的时候默认get请求
+			// 			query: {//设置请求参数（内置分页参数，cPage当前页码；pSize每页显示条数）
+			// 				pluginId: 1,
+			// 				type:123
+			// 			},
+			// 			i18n: 'zh-tw',//国际化'en-us','zh-cn','zh-tw';默认中文简体
+			// 			supportDrag: false,//是否使用拖拽位置更换，默认true
+			// 			// supportCheckbox: false,//是否使用全选组件，默认true
+			// 			// supportAutoOrder: false,//是否显示序号，默认true 	
+			// 			emptyTemplate: '<div class="gm-empty-template">什么也没有</div>',//自定义无数据视图模版
+			// 			// supportTreeData: true,//是否支持树状数据，true，则和treeConfig参数联用
+			// 			// treeConfig: {//树状配置
+			// 			// 	openState: false,//初始化是否打开状态
+			// 			// 	treeKey: 'children',//树状子数据列表key,子列表的参数key都要和父列表一致
+			// 			// },
+			// 			pagingBefore:function(query){//分页组件请求之前的回调函数，参数为请求的数据
+			// 				console.log('Event: 分页前', query);
+			// 			},
+			// 			pagingAfter: function(query){//分页组件请求之后的回调函数，参数为请求的数据
+			// 				console.log('Event: 分页后', query);
+			// 			},
+			// 			sortingBefore:function(query){
+			// 				console.log('Event: 排序前', query);
+			// 			},
+			// 			sortingAfter: function(query){
+			// 				console.log('Event: 排序后', query);
+			// 			},
+			// 			ajaxSuccess: function(data){//ajax请求成功
+			// 				console.log( JSON.parse(data) );
+			// 			},
+			// 			checkedAfter: function(list){//勾选列表，返回勾选的list
+			// 				console.log(list,"勾选");
+			// 			},
+			// 			columnData: [
+			// 				{
+			// 					key: 'name',
+			// 					remind: '数据名称',//表头提醒tip
+			// 					width: '110px',//单元宽度
+			// 					align: 'center',//对齐方式
+			// 					text: '名称',//表头对应key的字段
+			// 					template:function(val,item){//自定义DOM节点模版
+			// 						// console.log(item,val);//
+			// 						return '<b class="sys_red_c">'+ val +'</b>';
+			// 					}
+			// 				},{
+			// 					key: 'info',
+			// 					text: '说明',
+			// 					sorting: '',//排序参数（）默认升序，设置升降序发送后台，会将对应key参数和"sort"拼接发送到后台，值ASC或者DESC;如以info为主做排序升序，则发送{sort_info:'ASC'}
+			// 					// 表头筛选条件, 该值由用户操作后会将选中的值以{key: value}的形式覆盖至query参数内。非必设项
+			// 					// filter: {
+			// 					// 	// 筛选条件列表, 数组对象。格式: [{value: '1', text: 'HTML/CSS'}],在使用filter时该参数为必设项。
+			// 					// 	option: [
+			// 					// 		{value: 'esLint', text: '查询1'},
+			// 					// 		{value: '数据', text: '查询2'},
+			// 					// 	],
+			// 					// 	// 筛选选中项，字符串, 未存在选中项时设置为''。 在此设置的选中的过滤条件将会覆盖query
+			// 					// 	selected: '3',
+			// 					// 	// 否为多选, 布尔值, 默认为false。非必设项
+			// 					// 	isMultiple: true
+			// 					// },
 
-							},{
-								key: 'url',
-								text: 'url'
-							},{
-								key:'type',
-								width: '50px',//单元宽度
-								text:'类型'
-							},{
-								key:'status',
-								width: '50px',//单元宽度
-								text:'状态'
-							},{
-								key:'createDate',
-								text:'创建日期',
-								sorting: 'ASC'//升序
-							},{
-								key:'lastDate',
-								text:'最后日期',
-								sorting:'DESC'//降序
-							},{
-								key:'id',
-								text:'操作',
-								template:function(val,item){//定义DOM节点模版
-									// console.log(item,val);//
-									return '<a class="sys_red_c" href="javascript:;" onclick="delFn('+ val +')">删除</a>';
-								}
-							}
+			// 				},{
+			// 					key: 'url',
+			// 					text: 'url'
+			// 				},{
+			// 					key:'type',
+			// 					width: '50px',//单元宽度
+			// 					text:'类型'
+			// 				},{
+			// 					key:'status',
+			// 					width: '50px',//单元宽度
+			// 					text:'状态'
+			// 				},{
+			// 					key:'createDate',
+			// 					text:'创建日期',
+			// 					sorting: 'ASC'//升序
+			// 				},{
+			// 					key:'lastDate',
+			// 					text:'最后日期',
+			// 					sorting:'DESC'//降序
+			// 				},{
+			// 					key:'id',
+			// 					text:'操作',
+			// 					template:function(val,item){//定义DOM节点模版
+			// 						// console.log(item,val);//
+			// 						return '<a class="sys_red_c" href="javascript:;" onclick="delFn('+ val +')">删除</a>';
+			// 					}
+			// 				}
 							
-						]
-					},
-					function(query){
-						// 渲染完成后的回调函数
-						console.log(query,"渲染完成后的回调函数");
-						// GM.setCheckedData('test', ajaxData1.data[2]);
-					}
-				);
+			// 			]
+			// 		},
+			// 		function(query){
+			// 			// 渲染完成后的回调函数
+			// 			console.log(query,"渲染完成后的回调函数");
+			// 			// GM.setCheckedData('test', ajaxData1.data[2]);
+			// 		}
+			// 	);
 			}
 			
 			
@@ -249,137 +254,137 @@
 			
 			
 			//ajax请求的
-			document.querySelector('#table-demo-baseCode3').GM(
-				{
-					gridManagerName: 'demo-baseCode3',//表格管理唯一标示名称,//销毁，重置可以用到
-					// ajaxData:'js/data.json',//如果为请求地址（sting类型），则get请求该数据，否则则为静态数据。主要数据来源，格式参考data.js
-					ajaxData:function(settings, params){//es6							
-						 // 传入参数信息
-						var res_data = getBlogList(params);
-						console.log(res_data,"res_data");
-						return res_data; 							
-					},
+			// document.querySelector('#table-demo-baseCode3').GM(
+			// 	{
+			// 		gridManagerName: 'demo-baseCode3',//表格管理唯一标示名称,//销毁，重置可以用到
+			// 		// ajaxData:'js/data.json',//如果为请求地址（sting类型），则get请求该数据，否则则为静态数据。主要数据来源，格式参考data.js
+			// 		ajaxData:function(settings, params){//es6							
+			// 			 // 传入参数信息
+			// 			var res_data = getBlogList(params);
+			// 			console.log(res_data,"res_data");
+			// 			return res_data; 							
+			// 		},
 				
-					query: {//设置请求参数（内置分页参数，cPage当前页码；pSize每页显示条数）
-						pluginId: 1,
-						type:123
-					},
-					supportDrag: false,//是否使用拖拽位置更换，默认true
-					supportCheckbox: false,//是否使用全选组件，默认true
-					supportAutoOrder: false,//是否显示序号，默认true 	
-					emptyTemplate: '<div class="gm-empty-template">什么也没有</div>',//自定义无数据视图模版					
-					ajaxSuccess: function(data){//ajax请求成功
-						console.log( JSON.parse(data) );
-					},
+			// 		query: {//设置请求参数（内置分页参数，cPage当前页码；pSize每页显示条数）
+			// 			pluginId: 1,
+			// 			type:123
+			// 		},
+			// 		supportDrag: false,//是否使用拖拽位置更换，默认true
+			// 		supportCheckbox: false,//是否使用全选组件，默认true
+			// 		supportAutoOrder: false,//是否显示序号，默认true 	
+			// 		emptyTemplate: '<div class="gm-empty-template">什么也没有</div>',//自定义无数据视图模版					
+			// 		ajaxSuccess: function(data){//ajax请求成功
+			// 			console.log( JSON.parse(data) );
+			// 		},
 				
-					columnData: [
-						{
-							key:'NO',
-							width:'50px',
-							text: '编号',
-							align: 'center',//对齐方式
-							width:'200px'
-						},
-						{
-							key: 'name',
-							// remind: '数据名称',//表头提醒tip
-							width: '200px',//单元宽度
-							align: 'center',//对齐方式
-							text: '名称',//表头对应key的字段
-							template:function(val,item){//自定义DOM节点模版
-								// console.log(item,val);//
-								return '<b class="sys_red_c">'+ val +'</b>';
-							}
-						},{
-							key: 'info',
-							text: '说明',
-							width:'200px'
+			// 		columnData: [
+			// 			{
+			// 				key:'NO',
+			// 				width:'50px',
+			// 				text: '编号',
+			// 				align: 'center',//对齐方式
+			// 				width:'200px'
+			// 			},
+			// 			{
+			// 				key: 'name',
+			// 				// remind: '数据名称',//表头提醒tip
+			// 				width: '200px',//单元宽度
+			// 				align: 'center',//对齐方式
+			// 				text: '名称',//表头对应key的字段
+			// 				template:function(val,item){//自定义DOM节点模版
+			// 					// console.log(item,val);//
+			// 					return '<b class="sys_red_c">'+ val +'</b>';
+			// 				}
+			// 			},{
+			// 				key: 'info',
+			// 				text: '说明',
+			// 				width:'200px'
 							
-						},{
-							key: 'url',
-							text: 'url',
-							width:'200px'
-						},{
-							key:'type',
-							width: '50px',//单元宽度
-							text:'类型'
-						},{
-							key:'status',
-							width: '50px',//单元宽度
-							text:'状态'
-						},{
-							key:'createDate',
-							text:'创建日期',
-							// sorting: 'ASC'//升序
-						},{
-							key:'lastDate',
-							text:'最后日期',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate2',
-							text:'最后日期2',
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate3',
-							text:'最后日期3',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate4',
-							text:'最后日期4',
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate5',
-							text:'最后日期5',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate6',
-							text:'最后日期6',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate7',
-							text:'最后日期7',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate8',
-							text:'最后日期8',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						{
-							key:'lastDate9',
-							text:'最后日期9',
-							width:'200px'
-							// sorting:'DESC'//降序
-						},
-						// {
-						// 	key:'id',
-						// 	text:'操作',
-						// 	template:function(val,item){//定义DOM节点模版
-						// 		// console.log(item,val);//
-						// 		return '<a class="sys_red_c" href="javascript:;" onclick="delFn('+ val +')">删除</a>';
-						// 	}
-						// }
+			// 			},{
+			// 				key: 'url',
+			// 				text: 'url',
+			// 				width:'200px'
+			// 			},{
+			// 				key:'type',
+			// 				width: '50px',//单元宽度
+			// 				text:'类型'
+			// 			},{
+			// 				key:'status',
+			// 				width: '50px',//单元宽度
+			// 				text:'状态'
+			// 			},{
+			// 				key:'createDate',
+			// 				text:'创建日期',
+			// 				// sorting: 'ASC'//升序
+			// 			},{
+			// 				key:'lastDate',
+			// 				text:'最后日期',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate2',
+			// 				text:'最后日期2',
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate3',
+			// 				text:'最后日期3',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate4',
+			// 				text:'最后日期4',
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate5',
+			// 				text:'最后日期5',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate6',
+			// 				text:'最后日期6',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate7',
+			// 				text:'最后日期7',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate8',
+			// 				text:'最后日期8',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			{
+			// 				key:'lastDate9',
+			// 				text:'最后日期9',
+			// 				width:'200px'
+			// 				// sorting:'DESC'//降序
+			// 			},
+			// 			// {
+			// 			// 	key:'id',
+			// 			// 	text:'操作',
+			// 			// 	template:function(val,item){//定义DOM节点模版
+			// 			// 		// console.log(item,val);//
+			// 			// 		return '<a class="sys_red_c" href="javascript:;" onclick="delFn('+ val +')">删除</a>';
+			// 			// 	}
+			// 			// }
 						
-					]
-				},
-				function(query){
-					// 渲染完成后的回调函数
-					console.log(query,"渲染完成后的回调函数");
-					// GM.setCheckedData('test', ajaxData1.data[2]);
-				}
-			);
+			// 		]
+			// 	},
+			// 	function(query){
+			// 		// 渲染完成后的回调函数
+			// 		console.log(query,"渲染完成后的回调函数");
+			// 		// GM.setCheckedData('test', ajaxData1.data[2]);
+			// 	}
+			// );
 		</script>
 	</body>
 </html>

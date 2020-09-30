@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#svgBox{
+				width: 800px;
+				height: 800px;
+				border: 1px solid #ddd;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<svg id="svgBox" width="800" height="800" xmlns="//www.w3.org/2000/svg" version="1.1">
+				<!-- 定义线性渐变sss -->
+				<defs>
+					<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+					  <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+					  <stop offset="50%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+					  <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
+					</linearGradient>
+				 </defs>
+				<!-- 定义线性渐变eee -->
+				
+				<rect x="50" y="20" rx="20" ry="20" width="150" height="150"
+				  style="fill:red;stroke:black;stroke-width:5;opacity:0.5"/>
+				  
+				<polyline points="125,170 125,250 300,250"
+				  style="stroke-width:3;fill:none;" stroke="url(#grad1)"/>  
+				  
+				  <circle cx="350" cy="250" r="50"  style="fill:green;stroke:black;stroke-width:5;opacity:0.5" />
+				  
+				<image class="svg_subArrayImg" x="50" y="500" width="150" height="150"  href="../img/4.jpg"></image>  
+				
+				 <ellipse cx="500" cy="80" rx="100" ry="50"
+				  style="fill:yellow;stroke:purple;stroke-width:2"/>
+				  
+				<polygon points="400,500 490,590 650,420"
+				  style="fill:lime;stroke:purple;stroke-width:1"/>  
+				  
+				 <path d="M 400 600 H 500 L 600 700 H 300 Z " stroke="black" fill="red"/> 
+				 <path d="M 400 600 C 400 730,500 730,500 600 Z" stroke="black" fill="none"/> 
+			</svg>
+		</div>
+	</body>
+</html>

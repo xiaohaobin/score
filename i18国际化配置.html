@@ -15,6 +15,7 @@
 		</div>
 		
 		<script src="lib/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.i18n.properties-min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var oComFn = {
@@ -42,6 +43,8 @@
 				localStorage.setItem("i18_test",$(this).val());
 				setTimeout(function(){window.location.reload()},150)
 			});
+			$.cookie("lang",1111);
+			console.log($.cookie("lang"),121212)
 		</script>
 	</body>
 </html>

@@ -1,0 +1,716 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" value="IE=9" />
+	<meta property="og:description" content="SpreadJS is a GrapeCity product that offers a comprehensive library for delivering true Excel-like experiences." />
+    
+    <title>Cell Dropdowns | SpreadJS 13</title>
+    <meta name="Title" content="ItemTitleNoQuotes"/>
+    
+    <script src="template/packages/jquery/script/default/jquery-1.11.3.min.js" type="text/javascript" id="mshs_support_script"></script>
+    <script src="template/packages/jquery-ui/script/default/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="template/packages/jquery-ui/css/default/jquery-ui-1.11.4.css"></link>
+    <script type="text/javascript">var Innovasys=(Innovasys||{});$.extend(true,Innovasys,{settings:{isHideBodyDuringLoadDisabled:true,dynamictoc:{isEnabled:true},inthistopic:{isSupported:true},dynamicstyles:{isDynamicWordWrapEnabled:true}}},{settings:{"dynamictoc":{"initialNodeId":"n151","initialNodeContainer":"c0","isResizable":true},"inthistopic":{"isEnabled":true},"currentLocale":"-","isFrameless":true,"navigationKind":"inpage","versions":{"locale":{"currentId":"-"}}}});</script>
+    <link rel="stylesheet" type="text/css" href="template/packages/light/css/dynamic-toc.css"></link>
+    <meta name="Description" content="SpreadJS is a GrapeCity product that offers a comprehensive library for delivering true Excel-like experiences." />
+    
+    <link rel="stylesheet" type="text/css" href="template/packages/plugins-topics/css/default/jquery-plugins.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/core-topics/css/topics.css"  data-mshv2-stylesheet="/template/packages/core-topics/topics.mshv2.css" data-mshv1-stylesheet="/template/packages/core-topics/topics.mshv1.css" data-responsive-mobile="template/packages/core-topics/topics.mobile.css" data-responsive-tablet="template/packages/core-topics/topics.tablet.css"></link>
+    <script src="template/packages/plugins-topics/script/default/jquery-plugins.min.js" type="text/javascript"></script>
+    <script src="template/packages/core-topics/script/topics.min.js" type="text/javascript"></script>
+    
+    <meta name="Microsoft.Help.Id" content="324d2cbf-69fd-4198-8b21-9c12cfc18010"/>
+    <meta name="Microsoft.Help.TocParent" content="3ff39078-fb0f-471b-a3ec-25d37e40d683"/>
+    <meta name="Microsoft.Help.TocOrder" content="8"/>
+    <meta name="Microsoft.Help.F1" content=""/>
+    <meta name="Microsoft.Help.ContentType" content="Concepts" />
+    
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="stylesheets/hs-simpletab.css"></link>
+    <style>.i-is-new .i-page-title-text::after, ul#i-dt-root li.i-is-new>a::after { content: "New" }
+</style>
+    
+    
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="template/packages/core-web/css/SP.css">
+<link rel="stylesheet" type="text/css" href="template/packages/core-web/css/customstyles_light.css">
+<script type="text/javascript">
+var currentHeader = function() {
+    return "spjs";
+}
+</script>
+<script src="template/packages/core-web/script/topNavigation.js"></script>
+<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-WT462SJ"></script>
+<script src="template/packages/custom.js"></script>
+<script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime()
+                , event: 'gtm.js'​
+            });
+            var f = d.getElementsByTagName(s)[0]
+                , j = d.createElement(s)
+                , dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WT462SJ');
+    </script>
+
+</head>
+
+<body>
+    <div id="i-before-header-content" class="i-before-header-content">
+        
+    </div>
+
+    <div id="i-header-container">
+        <div id="i-header-content" class="i-header-content i-content-width-container">
+            
+            <div class="i-project-title">SpreadJS 13</div>
+            <div class="i-search-container">
+                <form action="websearch.html">
+                <input id="i-search" name="query"/>
+                <input type="submit" id="i-search-button" value=""/>
+                </form>
+            </div>
+            <a id="i-index-button" href="webindex.html"></a>
+        </div>
+    </div>
+    
+    <div class="i-content-width-container"><div class="i-busy-overlay"></div></div>
+
+    <div id="i-breadcrumbs-outer-container" class="i-content-width-container"><div class="i-breadcrumbs-container">
+<a href="overview.html">SpreadJS Documentation</a>
+ / <a href="devguide.html">Developer's Guide</a>
+ / <a href="features.html">Features</a>
+ / <a href="interface.html">Manage User Interface</a>
+ / Cell Dropdowns</div></div>
+
+    
+
+    <div id="i-actions-outer-container" class="i-content-width-container">
+        <div id="i-actions-container">
+            <div id="i-actions-content" class="i-fixed-to-top">
+                <!-- Spacing --> <span class="i-toggle-all-sections i-function-link">
+                <label class="i-collapse-all">Collapse All</label>
+                <label class="i-expand-all" style="display: none;">Expand All</label>
+            </span>
+                <div class="i-in-this-topic-container">
+                    <span class="i-action-group-heading">In This Topic</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="i-toc-outer-container" class="i-content-width-container">
+        <div id="i-toc-container">
+            <div id="i-toc-content" class="i-fixed-to-top">
+                <div class="i-toc-content-scroll-container">
+                    <div id="i-dynamic-toc-container"><ul id="i-dt-root"></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="i-body-content-container" class="i-content-width-container">
+        <div id="i-body-content" class="i-body-content">
+            <div class="i-page-title"><div class="i-page-title-text">Cell Dropdowns</div></div>
+            <div class="i-in-this-topic-container">
+                <span class="i-action-group-heading">In This Topic</span>
+            </div>
+            <p>SpreadJS allows users to add a drop down cell in the worksheet. With this feature, users can add a drop down menu with specific properties to the cells in a workbook as per their specific requirements and preferences.</p>
+
+<h3 id="a">What are Cell Dropdowns?</h3>
+
+<p>Cell dropdowns provide a drop down menu in the cell&nbsp;that can help users in selecting the data easily and quickly.</p>
+
+<p>This feature is helpful in creating input form controls, advanced structured forms and other interactive forms and dashboards within the spreadsheet.</p>
+
+<p><strong>Types of Cell Dropdowns</strong> - SpreadJS provides eight different types of built-in dropdown menus while working with spreadsheets. Users can use the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.DropDownType.html">DropDownType</a> enumeration to simply specify a value (ranging from 0 to 7) and the corresponding cell dropdown type will be picked as per the following options:</p>
+
+<ul>
+    <li>Calculator Dropdown [Enum Value : 6]</li>
+
+    <li>Date Time Picker Dropdown [Enum Value : 1]</li>
+
+    <li>Month Picker Dropdown [Enum Value : 3 ]</li>
+
+    <li>Time Picker Dropdown [Enum Value : 2]</li>
+
+    <li>Color Picker Dropdown [Enum Value : 0]</li>
+
+    <li>List Dropdown [Enum Value : 4]</li>
+
+    <li>Slider Dropdown [Enum Value : 5]</li>
+
+    <li>Workflow List Dropdown [Enum Value : 7]</li>
+</ul>
+
+<p><strong>Configuring Cell Dropdowns</strong> - Users can configure a dropdown cell with a list of predefined values (using a list dropdown); calculated values (using a calculator dropdown); calendars and events (using date time picker, month picker and time picker dropdowns); select a color (using color picker dropdown); create range sliders (using a slider dropdown) and automatically repopulate the next available choices based on the earlier choice (using a workflow list dropdown) as shown in the screesnhot shared below.</p>
+
+<p><img style="MAX-WIDTH: 100%; HEIGHT: auto" border="0" alt="Dropdown cells" src="images/spreadjsv13images/drop.png" /></p>
+
+<h3 id="b">Calculator Dropdown</h3>
+
+<p>The calculator dropdown in a cell allows users to compute the values and populate the evaluated result in the cell. The following screenshot depicts the calculator dropdown in cell C3 with a dropdown indicator.</p>
+
+<p><img border="0" alt="Calculator dropdown in a cell" src="images/spreadjsv13images/calculator-dropdown.png" />&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Users can configure the calculator dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openCalculator</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set Calculator Dropdown
+</span><span style="COLOR: #0000ff">var</span> calStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+calStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openCalculator"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+activeSheet.setText(2, 3, <span style="COLOR: #800000">"Calculator Dropdown"</span>);
+activeSheet.setStyle(2, 4, calStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h3 id="c">Date Time Picker Dropdown</h3>
+
+<p>The date time picker dropdown in a cell allows users to set date and time to populate the evaluated result in the cell. The following screenshot depicts the date time picker dropdown in cell&nbsp;C5 with a dropdown indicator.</p>
+
+<p><img border="0" alt="Date time picker dropdown in a cell" src="images/spreadjsv13images/date-time-picker.png" /></p>
+
+<p>Users can configure the date time picker dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openDateTimePicker</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set DateTimePicker Dropdown
+</span><span style="COLOR: #0000ff">var</span> dateTimeStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+dateTimeStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openDateTimePicker"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+dateTimeStyle.dropDowns = [
+{
+type: GC.Spread.Sheets.DropDownType.dateTimePicker,
+option: {
+  showTime: <span style="COLOR: #0000ff">true</span>,
+}
+}
+];
+activeSheet.setText(4, 3, <span style="COLOR: #800000">"DateTimePicker Dropdown"</span>);
+activeSheet.setStyle(4, 4, dateTimeStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+
+<h3 id="d">Month Picker Dropdown</h3>
+
+<p>The&nbsp;month picker dropdown in a cell allows users to configure a specific month in a year to populate the evaluated result in the cell. The following screenshot depicts the month picker dropdown in cell&nbsp;C7 with a dropdown indicator.</p>
+
+<p><img border="0" alt="Month picker dropdown in a cell" src="images/spreadjsv13images/month-picker.png" /></p>
+
+<p>Users can configure the month picker dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openMonthPicker</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set MonthPicker Dropdown
+</span><span style="COLOR: #0000ff">var</span> monthPickerStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+monthPickerStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openMonthPicker"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+monthPickerStyle.dropDowns = [
+{
+type: GC.Spread.Sheets.DropDownType.monthPicker,
+option: {
+  startYear: 2009,
+  stopYear: 2019,
+  height: 300,
+}
+}
+];
+activeSheet.setText(6, 3, <span style="COLOR: #800000">"Month Picker Dropdown"</span>);
+activeSheet.setStyle(6, 4, monthPickerStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+
+<h3 id="e">Time Picker Dropdown</h3>
+
+<p>The time picker dropdown in a cell allows users to configure a specific time to populate the evaluated result in the cell. The following screenshot depicts the time picker dropdown in cell&nbsp;C9 with a dropdown indicator.</p>
+
+<p><img border="0" alt="Time picker dropdown in a cell" src="images/spreadjsv13images/time-picker.png" /></p>
+
+<p>Users can configure the time picker dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openTimePicker</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set the TimePicker Dropdown
+</span><span style="COLOR: #0000ff">var</span> timePickerStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+timePickerStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openTimePicker"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+timePickerStyle.dropDowns = [
+{
+type: GC.Spread.Sheets.DropDownType.timePicker,
+option: {
+  min: { hour: 8 },
+  max: { hour: 19 },
+  step: { minute: 30 },
+  formatString: <span style="COLOR: #800000">"h:mm AM/PM"</span>,
+}
+}
+];
+activeSheet.setText(8, 3, <span style="COLOR: #800000">"Time Picker Dropdown"</span>);
+activeSheet.setStyle(8, 4, timePickerStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+
+<h3 id="f">Color Picker Dropdown</h3>
+
+<p>The color picker dropdown in a cell allows users to&nbsp;choose a specific color&nbsp;to populate the&nbsp;cell value with the hex code of the chosen color. The following screenshot depicts the color picker dropdown in cell&nbsp;C11 with a dropdown indicator.</p>
+
+<p>&nbsp;</p>
+
+<p><img border="0" alt="Color picker dropdown in a cell" src="images/spreadjsv13images/color-picker.png" /></p>
+
+<p>Users can configure the color picker dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openColorPicker</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set the ColorPicker Dropdown
+</span><span style="COLOR: #0000ff">var</span> colorPickerStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+colorPickerStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openColorPicker"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+activeSheet.setText(10, 3, <span style="COLOR: #800000">"Color Picker Dropdown"</span>);
+activeSheet.setStyle(10, 4, colorPickerStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+
+<h3 id="g">List Dropdown</h3>
+
+<p>The list dropdown in a cell allows users to&nbsp;choose a&nbsp;specific item from the dropdown list&nbsp;to populate the&nbsp;cell value. The following screenshot depicts the&nbsp;list dropdown in cell&nbsp;C13 with a dropdown indicator.</p>
+
+<p><img border="0" alt="List dropdown in a cell" src="images/spreadjsv13images/list-dropdown.png" /></p>
+
+<p>Users can configure the list dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openList</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set the List Dropdown
+</span><span style="COLOR: #0000ff">var</span> listStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+listStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openList"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+listStyle.dropDowns = [
+{
+type: GC.Spread.Sheets.DropDownType.list,
+option: {
+  items: [
+  {
+  text: <span style="COLOR: #800000">'item1'</span>,
+  value: <span style="COLOR: #800000">'item1'</span>
+  },
+  {
+  text: <span style="COLOR: #800000">'item2'</span>,
+  value: <span style="COLOR: #800000">'item2'</span>
+  },
+  {
+  text: <span style="COLOR: #800000">'item3'</span>,
+  value: <span style="COLOR: #800000">'item3'</span>
+  },
+  {
+  text: <span style="COLOR: #800000">'item4'</span>,
+  value: <span style="COLOR: #800000">'item4'</span>
+  }
+  ],
+}
+}
+];
+activeSheet.setText(12, 3, <span style="COLOR: #800000">"List Dropdown"</span>);
+activeSheet.setStyle(12, 4, listStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+Additionally, SpreadJS also&nbsp;allows&nbsp;users to&nbsp;choose multiple items from the dropdown list to populate the cell value. As can be seen from the below image, when multiple items are selected from the dropdown, they&nbsp;are separated by a comma in between.
+
+<p><img border="0" alt="Choosing multiple items from the dropdown list" src="images/multiselect.png" /></p>
+
+<p>&nbsp;</p>
+
+<p>Users can select multiple items from the dropdown list by setting the <strong>multiselect</strong> property to true as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+ <span style="COLOR: #008000">// set the list data
+</span> <span style="COLOR: #0000ff">var</span> listData = {
+     multiSelect: <span style="COLOR: #0000ff">true</span>,
+      items: [
+             {
+                text: <span style="COLOR: #800000">'SpreadSheets'</span>,
+                value: <span style="COLOR: #800000">'SpreadSheets'</span>,
+                layout: { displayAs: GC.Spread.Sheets.LayoutDisplayAs.popup },
+                items: [
+                    {
+                        text: <span style="COLOR: #800000">'Spread.NET'</span>,
+                        value: <span style="COLOR: #800000">'Spread.NET'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'SpreadJS'</span>,
+                        value: <span style="COLOR: #800000">'SpreadJS'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'Spread COM'</span>,
+                        value: <span style="COLOR: #800000">'Spread COM'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'DataViewJS'</span>,
+                        value: <span style="COLOR: #800000">'DataViewJS'</span>
+                    }
+                ]
+            },
+            {
+                text: <span style="COLOR: #800000">'Javascript'</span>,
+                value: <span style="COLOR: #800000">'Javascript'</span>,
+            },
+            {
+                text: <span style="COLOR: #800000">'Reporting'</span>,
+                value: <span style="COLOR: #800000">'Reporting'</span>,
+            },
+            {
+                text: <span style="COLOR: #800000">'Document APIS'</span>,
+                value: <span style="COLOR: #800000">'Document APIS'</span>,
+                layout: { displayAs: GC.Spread.Sheets.LayoutDisplayAs.popup },
+                items: [
+                    {
+                        text: <span style="COLOR: #800000">'Documents for Excel'</span>,
+                        value: <span style="COLOR: #800000">'Documents for Excel'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'Excel Template Language'</span>,
+                        value: <span style="COLOR: #800000">'Excel Template Language'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'Documents for PDF'</span>,
+                        value: <span style="COLOR: #800000">'Documents for PDF'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'Documents for PDF Viewer'</span>,
+                        value: <span style="COLOR: #800000">'Documents for PDF Viewer'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'Documents for Microsoft Word'</span>,
+                        value: <span style="COLOR: #800000">'Documents for Microsoft Word'</span>
+                    },
+                    {
+                        text: <span style="COLOR: #800000">'Documents for Imaging'</span>,
+                        value: <span style="COLOR: #800000">'Documents for Imaging'</span>
+                    }
+                ]
+            }
+        ]
+    };
+    <span style="COLOR: #0000ff">var</span> style = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+    style.cellButtons = [
+        {
+            imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+            command: <span style="COLOR: #800000">"openList"</span>,
+            useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+        }
+    ];
+    style.dropDowns = [
+        {
+            type: GC.Spread.Sheets.DropDownType.list,
+            option: listData
+        }
+    ];
+    activeSheet.setStyle(0, 0, style);
+});
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+
+<h3 id="h">Slider Dropdown</h3>
+
+<p>The slider dropdown in a cell allows users to add a dynamic&nbsp;range slider&nbsp;in a cell&nbsp;that populates the current value in the cell. The following screenshot depicts the&nbsp;slider dropdown in cell&nbsp;C15 with a dropdown indicator.</p>
+
+<p><img border="0" alt="Slider dropdown in a cell" src="images/spreadjsv13images/slider.png" />&nbsp;</p>
+
+<p>Users can configure the slider dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openSlider</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">// Set the Slider dropdown
+</span><span style="COLOR: #0000ff">var</span> horizontalSliderStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+horizontalSliderStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openSlider"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+horizontalSliderStyle.dropDowns = [
+{
+type: GC.Spread.Sheets.DropDownType.slider,
+option: {
+  marks: [0, 50, 100],
+  step: 10,
+  direction: GC.Spread.Sheets.LayoutDirection.horizontal,
+}
+}
+];
+activeSheet.setText(14, 3, <span style="COLOR: #800000">"Slider Dropdown"</span>);
+activeSheet.setStyle(14, 4, horizontalSliderStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+
+<h3 id="i">Workflow List Dropdown</h3>
+
+<p>The workflow list dropdown in a cell allows users to&nbsp;select workflow item easily and quickly to populate the chosen value in the cell. The following screenshot depicts the&nbsp;workflow list dropdown in cell&nbsp;C17 with a dropdown indicator.</p>
+
+<p><img border="0" alt="Workflow list dropdown" src="images/spreadjsv13images/workflow-list.png" /></p>
+
+<p>Users can configure the workflow list dropdown&nbsp;in a cell by adding a dropdown button using the <a href="SpreadJS~GC.Spread.Sheets.Style~cellButtons.html" data-auto-update-caption="true">cellButtons</a> field of the&nbsp;<a href="SpreadJS~GC.Spread.Sheets.Style.html" data-auto-update-caption="true">Style</a> class and setting its command parameter to "<strong>openWorkflowList</strong>" as shown in the code snippet shared below.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+ <span style="COLOR: #008000">//Set the Workflow list dropdown
+</span>let workflowListStyle = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Style();
+workflowListStyle.cellButtons = [
+{
+imageType: GC.Spread.Sheets.ButtonImageType.dropdown,
+command: <span style="COLOR: #800000">"openWorkflowList"</span>,
+useButtonStyle: <span style="COLOR: #0000ff">true</span>,
+}
+];
+workflowListStyle.dropDowns = [
+{
+type: GC.Spread.Sheets.DropDownType.workflowList,
+option: {
+  items: [
+  { value: <span style="COLOR: #800000">"New"</span>, transitions: [1] },
+  { value: <span style="COLOR: #800000">"Open"</span>, transitions: [0, 2, 3, 5] },
+  { value: <span style="COLOR: #800000">"In Progress"</span>, transitions: [1, 3, 5] },
+  { value: <span style="COLOR: #800000">"Resolved"</span>, transitions: [5, 4] },
+  { value: <span style="COLOR: #800000">"Reopened"</span>, transitions: [5, 3, 2] },
+  { value: <span style="COLOR: #800000">"Closed"</span>, transitions: [4] },
+  ]
+}
+}
+];
+activeSheet.setText(16, 3, <span style="COLOR: #800000">"Workflow List Dropdown"</span>);
+activeSheet.setStyle(16, 4, workflowListStyle);
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><br />
+            <a name="seealsobookmark"></a>
+            
+            
+            <div id="i-footer-content" class="i-footer-content">
+                
+<p>&nbsp;</p><p>&nbsp;</p><hr style="height: 1px" /><p><p>Copyright © 2020 GrapeCity, Inc. All rights reserved.</p>
+<p><a href="https://www.grapecity.com/forums/spread-sheets" target="_blank">Product Support Forum</a> | <a href="javascript:window.print()">Print this page</a></p>
+<ul class="social">
+<li><a href="https://www.facebook.com/GrapeCityUS/" target="_blank" class="facebook">&nbsp;</a></li>
+<li><a href="https://twitter.com/GrapeCityUS" target="_blank" class="twitter">&nbsp;</a></li>
+<li><a href="https://www.linkedin.com/company/grapecity" target="_blank" class="linkedin">&nbsp;</a></li>
+</ul>
+</p>
+
+            </div>
+        </div>
+    </div>
+        
+    <script type="text/javascript">
+        $(function () {
+            var documentInstance = new Innovasys.Content.Document(document.body);
+            documentInstance.load();
+        });
+    </script>
+</body>
+</html>

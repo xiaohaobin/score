@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css" />
+	</head>
+	<body>
+		<div>
+			<table id="tableDemo"></table>
+		</div>
+		<script src="layui.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.use(['laytpl','table','layer'], function() {
+				var laytpl = layui.laytpl;
+				var table = layui.table;
+				var layer = layui.layer;
+				
+				var option = {
+					elem:"#tableDemo",
+					data: [{
+							"id": 01,
+							"nickName": "夏侯惇",
+							"age": 18,
+							"work": "坦克"
+						},
+						{
+							"id": 02,
+							"nickName": "杨戬",
+							"age": 190,
+							"work": "战士"
+						},
+						{
+							"id": 03,
+							"nickName": "赵云",
+							"age": 17,
+							"work": "刺客"
+						},
+						{
+							"id": 04,
+							"nickName": "关羽",
+							"age": 180,
+							"work": "坦克/战士"
+						},
+					],
+					page:false,
+					done: function(res, curr, count){//数据渲染完的回调
+					console.log(132311)
+					},
+					cols:[
+						[
+							{
+								field: 'id',
+								title: 'ID'
+							},
+							{
+								field: 'nickName',
+								title: '昵称'
+							},
+							{
+								field: 'age',
+								title: '年龄'
+							},
+							{
+								field: 'work',
+								title: '职业'
+							},
+						]
+					]
+				};
+				table.render(option);
+			});
+		</script>
+	</body>
+</html>

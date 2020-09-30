@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" value="IE=9" />
+	<meta property="og:description" content="SpreadJS is a GrapeCity product that offers a comprehensive library for delivering true Excel-like experiences." />
+    
+    <title>Filtering Rows | SpreadJS 13</title>
+    <meta name="Title" content="ItemTitleNoQuotes"/>
+    
+    <script src="template/packages/jquery/script/default/jquery-1.11.3.min.js" type="text/javascript" id="mshs_support_script"></script>
+    <script src="template/packages/jquery-ui/script/default/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="template/packages/jquery-ui/css/default/jquery-ui-1.11.4.css"></link>
+    <script type="text/javascript">var Innovasys=(Innovasys||{});$.extend(true,Innovasys,{settings:{isHideBodyDuringLoadDisabled:true,dynamictoc:{isEnabled:true},inthistopic:{isSupported:true},dynamicstyles:{isDynamicWordWrapEnabled:true}}},{settings:{"dynamictoc":{"initialNodeId":"n220","initialNodeContainer":"c0","isResizable":true},"inthistopic":{"isEnabled":true},"currentLocale":"-","isFrameless":true,"navigationKind":"inpage","versions":{"locale":{"currentId":"-"}}}});</script>
+    <link rel="stylesheet" type="text/css" href="template/packages/light/css/dynamic-toc.css"></link>
+    <meta name="Description" content="SpreadJS is a GrapeCity product that offers a comprehensive library for delivering true Excel-like experiences." />
+    
+    <link rel="stylesheet" type="text/css" href="template/packages/plugins-topics/css/default/jquery-plugins.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/core-topics/css/topics.css"  data-mshv2-stylesheet="/template/packages/core-topics/topics.mshv2.css" data-mshv1-stylesheet="/template/packages/core-topics/topics.mshv1.css" data-responsive-mobile="template/packages/core-topics/topics.mobile.css" data-responsive-tablet="template/packages/core-topics/topics.tablet.css"></link>
+    <script src="template/packages/plugins-topics/script/default/jquery-plugins.min.js" type="text/javascript"></script>
+    <script src="template/packages/core-topics/script/topics.min.js" type="text/javascript"></script>
+    
+    <meta name="Microsoft.Help.Id" content="8cfca561-6427-4405-b3d3-2298c032332b"/>
+    <meta name="Microsoft.Help.TocParent" content="e40fdcaa-6506-46b9-b458-69076a296cf3"/>
+    <meta name="Microsoft.Help.TocOrder" content="1"/>
+    <meta name="Microsoft.Help.F1" content=""/>
+    <meta name="Microsoft.Help.ContentType" content="Concepts" />
+    
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="stylesheets/hs-simpletab.css"></link>
+    <style>.i-is-new .i-page-title-text::after, ul#i-dt-root li.i-is-new>a::after { content: "New" }
+</style>
+    
+    
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="template/packages/core-web/css/SP.css">
+<link rel="stylesheet" type="text/css" href="template/packages/core-web/css/customstyles_light.css">
+<script type="text/javascript">
+var currentHeader = function() {
+    return "spjs";
+}
+</script>
+<script src="template/packages/core-web/script/topNavigation.js"></script>
+<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-WT462SJ"></script>
+<script src="template/packages/custom.js"></script>
+<script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime()
+                , event: 'gtm.js'​
+            });
+            var f = d.getElementsByTagName(s)[0]
+                , j = d.createElement(s)
+                , dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WT462SJ');
+    </script>
+
+</head>
+
+<body>
+    <div id="i-before-header-content" class="i-before-header-content">
+        
+    </div>
+
+    <div id="i-header-container">
+        <div id="i-header-content" class="i-header-content i-content-width-container">
+            
+            <div class="i-project-title">SpreadJS 13</div>
+            <div class="i-search-container">
+                <form action="websearch.html">
+                <input id="i-search" name="query"/>
+                <input type="submit" id="i-search-button" value=""/>
+                </form>
+            </div>
+            <a id="i-index-button" href="webindex.html"></a>
+        </div>
+    </div>
+    
+    <div class="i-content-width-container"><div class="i-busy-overlay"></div></div>
+
+    <div id="i-breadcrumbs-outer-container" class="i-content-width-container"><div class="i-breadcrumbs-container">
+<a href="overview.html">SpreadJS Documentation</a>
+ / <a href="devguide.html">Developer's Guide</a>
+ / <a href="features.html">Features</a>
+ / <a href="interface.html">Manage User Interface</a>
+ / <a href="mainfilter.html">Row Filtering</a>
+ / Filtering Rows</div></div>
+
+    
+
+    <div id="i-actions-outer-container" class="i-content-width-container">
+        <div id="i-actions-container">
+            <div id="i-actions-content" class="i-fixed-to-top">
+                <!-- Spacing --> <span class="i-toggle-all-sections i-function-link">
+                <label class="i-collapse-all">Collapse All</label>
+                <label class="i-expand-all" style="display: none;">Expand All</label>
+            </span>
+                <div class="i-in-this-topic-container">
+                    <span class="i-action-group-heading">In This Topic</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="i-toc-outer-container" class="i-content-width-container">
+        <div id="i-toc-container">
+            <div id="i-toc-content" class="i-fixed-to-top">
+                <div class="i-toc-content-scroll-container">
+                    <div id="i-dynamic-toc-container"><ul id="i-dt-root"></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="i-body-content-container" class="i-content-width-container">
+        <div id="i-body-content" class="i-body-content">
+            <div class="i-page-title"><div class="i-page-title-text">Filtering Rows</div></div>
+            <div class="i-in-this-topic-container">
+                <span class="i-action-group-heading">In This Topic</span>
+            </div>
+            <p>SpreadJS allows users to apply conditional filters (Number filters, Text filters, Date filters, Color filters, Custom Auto) based on the data type of the cells. After the filter operation is performed in a worksheet, the rows that match the filter condition will be displayed and the other rows will be hidden.</p>
+
+<p>A filter button is displayed in the column header for a column that allows filtering. The user can click on the button and select the item they wish to filter by and they can sort the list of items.</p>
+
+<p>You can hide filtered rows. You can also clear the applied filter condition on a column. After you clear the filter, the filtered rows will be shown and the "clear filter" items will be disabled.</p>
+
+<p>If the maximum amount of cells in the filter column are of numeric data type, the number filter will be displayed in the AutoFilterListBox menu. If the maximum amount of cells in the filter column are of text data type, the text filter will be displayed in the AutoFilterListBox menu.</p>
+
+<p>An example of number filter is shown in the below image:</p>
+
+<div title="Click to Enlarge" class="i-thumbnail-container">
+    <a title="AutoFilterListBox menu&nbsp;for Number filter" class="i-thumbnail" rel="lightbox" data-href="images/number_filter.png"><img alt="AutoFilterListBox menu&nbsp;for Number filter" src="images/number_filter_thumb.png" /></a>
+
+    <p>AutoFilterListBox menu&nbsp;for Number filter</p>
+</div>
+
+<p></p>
+
+<p>The FilterDialog ListBox supports hierarchial&nbsp;tree display. If the maximum amount of cells in the filter column&nbsp;are of date data type, the date filter will be displayed in the AutoFilterListBox menu and the data will be displayed as date tree display. If the filter data contains different kinds of the value type, the filter items will follow a particular order: Date, Number, Text, Logical and Blank, just like in Excel.</p>
+
+<p>In the date tree view, the different hierarchy has a different format policy as explained below:</p>
+
+<ol>
+    <li>The date tree display format is based on the first date type cell format. In case the format is not set by the user, an auto date format will apply.</li>
+
+    <li>When the culture is EN and the date formatter string doesn't include the locale ID, the date tree view format will be displayed as : Year pattern: YYYY, Month pattern: MMMM, Day pattern: DD</li>
+</ol>
+
+<p>An example of date filter&nbsp;with a three-level hierarchy (Year--&gt;Month--&gt;Day)&nbsp;is shown in the below image:</p>
+
+<p><img border="0" alt="Date filter with a three-level hierarchy" src="images/datefilter.png" /></p>
+
+<p>You can also apply color filters in the filter columns based on two modes : 1) Filter by Font Color 2) Filter by Cell Background Color. The color filter menu will be enabled when the filtered range has more than one type of cell background colors or font colors.&nbsp;</p>
+
+<p>The users can use the mouse or various keyboard keys to interact with the filter dialog. The Esc key can be used to cancel the dialog. The Tab key can be used to move to different sections and the up and down arrow keys can be used to move in the list of items. The spacebar can be used to change the checked status.</p>
+
+<p><img border="0" alt="Row filtering" src="images/cfiltersort.png" /></p>
+
+<p>You can create a filter in code with the <a href="SpreadJS~GC.Spread.Sheets.Worksheet~rowFilter.html">rowFilter</a> HideRowFilter class. You can hide the filter icon with the <a href="SpreadJS~GC.Spread.Sheets.Filter.RowFilterBase~filterButtonVisible.html">filterButtonVisible</a> method.</p>
+
+<p>If the filter range includes outline columns, the hierarchy will be the same in FilterDialog ListBox with outline column data and the filter items checkbox will support the tree status in the way: check, uncheck and indeterminate (the status of the children is not the same). For more information, please refer to&nbsp;<a href="outlinecolumn.html" data-auto-update-caption="true">Outline Columns</a>.</p>
+
+<h4>Using Code</h4>
+
+<p>This example creates a filter.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #0000ff">var</span> cellrange =<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Range(0, 2, 5, 1);
+<span style="COLOR: #0000ff">var</span> hideRowFilter =<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Filter.HideRowFilter(cellrange);
+activeSheet.rowFilter(hideRowFilter);
+<span style="COLOR: #008000">//activeSheet.rowFilter(new GC.Spread.Sheets.Filter.HideRowFilter(new GC.Spread.Sheets.Range(0,0,4,4)));</span>
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4>Using Code</h4>
+
+<p>This example filters rows using code.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+$(<span style="COLOR: #0000ff">function</span> () {
+            <span style="COLOR: #0000ff">var</span> workbook = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Workbook($(<span style="COLOR: #800000">"#ss"</span>)[0]);
+            <span style="COLOR: #0000ff">var</span> activeSheet = workbook.getActiveSheet();
+            activeSheet.setRowCount(7);
+            activeSheet.setValue(0, 0, <span style="COLOR: #800000">"North"</span>);
+            activeSheet.setValue(1, 0, <span style="COLOR: #800000">"South"</span>);
+            activeSheet.setValue(2, 0, <span style="COLOR: #800000">"East"</span>);
+            activeSheet.setValue(3, 0, <span style="COLOR: #800000">"South"</span>);
+            activeSheet.setValue(4, 0, <span style="COLOR: #800000">"North"</span>);
+            activeSheet.setValue(5, 0, <span style="COLOR: #800000">"North"</span>);
+            activeSheet.setValue(6, 0, <span style="COLOR: #800000">"West"</span>);
+            activeSheet.setColumnWidth(0, 80);
+            activeSheet.rowFilter(<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Filter.HideRowFilter(<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Range(0, 0, 7, 1)));
+            $(<span style="COLOR: #800000">"#button1"</span>).click(<span style="COLOR: #0000ff">function</span>(){
+                <span style="COLOR: #008000">//Filter Column1 by "North".
+</span>                <span style="COLOR: #0000ff">var</span> rowFilter = $(<span style="COLOR: #800000">"#ss"</span>).data(<span style="COLOR: #800000">"workbook"</span>).getActiveSheet().rowFilter();
+                <span style="COLOR: #0000ff">var</span> condition = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.ConditionalFormatting.Condition(GC.Spread.Sheets.ConditionalFormatting.ConditionType.textCondition, {
+                    compareType: GC.Spread.Sheets.ConditionalFormatting.TextCompareType.equalsTo,
+                    expected: <span style="COLOR: #800000">"North"</span>
+                });
+                rowFilter.addFilterItem(0, condition);
+                rowFilter.filter(0);
+            });
+            $(<span style="COLOR: #800000">"#button2"</span>).click(<span style="COLOR: #0000ff">function</span>(){
+                <span style="COLOR: #008000">// Remove filtering for Column1
+</span>                <span style="COLOR: #0000ff">var</span> rowFilter = $(<span style="COLOR: #800000">"#ss"</span>).data(<span style="COLOR: #800000">"workbook"</span>).getActiveSheet().rowFilter();
+                <span style="COLOR: #0000ff">if</span>(rowFilter){
+                    rowFilter.removeFilterItems(0);
+                    rowFilter.filter();
+                }
+            });
+        });
+<span style="COLOR: #008000">//Add button controls to page
+</span>&lt;input type=<span style="COLOR: #800000">"button"</span> id=<span style="COLOR: #800000">"button1"</span> value=<span style="COLOR: #800000">"button1"/&gt;
+</span>&lt;input type=<span style="COLOR: #800000">"button"</span> id=<span style="COLOR: #800000">"button2"</span> value=<span style="COLOR: #800000">"button2"/&gt;</span>
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4>Using Code</h4>
+
+<p>The following code specifies how to apply conditional filters in a worksheet.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #0000ff">var</span> spread = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Workbook(document.getElementById(<span style="COLOR: #800000">"ss"</span>));
+<span style="COLOR: #0000ff">var</span> sheet = spread.getActiveSheet();
+sheet.rowFilter(<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Filter.HideRowFilter(<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Range(1, 1, 10, 3)));
+<span style="COLOR: #0000ff">var</span> filter = sheet.rowFilter();
+filter.filterDialogVisibleInfo({
+    sortByValue: <span style="COLOR: #0000ff">false</span>,
+    sortByColor: <span style="COLOR: #0000ff">true</span>,
+    filterByColor: <span style="COLOR: #0000ff">true</span>,
+    filterByValue: <span style="COLOR: #0000ff">true</span>,
+    listFilterArea: <span style="COLOR: #0000ff">false</span>
+})     
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4>Using Code</h4>
+
+<p>The following code creates a custom filter.</p>
+
+<div class="i-filtered-content-JavaScript" data-title="JavaScript" data-itemid="JavaScript">
+    <table class="i-syntax-table">
+        <tbody>
+            <tr>
+                <th>JavaScript</th>
+
+                <th>
+                    <div class="i-copy-code-wrapper">
+                        <span class="i-copy-code">Copy Code</span>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <td class="i-code" colspan="2">
+                    <pre>
+<span style="COLOR: #008000">//Create a custom condition.
+</span>        <span style="COLOR: #0000ff">function</span> CustomFilter(){
+            GC.Spread.Sheets.ConditionalFormatting.Condition.apply(<span style="COLOR: #0000ff">this</span>, arguments);
+            <span style="COLOR: #008000">//this.conditionType("CustomFilter");
+</span>        };
+        CustomFilter.prototype = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.ConditionalFormatting.Condition();
+        CustomFilter.prototype.evaluate = <span style="COLOR: #0000ff">function</span> (evaluator, row, col) {
+            <span style="COLOR: #0000ff">var</span> value = evaluator.getValue(row, col);
+            <span style="COLOR: #0000ff">if</span> (value !== <span style="COLOR: #0000ff">null</span> &amp;&amp; value &gt;= 10 &amp;&amp; value &lt;= 50) {
+                <span style="COLOR: #008000">//Return True only when the following conditions are satisfied.
+</span>                <span style="COLOR: #008000">// (1)Values are entered.
+</span>                <span style="COLOR: #008000">// (2)Values are not lower than 10.
+</span>                <span style="COLOR: #008000">// (3)Values are not greater than 50.
+</span>                <span style="COLOR: #0000ff">return</span> <span style="COLOR: #0000ff">true</span>;
+            } <span style="COLOR: #0000ff">else</span> {
+                <span style="COLOR: #0000ff">return</span> <span style="COLOR: #0000ff">false</span>;
+            }
+        };
+        $(<span style="COLOR: #0000ff">function</span> () {
+            <span style="COLOR: #0000ff">var</span> workbook = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Workbook($(<span style="COLOR: #800000">"#ss"</span>)[0]);
+            <span style="COLOR: #0000ff">var</span> activeSheet = workbook.getActiveSheet();
+            activeSheet.setValue(0, 0, 10);
+            activeSheet.setValue(1, 0, 100);
+            activeSheet.setValue(2, 0, 50);
+            activeSheet.setValue(3, 0, 40);
+            activeSheet.setValue(4, 0, 80);
+            activeSheet.setValue(5, 0, 1);
+            activeSheet.setValue(6, 0, 65);
+            activeSheet.setValue(7, 0, 20);
+            activeSheet.setValue(8, 0, 30);
+            activeSheet.setValue(9, 0, 35);
+            $(<span style="COLOR: #800000">"#button1"</span>).click(<span style="COLOR: #0000ff">function</span>(){
+                <span style="COLOR: #008000">//Set a row Filter.
+</span>                <span style="COLOR: #0000ff">var</span> rowFilter = <span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Filter.HideRowFilter(<span style="COLOR: #0000ff">new</span> GC.Spread.Sheets.Range(0, 0, 7, 1));
+                activeSheet.rowFilter(rowFilter);
+                rowFilter.addFilterItem(0, <span style="COLOR: #0000ff">new</span> CustomFilter());
+                rowFilter.filter(0);
+            });
+        });
+
+<span style="COLOR: #008000">// Add a button at the bottom of the page
+</span>&lt;input id=<span style="COLOR: #800000">"button1"</span> type=<span style="COLOR: #800000">"button"</span> value=<span style="COLOR: #800000">"Button1"/&gt;</span>
+</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+            <a name="seealsobookmark"></a>
+            <div class="i-section-heading" id="i-seealso-section-heading"><span class="i-section-heading-icon"><!-- --></span><span class="i-section-heading-text">See Also</span></div><div id="i-seealso-section-content" class="i-section-content"><div class="i-see-also-link">
+<a href="SpreadJS~GC.Spread.Sheets.Filter.HideRowFilter.html">HideRowFilter class</a></div>
+
+</div>
+            
+            <div id="i-footer-content" class="i-footer-content">
+                
+<p>&nbsp;</p><p>&nbsp;</p><hr style="height: 1px" /><p><p>Copyright © 2020 GrapeCity, Inc. All rights reserved.</p>
+<p><a href="https://www.grapecity.com/forums/spread-sheets" target="_blank">Product Support Forum</a> | <a href="javascript:window.print()">Print this page</a></p>
+<ul class="social">
+<li><a href="https://www.facebook.com/GrapeCityUS/" target="_blank" class="facebook">&nbsp;</a></li>
+<li><a href="https://twitter.com/GrapeCityUS" target="_blank" class="twitter">&nbsp;</a></li>
+<li><a href="https://www.linkedin.com/company/grapecity" target="_blank" class="linkedin">&nbsp;</a></li>
+</ul>
+</p>
+
+            </div>
+        </div>
+    </div>
+        
+    <script type="text/javascript">
+        $(function () {
+            var documentInstance = new Innovasys.Content.Document(document.body);
+            documentInstance.load();
+        });
+    </script>
+</body>
+</html>

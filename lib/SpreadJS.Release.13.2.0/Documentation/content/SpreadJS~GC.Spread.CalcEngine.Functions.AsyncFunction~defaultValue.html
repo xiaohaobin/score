@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" value="IE=9" />
+
+    
+    <title>defaultValue Method | SpreadJS 13</title>
+        <meta name="Title" content=" | SpreadJS 13"/>
+    
+    <script src="template/packages/jquery/script/default/jquery-1.11.3.min.js" type="text/javascript" id="mshs_support_script"></script>
+    <script src="template/packages/jquery-ui/script/default/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="template/packages/jquery-ui/css/default/jquery-ui-1.11.4.css"></link>
+    <script type="text/javascript">var Innovasys=(Innovasys||{});$.extend(true,Innovasys,{settings:{isHideBodyDuringLoadDisabled:true,dynamictoc:{isEnabled:true},inthistopic:{isSupported:true},dynamicstyles:{isDynamicWordWrapEnabled:true}}},{settings:{"dynamictoc":{"initialNodeId":"n1951","initialNodeContainer":"c7","isResizable":true},"inthistopic":{"isEnabled":true},"currentLocale":"-","isFrameless":true,"navigationKind":"inpage","versions":{"locale":{"currentId":"-"}}}});</script>
+    <link rel="stylesheet" type="text/css" href="template/packages/light/css/dynamic-toc.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/plugins-javascript/css/default/jquery-plugins.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/core-javascript/css/dx.javascript.css"  data-mshv2-stylesheet="/template/packages/core-javascript/dx.javascript.mshv2.css" data-mshv1-stylesheet="/template/packages/core-javascript/dx.javascript.mshv1.css" data-responsive-mobile="template/packages/core-javascript/dx.javascript.mobile.css" data-responsive-tablet="template/packages/core-javascript/dx.javascript.tablet.css"></link>
+    <script src="template/packages/plugins-javascript/script/default/jquery-plugins.min.js" type="text/javascript"></script>
+    <script src="template/packages/core-javascript/script/dx.javascript.min.js" type="text/javascript"></script>
+    
+    <meta name="Microsoft.Help.Id" content="SpreadJS~GC.Spread.CalcEngine.Functions.AsyncFunction~defaultValue"/>
+    <meta name="Description" content="Returns the default value of the evaluated function result before getting the async result." />
+    <meta name="Microsoft.Help.TocParent" content="SpreadJS~GC.Spread.CalcEngine.Functions.AsyncFunction_methods"/>
+    <meta name="Microsoft.Help.ContentType" content="Reference" />
+    
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="stylesheets/hs-simpletab.css"></link>
+    <style>.i-is-new .i-page-title-text::after, ul#i-dt-root li.i-is-new>a::after { content: "New" }
+</style>
+    
+    
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" type="text/css" href="template/packages/core-web/css/SP.css">
+<link rel="stylesheet" type="text/css" href="template/packages/core-web/css/customstyles_light.css">
+<script type="text/javascript">
+var currentHeader = function() {
+    return "spjs";
+}
+</script>
+<script src="template/packages/core-web/script/topNavigation.js"></script>
+<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-WT462SJ"></script>
+<script src="template/packages/custom.js"></script>
+<script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime()
+                , event: 'gtm.js'​
+            });
+            var f = d.getElementsByTagName(s)[0]
+                , j = d.createElement(s)
+                , dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WT462SJ');
+    </script>
+
+</head>
+
+<body>
+    <div id="i-before-header-content" class="i-before-header-content">
+        
+    </div>
+
+    <div id="i-header-container">
+        <div id="i-header-content" class="i-header-content i-content-width-container">
+            
+            <div class="i-project-title">SpreadJS 13</div>
+            <div class="i-search-container">
+                <form action="websearch.html">
+                <input id="i-search" name="query"/>
+                <input type="submit" id="i-search-button" value=""/>
+                </form>
+            </div>
+            <a id="i-index-button" href="webindex.html"></a>
+        </div>
+    </div>
+    
+    <div class="i-content-width-container"><div class="i-busy-overlay"></div></div>
+
+    <div id="i-breadcrumbs-outer-container" class="i-content-width-container"><div class="i-breadcrumbs-container">
+<a href="SpreadJS~GC.Spread.CalcEngine.Functions_namespace.html">GC.Spread.CalcEngine.Functions Namespace</a>
+ / <a href="SpreadJS~GC.Spread.CalcEngine.Functions.AsyncFunction.html">AsyncFunction type</a>
+ / defaultValue Method</div></div>
+
+    
+
+    <div id="i-actions-outer-container" class="i-content-width-container">
+        <div id="i-actions-container">
+            <div id="i-actions-content" class="i-fixed-to-top">
+                <!-- Spacing --> <span class="i-toggle-all-sections i-function-link">
+                <label class="i-collapse-all">Collapse All</label>
+                <label class="i-expand-all" style="display: none;">Expand All</label>
+            </span>
+                <div class="i-in-this-topic-container">
+                    <span class="i-action-group-heading">In This Topic</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="i-toc-outer-container" class="i-content-width-container">
+        <div id="i-toc-container">
+            <div id="i-toc-content" class="i-fixed-to-top">
+                <div class="i-toc-content-scroll-container">
+                    <div id="i-dynamic-toc-container"><ul id="i-dt-root"></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="i-body-content-container" class="i-content-width-container">
+        <div id="i-body-content" class="i-body-content">
+            <div class="i-page-title"><div class="i-page-title-text">defaultValue Method</div></div>
+            <div class="i-in-this-topic-container">
+                <span class="i-action-group-heading">In This Topic</span>
+            </div>
+            <div class="i-description-content">Returns the default value of the evaluated function result before getting the async result.</div>
+            <div class="i-section-heading" id="i-syntax-section-heading"><span class="i-section-heading-icon"><!-- --></span><span class="i-section-heading-text">Syntax</span></div><div id="i-syntax-section-content" class="i-section-content">
+      <div class="i-tab-container i-tab-container">
+      <ul>
+      
+      <li class="i-filtered-content-Javascript_Usage"><a href="#i-syntax-Javascript_Usage">Javascript (Usage)</a></li>
+    
+
+      <li class="i-filtered-content-Javascript"><a href="#i-syntax-Javascript">Javascript (Specification)</a></li>
+    
+
+      </ul>
+      
+      <div id="i-syntax-Javascript_Usage" class="i-filtered-content-Javascript_Usage">
+      <pre>var instance = new <a href="SpreadJS~GC.Spread.CalcEngine.Functions.AsyncFunction.html">GC.Spread.CalcEngine.Functions.AsyncFunction</a>(name, minArgs, maxArgs, description);
+var value; // Type: Object
+value = instance.defaultValue();</pre>
+      </div>
+    
+
+      <div id="i-syntax-Javascript" class="i-filtered-content-Javascript">
+      <pre>function defaultValue() : Object;</pre>
+      </div>
+    
+
+      </div>
+    
+            
+
+            <h4 class=dxh4>Return Value</h4><div class="i-returns-content">The default value of the evaluated function result before getting the async result.</div></div>
+            
+
+            <a name="exampleBookmark"></a>
+            
+            
+            
+            
+            
+            
+            <div class="i-section-heading" id="i-seealso-section-heading"><span class="i-section-heading-icon"><!-- --></span><span class="i-section-heading-text">See Also</span></div><div id="i-seealso-section-content" class="i-section-content"><h4 class="dxh4">Reference</h4><p><a href="SpreadJS~GC.Spread.CalcEngine.Functions.AsyncFunction.html">AsyncFunction type</a>
+</p>
+</div>
+            <div id="i-footer-content" class="i-footer-content">
+                
+<p>&nbsp;</p><p>&nbsp;</p><hr style="height: 1px" /><p><p>Copyright © 2020 GrapeCity, Inc. All rights reserved.</p>
+<p><a href="https://www.grapecity.com/forums/spread-sheets" target="_blank">Product Support Forum</a> | <a href="javascript:window.print()">Print this page</a></p>
+<ul class="social">
+<li><a href="https://www.facebook.com/GrapeCityUS/" target="_blank" class="facebook">&nbsp;</a></li>
+<li><a href="https://twitter.com/GrapeCityUS" target="_blank" class="twitter">&nbsp;</a></li>
+<li><a href="https://www.linkedin.com/company/grapecity" target="_blank" class="linkedin">&nbsp;</a></li>
+</ul>
+</p>
+
+            </div>
+        </div>
+    </div>
+        
+    <script type="text/javascript">
+        $(function () {
+            var documentInstance = new Innovasys.Content.Document(document.body);
+            documentInstance.load();
+        });
+    </script>
+</body>
+</html>
