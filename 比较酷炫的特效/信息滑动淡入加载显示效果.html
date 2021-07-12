@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+#msgBox{ width:500px; margin:0 auto; padding:5px;}
+.msgList{ filter:alpha(opacity=0); opacity:0; font-size:12px; line-height:1.6; border-bottom:1px solid #ddd;}
+.box{ float:left;}
+</style>
+<script>
+window.onload = function()
+{
+ var oTxt = document.getElementById('txt1');
+ var oBtn = document.getElementById('btn1');
+ var oBox = document.getElementById('msgBox');
+ oBtn.onclick = function()
+ {
+  var oMsg = document.createElement('div');
+  var aDiv = oBox.getElementsByTagName('div');
+  oMsg.className = 'msgList';
+  oMsg.innerHTML = oTxt.value;
+  oTxt.value = '';
+  if(aDiv.length==0){
+   oBox.appendChild(oMsg);
+  }else{
+   oBox.insertBefore(oMsg, aDiv[0]);
+  }
+  var iH = oMsg.offsetHeight;
+  oMsg.style.height = 0;
+  startMove(oMsg, {height:iH}, function(){
+   startMove(oMsg, {opacity:100});
+  });
+ };
+};
+function getStyle(obj, attr)
+{
+ if(obj.currentStyle){
+  return obj.currentStyle;
+ }else{
+  return getComputedStyle(obj, false)[attr];
+ }
+}
+function startMove(obj, json, fn)
+{
+ clearInterval(obj.timer);
+ obj.timer = setInterval(function(){
+  var bStop = true;
+  for(var attr in json){
+   var iCur = 0;
+   if(attr == 'opacity'){
+    iCur = Math.round((parseFloat(getStyle(obj, attr))*100));
+   }else{
+    iCur = parseInt(getStyle(obj, attr));
+   }
+   var iSpeed = (json[attr] - iCur) / 8;
+   iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+   if(iCur != json[attr]){
+    bStop = false;
+   }
+   if(attr == 'opacity'){
+    obj.style.filter = 'alpha(opacity=' + (iCur + iSpeed)+')';
+    obj.style.opacity = (iCur + iSpeed) / 100;
+   }else{
+    obj.style[attr] = iCur + iSpeed + 'px';
+   }
+  }
+  if(bStop){
+   clearInterval(obj.timer);
+   if(fn){
+    fn();
+   }
+  }
+ }, 30);
+}
+</script>
+</head>
+<body>
+<div class="box">
+ <textarea id="txt1" cols="40" rows="10"></textarea><br />
+ <input id="btn1" type="button" value="提交信息" />
+</div>
+<div id="msgBox">
+</div>
+</body>
+</html>
+

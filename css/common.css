@@ -342,6 +342,7 @@
 	content: "*";
 	color: red;
 	display: inline;
+	margin-right: 5px;
 }
 .text-c{
 	text-align: center;
@@ -427,7 +428,15 @@ table.fixedHead thead {width: calc( 100% - 1em )}
 }
 /* 通用全局样式============================================================================================================================ */
 .w_5{width:5%;}
+.w_6{width:6%;}
+.w_7{width:7%;}
+.w_8{width:8%;}
+.w_9{width:9%;}
 .w_10{width:10%;}
+.w_11{width:11%;}
+.w_12{width:12%;}
+.w_13{width:13%;}
+.w_14{width:14%;}
 .w_15{width:15%;}
 .w_20{width:20%;}
 .w_25{width:25%;}
@@ -530,7 +539,7 @@ button {
 				white-space: nowrap;
 			}
 			
-			/* 适合多行，宽度不固定以及移动端显示，内容溢出省略sss... */
+			/* 适合多行，默认3行，宽度不固定以及移动端显示，内容溢出省略sss... */
 			.more_overflow{
 				overflow: hidden;
 				text-overflow: ellipsis;
@@ -693,19 +702,25 @@ button {
 		.triangle.bottom {
 		  border-top-color: green;
 		  width: 0;
+		  height: 0;
 		}
 		/*上*/
 		.triangle.top {
 		  border-bottom-color: green;
 		  width: 0;
+		  height: 0;
 		}
 		/*左*/
 		.triangle.left {
 		  border-right-color: green;
+		  width: 0;
+		  height: 0;
 		}
 		/*右*/
 		.triangle.right {
 		  border-left-color: green;
+		  width: 0;
+		  height: 0;
 		}
 		/* 小三角eee */
 		
@@ -779,8 +794,35 @@ button {
 	  display: inline-block;
 	  height: 1.5em;
 	  width: 1.5em;
-	  box-shadow: inset -0.4em 0 0;
+	  box-shadow: inset -0.4em 0 0 orange;
 	  border-radius: 2em;
 	  transform: rotate(20deg);
 	}
 	/* css3 绘制图标eee*/
+	
+	/*循环缩放动画*/
+	  @keyframes scaleDraw {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+	        0%{
+	            transform: scale(1);  /*开始为原始大小*/
+	        }
+	        25%{
+	            transform: scale(1.2); /*放大1.1倍*/
+	        }
+	        50%{
+	            transform: scale(1);
+	        }
+	        75%{
+	            transform: scale(1.2);
+	        }
+	    }
+	 .animate_scale{
+	    -webkit-animation-name: scaleDraw; /*关键帧名称*/
+	    -webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+	    -webkit-animation-iteration-count: infinite;  /*动画播放的次数*/
+	    -webkit-animation-duration: 5s; /*动画所花费的时间*/
+	    
+	    animation-name: scaleDraw; /*关键帧名称*/
+	    animation-timing-function: ease-in-out; /*动画的速度曲线*/
+	    animation-iteration-count: infinite;  /*动画播放的次数*/
+	    animation-duration: 5s; /*动画所花费的时间*/
+	 }

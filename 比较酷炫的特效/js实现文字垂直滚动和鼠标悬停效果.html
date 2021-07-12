@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>无标题文档</title>
+		<style>
+			.recommend-info {
+			width: 630px;
+			height: 42px;
+			padding: 0 10px;
+			margin-top: 12px;
+			margin-bottom: 18px;
+			border: 1px dashed #DFDFDF;
+			overflow: hidden;
+		  }
+		  .recommend-info li {
+			overflow: hidden;
+			font-size: 14px;
+			line-height: 42px;
+		  }
+		  .recommend-info li .push {
+			float: left;
+			display: inline-block;
+			width: 18px;
+			height: 17px;
+			margin-top: 12px;
+			margin-right: 10px;
+			background: #D95B4E;
+			font-size: 12px;
+			color: #fff;
+			text-align: center;
+			line-height: 17px;
+		  }
+		  .recommend-info li a {
+			float: left;
+			color: #333;
+		  }
+		  .recommend-info li a:hover {
+			color: #da5c4f;
+		  }
+		  .recommend-info li .htype {
+			float: right;
+			color: #999;
+		  }
+		</style>
+
+	</head>
+	<body>
+		<ul class="recommend-info">
+			<li>
+				<span class="push">荐</span>
+				<a href="javascript:;">1高档社区，经典户型，机会难得，稍纵即逝！仅售66万！</a>
+				<span class="htype">66万 3室2厅1卫 120㎡</span>
+			</li>
+			<li>
+				<span class="push">荐</span>
+				<a href="javascript:;">2高档社区，经典户型，机会难得，稍纵即逝！仅售66万！</a>
+				<span class="htype">66万 3室2厅1卫 120㎡</span>
+			</li>
+			<li>
+				<span class="push">荐</span>
+				<a href="javascript:;">3高档社区，经典户型，机会难得，稍纵即逝！仅售66万！</a>
+				<span class="htype">66万 3室2厅1卫 120㎡</span>
+			</li>
+			<li>
+				<span class="push">荐</span>
+				<a href="javascript:;">4高档社区，经典户型，机会难得，稍纵即逝！仅售66万！</a>
+				<span class="htype">66万 3室2厅1卫 120㎡</span>
+			</li>
+		</ul>
+
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			// 不断把新的第一个追加到后面 
+			function vscroll() {
+				var frtEle = $('.recommend-info li:first');
+				frtEle.animate({
+					'marginTop': -$('.recommend-info li').height()
+				}, 500, function() {
+					frtEle.css('marginTop', 0);
+					$('.recommend-info').append(frtEle);
+				});
+			}
+			var startInterval = setInterval(vscroll, 1000);
+
+			// 鼠标悬停 
+			$('.recommend-info li').hover(function() {
+				clearInterval(startInterval);
+			}, function() {
+				startInterval = setInterval(vscroll, 1000);
+			});
+		</script>
+
+
+	</body>
+</html>

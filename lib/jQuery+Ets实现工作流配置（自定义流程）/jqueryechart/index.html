@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- 引入 ECharts 文件 -->
+    <script src="https://www.jq22.com/jquery/echarts-4.2.1.min.js"></script>
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 100%;height:300px;"></div>
+</body>
+
+</html>
+<script type="text/javascript">
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('main'));
+
+// 指定图表的配置项和数据
+var option = {
+    title: {
+        text: '流程示例'
+    },
+    //tooltip: {},
+    series: [{
+        type: 'graph',
+        layout: 'none',
+        symbolSize: 50,
+        label: {
+            show: true
+        },
+        edgeSymbol: ['circle', 'arrow'],
+        edgeSymbolSize: [4, 10],
+        edgeLabel: {
+            fontSize: 20
+        },
+        data: [{
+            name: '流程发起',
+            value: 0,
+            x: 100,
+            y: 300,
+        }, {
+            name: '流程结束',
+            value: 999,
+            x: 200,
+            y: 300
+        }],
+        links: [{
+            source: 0,
+            target: 1,
+            symbolSize: [5, 20],
+            label: {
+                show: true,
+                formatter: '+',
+                fontSize: 50,
+                color: "#B53F00"
+            },
+        }],
+        lineStyle: {
+            opacity: 0.9,
+            width: 3,
+            curveness: 0
+        }
+    }]
+};
+
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+
+
+//绑定鼠标事件
+myChart.on("mousedown", function(e) {
+    if (e.event.event.button === 0) { //左键单击事件
+        if (e.event.target.name == "label") { //点击+号 添加审批
+            addNode(e.data.source);
+        } else if (e.dataType == "node" && e.data.value != 999) { //点击节点 显示人员角色信息  
+            alert("点击节点 显示人员角色信息");
+        }
+    }
+    if (e.event.event.button === 2 && e.dataType == "node") { //右键node点击事件
+        if (e.dataIndex === 0) {
+            //e中有当前节点信息
+            showMenu(e, [{
+                "name": "添加角色",
+                "fn": function() {
+                    alert("触发-添加角色" + e.data);
+                    console.log(e);
+                }
+            }, {
+                "name": "添加人员",
+                "fn": function() {
+                    alert("触发-添加人员" + e.data);
+                }
+            }, {
+                "name": "重命名",
+                "fn": function() {
+                    cnn(e);
+                }
+            }]);
+        } else if (e.data.value === 999) {
+            showMenu(e, [{
+                "name": "重命名",
+                "fn": function() {
+                    cnn(e);
+                }
+            }]);
+        } else {
+            //e中有当前节点信息
+            showMenu(e, [{
+                "name": "添加角色",
+                "fn": function() {
+                    alert("触发-添加角色" + e.data);
+                    console.log(e);
+                }
+            }, {
+                "name": "添加人员",
+                "fn": function() {
+                    alert("触发-添加人员" + e.data);
+                }
+            }, {
+                "name": "删除节点",
+                "fn": function() {
+                    delNode(e.data);
+                    alert("删除节点成功");
+                }
+            }, {
+                "name": "重命名",
+                "fn": function() {
+                    cnn(e);
+                }
+            }]);
+        }
+    }
+})
+
+var style_ul = "padding:0px;margin:0px;border: 1px solid #ccc;background-color: #fff;position: absolute;left: 0px;top: 0px;z-index: 2;display: none;";
+var style_li = "list-style:none;padding: 5px; cursor: pointer; padding: 5px 20px;margin:0px;";
+var style_li_hover = style_li + "background-color: #00A0E9; color: #fff;";
+
+//右键菜单容器
+var menubox = $("<div class='echartboxMenu' style='" + style_ul + "'><div style='text-align:center;background:#ccc'></div><ul style='margin:0px;padding:0px;'></ul></div>")
+    .appendTo($(document.body));
+
+//移除浏览器右键菜单
+myChart.getDom().oncontextmenu = menubox[0].oncontextmenu = function() {
+    return false;
+}
+
+//点击其他位置隐藏菜单
+$(document).click(function() {
+    menubox.hide()
+});
+
+//显示菜单
+function showMenu(e, menus) {
+    $("div", menubox).text(e.name);
+    var menulistbox = $("ul", menubox).empty();
+    $(menus).each(function(i, item) {
+        var li = $("<li style='" + style_li + "'>" + item.name + "</li>")
+            .mouseenter(function() {
+                $(this).attr("style", style_li_hover);
+            })
+            .mouseleave(function() {
+                $(this).attr("style", style_li);
+            })
+            .click(function() {
+                item["fn"].call(this);
+                menubox.hide();
+            });
+        menulistbox.append(li);
+    });
+    menubox.css({
+        "left": event.x,
+        "top": event.y
+    }).show();
+}
+//添加节点方法
+function addNode(e) {
+    var n = prompt("新增节点名称：");
+    if (n == "") {
+        alert("新增节点名称不能为空！")
+        return;
+    }
+    if (n==undefined){
+        return;
+    }
+    var options = myChart.getOption();
+    var data = options.series[0].data;
+    if(isRepect(n,data)){
+        alert("节点名称不能重复！")
+        return;      
+    }
+    var inx = e + 1;
+    var temp = Object.assign({}, data[e]);
+    temp.name = n,
+        temp.value = inx;
+    temp.x = temp.x + 100;
+    for (var i = inx; i < data.length; i++) {
+        if (data[i].value == 999) {
+            data[i].x += 100;
+        } else {
+            data[i].value = i + 1;
+            data[i].x += 100;
+        }
+    }
+    data.splice(inx, 0, temp);
+    var links = linkdata(data.length);
+    myChart.setOption({
+        series: [{
+            data: data,
+            links: links
+        }]
+    });
+}
+//删除节点方法
+function delNode(e) {
+    var options = myChart.getOption();
+    var data = options.series[0].data;
+    var inx = e.value;
+    data.splice(inx, 1);
+    for (var i = inx; i < data.length; i++) {
+        if (data[i].value == 999) {
+            data[i].x -= 100;
+        } else {
+            data[i].value = i;
+            data[i].x -= 100;
+        }
+    }
+    var links = linkdata(data.length);
+    myChart.setOption({
+        series: [{
+            data: data,
+            links: links
+        }]
+    });
+}
+//linkdata重组方法
+function linkdata(length) {
+    var links = [];
+    for (var i = 0; i < length - 1; i++) {
+        links.push({
+            source: i,
+            target: i + 1,
+            symbolSize: [5, 20],
+            label: {
+                show: true,
+                formatter: '+',
+                fontSize: 50,
+                color: "#B53F00"
+            },
+        });
+    }
+    return links;
+}
+//重命名弹窗
+function cnn(e) {
+    var n = prompt("节点重命名：", e.name);
+    if (n != null && n != "") {
+        changeNodeName(e.data, n);       
+    }
+    if (n == "") {
+        alert("节点名称不能为空！")
+    }
+}
+//重命名方法
+function changeNodeName(e, st) {
+    var options = myChart.getOption();
+    var data = options.series[0].data;
+    var ds = data.find(item => item.value == e.value);
+    var ds1 = data.find(item => item.name == st);
+    if(ds1!=undefined && ds1!=ds){
+        alert("节点名称不能重复！")
+        return 
+    }
+    ds.name = st;
+    console.log(data)
+    myChart.setOption({
+        series: [{
+            data: data,
+        }]
+    });
+    alert("修改成功！")
+}
+//是否具有重复项
+function isRepect(st,data){
+    var ds = data.find(item => item.name == st);
+    if(ds!=undefined){
+        return true;
+    }else{
+        return false;
+    }
+}
+</script>

@@ -2,10 +2,11 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		
 		<title></title>
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<!--<script src="http://api.map.baidu.com/api?v=3.0&ak=p8o0Z5O9SvVfwPP3z0DlAf2PiWOvKPEv" type="text/javascript" charset="utf-8"></script>-->
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A1LU7iHS0avqQwPLAxbhKn0UYSQCuRVH"></script>
+		<!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A1LU7iHS0avqQwPLAxbhKn0UYSQCuRVH"></script> -->
 		<style type="text/css">
 			html {
 				height: 100%
@@ -24,11 +25,28 @@
 
 	</head>
 	<body>
+		<a href="demo.html">跳转page2</a>
 		<div id="allmap"></div>
-			
-			
-		<script src="js/xhb.baiduMapControl.js" type="text/javascript" charset="utf-8"></script>
+		<script language="javascript">
+		        //防止页面后退
+				history.replaceState({}, "", newUrl);
+		        history.pushState(null, null, document.URL);
+		        window.addEventListener('popstate', function () {
+		            history.pushState(null, null, document.URL);
+		        });
+		    </script>
+				
 		<script type="text/javascript">
+			window.onload = function(){
+				console.log(12)
+				window.addEventListener("popstate", function(e) {
+							alert("我监听到了浏览器的返回按钮事件啦2");//根据自己的需求实现自己的功能 
+				}, false);
+			};
+			
+		</script>	
+		<!-- <script src="js/xhb.baiduMapControl.js" type="text/javascript" charset="utf-8"></script> -->
+		<!-- <script type="text/javascript">
 			var map = new BMap.Map("allmap");
 			map.enableScrollWheelZoom(true); //默认关闭鼠标缩放。重新设置true
 			
@@ -48,6 +66,6 @@
 			bdMap.transfrom(111.1725910000,31.3126750000,function(p){
 				console.log(p);
 			});
-		</script>
+		</script> -->
 	</body>
 </html>

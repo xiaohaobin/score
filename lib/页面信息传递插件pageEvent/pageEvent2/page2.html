@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<h3>消息展示</h3>
+		<div id="logs">
+			
+		</div>
+		<!--可以不依赖jq，此处只是为了方便操作dom-->
+		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript" src="js/pageEvent2.js"></script>
+		<script type="text/javascript">
+			pageEvent.storagesource = "storage";
+			$(function() {
+				pageEvent.on("myEvent", function(data) {
+					console.log("收到消息啦");
+					console.log(data);
+					var html="<h5>收到消息:"+data.msg+"，耗时:"+(Date.now()-data.time)+"ms</h5>";
+					$("#logs").prepend(html);
+				});
+			});
+		</script>
+	</body>
+
+</html>

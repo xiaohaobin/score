@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+		<title></title>
+		
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="css/h-ui响应式各个组件的样式/table.css"/>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="tableBox" id="APP">
+			<h2>王者英雄套路组合</h2>
+			<table class="table table-border table-striped table-hover table-bordered">
+				<thead>
+					<tr>
+						<th colspan="4" class="text-c fs-20"><span>双排套路</span></th>
+					</tr>
+					<tr>
+						<th><span>流派</span></th>
+						<th><span>英雄组合</span></th>
+						<th><span>套路特点</span></th>
+						<th><span>弱点</span></th>
+					</tr>
+				</thead>
+				<tbody class="scrollEffect">
+					<tr>
+						<td><span>全球流</span></td>
+						<td><span>哪吒+刘邦(或者哪吒+女娲)</span></td>
+						<td><span>哪吒开大，刘邦跟着开大附身，快速支援</span></td>
+						<td><span>东皇，张良，老夫子，猪八戒，女娲，盾山可半路劫持哪吒，导致套路破解</span></td>
+					</tr>
+					<tr>
+						<td><span>专治花里胡哨流</span></td>
+						<td><span>东皇+张良</span></td>
+						<td><span>可针对任何一个英雄的蒂花之秀</span></td>
+						<td><span>如果对方英雄人数与我方套路人数持平或者超过，套路被破解</span></td>
+					</tr>
+					<tr>
+						<td><span>强控一套流</span></td>
+						<td><span>典韦（猴子，钟无艳等爆发输出英雄）+东皇（张良，老夫子，墨子，钟馗，钟无艳等强控制）</span></td>
+						<td><span>强控制英雄先手控制，爆发输出英雄跟上一套送其极乐世界</span></td>
+						<td><span>如果对方英雄看破我方埋伏，则套路破解</span></td>
+					</tr>
+					<tr>
+						<td><span>无限回血流</span></td>
+						<td><span>扁鹊+蔡文姬</span></td>
+						<td><span>你奶我，我奶你，都出半肉输出，对方非三人以上，无以克制</span></td>
+						<td><span>对方刺客英雄为爆炸性输出英雄，或带有制裁，梦魇装备的英雄，套路破解</span></td>
+					</tr>
+					<tr>
+						<td><span>游走秒杀流</span></td>
+						<td><span>妲己+猴子（典韦）</span></td>
+						<td><span>中野联动找茬，妲己只要控住，打野跟上，一套送其去老家</span></td>
+						<td><span>对方英雄只要不被控住（或带净化）且逃脱，套路告破，如关羽</span></td>
+					</tr>
+					<tr>
+						<td><span>快速围堵流</span></td>
+						<td><span>孙策+司马懿</span></td>
+						<td><span>只要发现落单的敌方英雄，且都在组合英雄大招技能范围内，孙策先手开船围堵（路过我方英雄可搭上），司马懿开大跟上，然后就能一首凉凉送给敌方落单英雄</span></td>
+						<td><span>对方其他英雄支援及时，且最终人数大于我方组合英雄人数，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>机动游走压制流</span></td>
+						<td><span>赵云+韩信</span></td>
+						<td><span>赵云上路或辅助，四级之后，两人灵活的gank对方c位英雄，打不过还能骚扰，灵活撤退</span></td>
+						<td><span>对方c位出肉，且团战敌方英雄人数超过我方组合英雄，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>野区压制流</span></td>
+						<td><span>典韦+达摩</span></td>
+						<td><span>四级之后，两人可不断入侵敌方野区，野区狭隘，达摩容易开大，典韦跟上秒人，且野区有资源可供二人不断续航回血</span></td>
+						<td><span>对方英雄人数超过三个且都来野区防守，且不被达摩大招晕住，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>隐身瞬杀流</span></td>
+						<td><span>阿珂+兰陵王</span></td>
+						<td><span>兰陵王辅助，阿珂四级之后，两人隐身从两个方向抓对方c位，敌方一旦看见兰陵王杀气感叹号，则会后撤，阿珂后面包抄攻击打断对方走位，兰陵王二技能中了，之后对方就GG了...</span></td>
+						<td><span>对方英雄有辅助如蔡文姬扁鹊等回血快，且c位坦度高；或者被百里，瑶等技能看破隐身，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>勾住毒打流</span></td>
+						<td><span>钟馗+李元芳（或者虞姬）</span></td>
+						<td><span>可疯狂针对对方c位，钟馗只要勾住对方，射手技能跟上封住其走位，然后就是让他体会到被社会毒打的滋味</span></td>
+						<td><span>对方带净化解控等技能，套路破解</span></td>
+					</tr>
+					<tr>
+						<td><span>复活流</span></td>
+						<td><span>苏烈+太乙真人</span></td>
+						<td><span>不断复活不断打架骚扰，让对方无计可施</span></td>
+						<td><span>团战被对方风筝打或者集火猛攻，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>溜人嘲讽流</span></td>
+						<td><span>鲁班大师+白起</span></td>
+						<td><span>鲁班大师拉住白起，然后往敌方人群过去，一个拉伸，白起开启大招，然后配合我方输出，然后就是虎入羊群（配合我方其他团控英雄效果更加，如王昭君，甄姬，吕布等）....</span></td>
+						<td><span>团战被对方风筝打或者集火猛攻，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>减速狂魔流</span></td>
+						<td><span>姜子牙+伽罗</span></td>
+						<td><span>姜子牙出辅助装和冰杖，疯狂减速对方英雄，加上伽罗减速，让对方进不得，退不得....</span></td>
+						<td><span>伽罗被对方灵活或者隐身的爆发刺客（兰陵王，韩信，赵云，猴子等），一套带走，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>肉夹馍组合流</span></td>
+						<td><span>盾山+猪八戒</span></td>
+						<td><span>盾山把人抛过去，开大堵住，猪八戒也在其相反位置堵住，把敌方英雄变成肉夹馍</span></td>
+						<td><span>对方英雄有穿墙位移且带净化，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>鹰犬秒杀流</span></td>
+						<td><span>明世隐+娜可露露</span></td>
+						<td><span>传统野辅联动，一套带走敌方英雄</span></td>
+						<td><span>东皇，张良，老夫子，墨子等强控控住娜可露露，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>明瑶流</span></td>
+						<td><span>明世隐+瑶</span></td>
+						<td><span>明世隐辅助，出极速鞋，牵着瑶，一直走位，不用攻击。瑶附身明身上出输出装，让对方打不到人，却被莫名输出...</span></td>
+						<td><span>只要能逮到明世隐，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>压制敌方发育路流</span></td>
+						<td><span>墨子+虞姬</span></td>
+						<td><span>墨子只要二技能晕住敌方射手，虞姬快速跟上一套技能教敌方做人</span></td>
+						<td><span>前提要墨子和虞姬技能能控住敌方，否则套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>团控爆炸流</span></td>
+						<td><span>鬼谷子+花木兰（猴子，钟无艳等爆发输出英雄）</span></td>
+						<td><span>鬼谷子携带输出英雄隐身开大控住一群人，输出英雄范围伤害打得他们一脸闷逼</span></td>
+						<td><span>前提要鬼谷子要控得住人，否则套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>移动炮台流</span></td>
+						<td><span>孙策+黄忠</span></td>
+						<td><span>发现对方落单英雄在孙策的大招范围内，孙策开船阻击对方英雄，黄忠搭顺风车开大，远远吊着对方英雄打</span></td>
+						<td><span>黄忠要能出现在孙策开船的路上，且对方支援没有我方英雄快，否则套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>原地等死流</span></td>
+						<td><span>盘古+亚瑟</span></td>
+						<td><span>亚瑟辅助，盘古打野，野辅联动，一套把敌方目标英雄打得缴械和沉默，只能瑟瑟发抖等死</span></td>
+						<td><span>对方英雄带了净化，且有位移，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>远程控制流</span></td>
+						<td><span>钟馗+墨子</span></td>
+						<td><span>中辅联动，墨子二技能比较容易中，先晕住对方，钟馗马上能勾住，然后一套连续控制让对方欲罢不能</span></td>
+						<td><span>对方英雄带了净化，且有位移，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>高地保安流</span></td>
+						<td><span>嬴政+黄忠</span></td>
+						<td><span>高地保安组合，进可攻退可守，手长能让对方进退不得</span></td>
+						<td><span>黄忠是被对方这些英雄控制，如墨子，钟馗，吕布，百里守约，廉颇压制，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>高机动性速度流</span></td>
+						<td><span>大乔+关羽（马超）</span></td>
+						<td><span>大乔技能能让我方这些跑路英雄加速，怎强输出空间</span></td>
+						<td><span>对方控制技能多，或者出冰杖和冰剑，针对我方跑路英雄，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>传送阵流</span></td>
+						<td><span>大乔+钟馗（李白，公孙离）</span></td>
+						<td><span>大乔巧妙利用回泉水技能，让勾到人的钟馗刚好回城，让残血的李白，公孙离瞬间回城，再利用技能回到原战场</span></td>
+						<td><span>需要大乔和诸位英雄的配合默契度高，否则套路告破</span></td>
+					</tr>
+				</tbody>
+				<thead>
+					<tr>
+						<th colspan="4" class="text-c fs-20"><span>三排套路</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span>全球流2.0</span></td>
+						<td><span>哪吒+刘邦+司马懿</span></td>
+						<td><span>全球流升级套路，哪吒或者司马懿开大抓人，刘邦跟着开大附身其中一人，根据敌方阵容，三人可以互相快速支援</span></td>
+						<td><span>对方支援速度如果比我方快，且人数多，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>无限回血流2.0</span></td>
+						<td><span>扁鹊+蔡文姬+白起（猪八戒）</span></td>
+						<td><span>无限回血流升级套路，啥也别说，想想就觉得对方经不起折磨</span></td>
+						<td><span>团战对方带有有制裁，梦魇装备的英雄，且人数比较多，分裂我方阵容，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>移动炮台流2.0</span></td>
+						<td><span>孙策+黄忠+瑶（刘邦）</span></td>
+						<td><span>发现对方落单英雄在孙策的大招范围内，孙策开船阻击对方英雄，黄忠搭顺风车开大，远远吊着对方英雄打，刘邦或者瑶可附身其中一人达到快速支援增益效果</span></td>
+						<td><span>阵容被分裂，则套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>原地等死流2.0</span></td>
+						<td><span>盘古+亚瑟+妲己（司马懿）</span></td>
+						<td><span>亚瑟辅助，盘古打野，野辅联动，一套把敌方目标英雄打得缴械和沉默，只能瑟瑟发抖等死，法师沉默眩晕跟上，死的不能再死</span></td>
+						<td><span>对方英雄带了净化，且有位移，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>高地保安流2.0</span></td>
+						<td><span>嬴政+黄忠+李信</span></td>
+						<td><span>高地保安组合，进可攻退可守，手长能让对方进退不得，根据战局情况李信可配合守塔或者偷塔</span></td>
+						<td><span>其中两人被针对，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>传送阵流2.0</span></td>
+						<td><span>大乔+李白+公孙离</span></td>
+						<td><span>大乔巧妙利用回泉水技能，让勾到人的钟馗刚好回城，让残血的李白，公孙离瞬间回城，再利用技能回到原战场</span></td>
+						<td><span>需要大乔和诸位英雄的配合默契度高，核心是大乔，否则套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>震雷削组合流</span></td>
+						<td><span>典韦+亚瑟+白起</span></td>
+						<td><span>网红组合，草丛三个痴汉埋伏....</span></td>
+						<td><span>被对方人多且反套路控制住，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>肉夹馍组合流2.0</span></td>
+						<td><span>盾山+猪八戒+王昭君（甄姬，女娲）</span></td>
+						<td><span>盾山把人抛过去，开大堵住，猪八戒也在其相反位置堵住，，女娲看情况用技能封路，如果是王昭君或者甄姬，则冻住对方。把敌方英雄变成肉夹馍</span></td>
+						<td><span>对方英雄有穿墙位移且带净化，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>拆塔流</span></td>
+						<td><span>刘禅+米莱迪+大乔</span></td>
+						<td><span>刘禅带干扰，米莱迪带兵，两人偷塔，买上疾跑鞋，对方来抓，大乔就在安全区域开传送门召唤他们回来，让对方抓了个寂寞...</span></td>
+						<td><span>大乔没有及时开传送门，或者偷塔二人被对方蹲了，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>远程消耗拆塔流</span></td>
+						<td><span>刘禅+黄忠+周瑜</span></td>
+						<td><span>没有足够的人数，要想切进来，谈何容易，只能被一路压制到高地</span></td>
+						<td><span>三个人站位太接近容易被甄姬，王昭君，吕布等团控英雄克制，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>养猪流</span></td>
+						<td><span>太乙真人+蔡文姬+站撸射手</span></td>
+						<td><span>太乙被动养射手，蔡文姬保护射手，一路速推</span></td>
+						<td><span>三个人站位太接近容易被甄姬，王昭君，吕布等团控英雄克制，或者被敌方偷塔分化阵容，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>快速围堵流2.0(围点打援)</span></td>
+						<td><span>孙策+司马懿+哪吒</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>只要发现落单的敌方英雄，且都在组合英雄大招技能范围内，其中一人开大追踪，另外两个看情况跟上开大，支援速度让对方瞠目结舌....
+							</div>						
+							<div style="color: orange;">
+								<b>套路2：</b>哪吒开大假装针对某敌方英雄，敌方英雄必定请求支援，另外两个人可埋伏那些对方分支援英雄....
+							</div>
+							
+						</td>
+						<td><span>对方其他英雄支援及时，且最终人数大于我方组合英雄人数，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>团战打不死流</span></td>
+						<td><span>芈月+曹操（杨戬，狂铁）+程咬金</span></td>
+						<td><span>一场团战，对方就算人数多也打不动这些吸血回血鬼....</span></td>
+						<td><span>对方英雄出制裁和梦魇，且控制多多，套路告破</span></td>
+					</tr>
+				</tbody>
+				<thead>
+					<tr>
+						<th colspan="4" class="text-c fs-20"><span>五排套路</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span>团战打不死流升级版本</span></td>
+						<td><span>芈月+曹操（杨戬，狂铁）+程咬金+虞姬（李元芳）+王昭君（甄姬）</span></td>
+						<td><span>弥补了团战打不死阵容中三人的缺乏控制性，配合自保能力强的射手和团控法师</span></td>
+						<td><span>打团的时候，对方英雄先秒掉我方c位，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>全球快速围堵移动炮台流</span></td>
+						<td><span>孙策+司马懿+哪吒+黄忠+瑶（黄忠）</span></td>
+						<td>
+							<div style="color: green;">
+								<b>套路1：</b>只要发现落单的敌方英雄，且都在组合英雄大招技能范围内，其中一人开大追踪，另外两个看情况跟上开大，支援速度让对方瞠目结舌....
+							</div>
+							<div style="color: red;">
+								<b>套路2：</b>围点打援，哪吒开大假装针对某敌方英雄，敌方英雄必定请求支援，另外两个人可埋伏那些对方分支援英雄....
+							</div>
+							<div style="color: blue;">
+								<b>套路3：</b>发现对方落单英雄在孙策的大招范围内，孙策开船阻击对方英雄，黄忠搭顺风车开大，远远吊着对方英雄打，刘邦或者瑶可附身其中一人
+							</div>
+							<div style="color: orange;">
+								<b>套路4：</b>哪吒（孙策，司马）开大抓人，刘邦跟着开大附身，快速支援
+							</div>
+						</td>
+						<td><span>对方其他英雄支援及时，且最终人数大于我方组合英雄人数，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>四保一阵容流</span></td>
+						<td><span>黄忠+王昭君（甄姬）+蔡文姬+刘禅（项羽，廉颇，钟无艳，牛魔）+突进刺客（赵云，橘右京，猴子，韩信等）</span></td>
+						<td><span>弥补了团战打不死阵容中三人的缺乏控制性，配合自保能力强和团控法师</span></td>
+						<td><span>打团的时候，对方英雄先秒掉我方c位，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>专治花里花哨压制流</span></td>
+						<td><span>东皇+张良+典韦（猴子）+钟馗（墨子）+站撸射手</span></td>
+						<td><span>一路压制，人挡杀人，佛挡杀佛，钟馗（墨子），先手控住对方，开启屠杀模式</span></td>
+						<td><span>打团的时候，阵容被分裂，对方英雄先秒掉我方c位，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>拆塔流终极版</span></td>
+						<td><span>刘禅+大乔+米莱迪+李元芳+可以一打二的打野</span></td>
+						<td><span>刘禅带干扰，米莱迪带兵，一路拆塔，一路四一分推，情况不妙就让大乔传呼</span></td>
+						<td><span>对方也偷塔，且比我方还疯狂的那种，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>比较稳定的流派</span></td>
+						<td><span>王昭君（甄姬）+黄忠+牛魔（廉颇）+赵云（猴子）+吕布</span></td>
+						<td><span>禁用庄周，辅助先开团，吕布开大跟上，法师射手控制输出跟上，发挥得好，打野都不用来了</span></td>
+						<td><span>对方出了鱼，且非常的理智猥琐，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>高机动+传送阵流</span></td>
+						<td><span>大乔+马超（或关羽）+ 公孙离 + 李白+法师</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>大乔巧妙利用回泉水技能，让残血的李白，公孙离瞬间回城，再利用技能回到原战场
+							</div>
+							<div style="color: red;">
+								<b>套路2：</b>大乔技能能让我方马超关羽等跑路英雄加速，怎强输出空间
+							</div>
+							
+						</td>
+						<td><span>大乔被先灭了，则套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>肉夹馍团战流</span></td>
+						<td><span>盾山+猪八戒+吕布+李元芳（打野）+王昭君（甄姬）</span></td>
+						<td><span>盾山把人抛过去，开大堵住，猪八戒也在其相反位置堵住，，法师冻住，吕布团控跳大</span></td>
+						<td><span>对方英雄有穿墙位移且带净化，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>高地保安隐身瞬杀流</span></td>
+						<td><span>阿珂+兰陵王（辅助）+嬴政+黄忠+李信（或者其他有控制的肉上单）</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>高地保安组合，进可攻退可守，手长能让对方进退不得，根据战局情况李信可配合守塔或者偷塔
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>隐身瞬杀组合，兰陵王辅助，阿珂四级之后，两人隐身从两个方向抓对方c位，敌方一旦看见兰陵王杀气感叹号，则会后撤，阿珂后面包抄攻击打断对方走位，兰陵王二技能中了，之后对方就GG了...
+							</div>
+							<div style="color: orange;">
+								<b>套路3：</b>c位在明，双隐在暗，威慑敌方
+							</div>
+						</td>
+						<td><span>黄忠和阿珂被双双针对发育不起来，黄忠和双刺客被百里守约克制，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>高地保安移动炮台流</span></td>
+						<td><span>孙策+瑶+嬴政+黄忠+李信</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>高地保安组合，进可攻退可守，手长能让对方进退不得，根据战局情况李信可配合守塔或者偷塔
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>发现对方落单英雄在孙策的大招范围内，孙策开船阻击对方英雄，黄忠搭顺风车开大，远远吊着对方英雄打，刘邦或者瑶可附身其中一人达到快速支援增益效果
+							</div>							
+						</td>
+						<td><span>黄忠和嬴政被双双针对发育不起来，或者对方有盾山，百里守约。套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>移动炮台沉默缴械围堵流</span></td>
+						<td><span>盘古（打野）+亚瑟（辅助）+司马懿 + 黄忠+ 孙策</span></td>
+						<td>
+							
+							<div style="color: red;">
+								<b>套路1：</b>沉默缴械套路：亚瑟辅助，盘古打野，野辅联动，一套把敌方目标英雄打得缴械和沉默，只能瑟瑟发抖等死，法师沉默眩晕跟上，死的不能再死
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>快速围堵套路：只要发现落单的敌方英雄，且都在组合英雄大招技能范围内，孙策先手开船围堵（路过我方英雄可搭上），司马懿开大跟上，然后就能一首凉凉送给敌方落单英雄
+							</div>
+							<div style="color: orange;">
+								<b>套路3：</b>移动炮台流：发现对方落单英雄在孙策的大招范围内，孙策开船阻击对方英雄，黄忠搭顺风车开大，远远吊着对方英雄打
+							</div>
+						</td>
+						<td><span>双c和打野先死，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>大招变身流</span></td>
+						<td><span>凯（宫本，刘备，镜）+张飞+高渐离（貂蝉，安其拉） + 黄忠+ 哪吒（曹操，蒙恬，狂铁，关羽，司空震）</span></td>
+						<td>
+							没啥说的，五人变身，能吓死对方个半死
+						</td>
+						<td><span>双c先死，变身后被风筝</span></td>
+					</tr>
+					<tr>
+						<td><span>移动炮台围堵远程消耗拆塔流</span></td>
+						<td><span>刘禅+黄忠+周瑜+孙策+司马懿（打野）</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>远程消耗拆塔流：黄总+周瑜+刘禅；没有足够的人数，要想切进来，谈何容易，只能被一路压制到高地
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>快速围堵：孙策+司马懿，只要发现落单的敌方英雄，且都在组合英雄大招技能范围内，孙策先手开船围堵（路过我方英雄可搭上），司马懿开大跟上，然后就能一首凉凉送给敌方落单英雄
+							</div>
+							<div style="color: orange;">
+								<b>套路3：</b>移动炮台：发现对方落单英雄在孙策的大招范围内，孙策开船阻击对方英雄，黄忠搭顺风车开大，远远吊着对方英雄打
+							</div>
+							<div style="color: blue;">
+								<b>套路4：</b>三路分推：中后期。孙策和司马懿分别带一路，中下辅一路推进，上单打野根据战场环境支援或者逃跑
+							</div>
+						</td>
+						<td><span>双c先死，剩下人被埋伏，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>全球定位远程消耗拆塔流</span></td>
+						<td><span>刘邦+黄忠+周瑜+哪吒+司马懿（打野）</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>远程消耗拆塔流：黄总+周瑜+刘邦；没有足够的人数，要想切进来，谈何容易，只能被一路压制到高地（刘邦大招保护双c）
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>全球流升级套路，哪吒或者司马懿开大抓人，刘邦跟着开大附身其中一人，根据敌方阵容，三人可以互相快速支援
+							</div>							
+							<div style="color: blue;">
+								<b>套路3：</b>三路分推：中后期。哪吒和司马懿分别带一路，中下辅一路推进，上单打野根据战场环境支援或者逃跑
+							</div>
+						</td>
+						<td><span>双c先死，剩下人被埋伏，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>野区压制远程消耗拆塔流</span></td>
+						<td><span>刘禅+黄忠+周瑜+达摩+典韦</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>远程消耗拆塔流：黄总+周瑜+刘禅；没有足够的人数，要想切进来，谈何容易，只能被一路压制到高地
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>钓鱼执法流，黄忠伺机找好位置靠墙开大，达摩隐而不动，如果对方刺客来切黄忠，达摩大招伺候
+							</div>							
+							<div style="color: blue;">
+								<b>套路3：</b>野区压制流：四级之后，达摩典韦可不断入侵敌方野区，野区狭隘，达摩容易开大，典韦跟上秒人，且野区有资源可供二人不断续航回血
+							</div>
+						</td>
+						<td><span>野区压制套路被埋伏，或者剩下双c被秒杀，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>机动游走远程消耗拆塔流</span></td>
+						<td><span>刘禅+黄忠+周瑜+赵云+韩信</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>远程消耗拆塔流：黄总+周瑜+刘禅；没有足够的人数，要想切进来，谈何容易，只能被一路压制到高地
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>机动游走找茬：四级之后，赵云韩信两人灵活的gank对方c位英雄，打不过还能骚扰，灵活撤退
+							</div>							
+							<div style="color: blue;">
+								<b>套路3：</b>三路分推：中后期。赵云和韩信分别带一路，中下辅一路推进，上单打野根据战场环境支援或者逃跑
+							</div>
+						</td>
+						<td><span>套路被埋伏，或者剩下双c被秒杀，套路告破</span></td>
+					</tr>
+					<tr>
+						<td><span>专治花里胡哨一套支援流</span></td>
+						<td><span>东皇+张良+典韦（猴子）+黄忠+孙策（哪吒）</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>专治花里花哨流：东皇+张良。可针对任何一个英雄的蒂花之秀
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>强控一套：强控制英雄先手控制，爆发输出英雄跟上一套送其极乐世界
+							</div>							
+							<div style="color: blue;">
+								<b>套路3：</b>哪吒或者孙策支援速度快，可以先手抓对方，或者东皇张良控住人，快速支援
+							</div>
+						</td>
+						<td><span>如果对方英雄人数与我方套路人数超过我方套路人数，套路被破解</span></td>
+					</tr>
+					<tr>
+						<td><span>战场分割肉夹馍流</span></td>
+						<td><span>黄忠+奕星+猪八戒+盾山+打野</span></td>
+						<td>
+							<div style="color: red;">
+								<b>套路1：</b>钓鱼执法全新版本：黄忠寻好位置开大（靠墙位置最好），敌方英雄必定接近来切，猪八戒，盾山开大封路，奕星开大瓮中捉鳖，黄总带好闪现离开攻击范围，接下来就是打活靶子的时间....
+							</div>
+							<div style="color: green;">
+								<b>套路2：</b>肉夹馍：盾山把人抛过去，开大堵住，猪八戒也在其相反位置堵住，把敌方英雄变成肉夹馍
+							</div>							
+							<div style="color: blue;">
+								<b>套路3：</b>倒挂金钩：盾山把人抛过去，开大堵住，猪八戒或者奕星开大封路，把敌方英雄变成活靶子和肉夹馍
+							</div>
+						</td>
+						<td><span>双c被切，套路被破解</span></td>
+					</tr>
+				</tbody>
+				
+				
+			</table>
+			
+			<h2>王者英雄目标克制</h2>
+			<table class="table table-border table-striped table-hover table-bordered">
+				<thead>
+					<tr>
+						<th colspan="6" class="text-c fs-20"><span>针对中路法师</span></th>
+					</tr>
+					<tr>
+						<th><span class="text-c fs-16">目标英雄</span></th>
+						<th><span class="text-c fs-16">中路法师克制</span></th>
+						<th><span class="text-c fs-16">打野刺客克制</span></th>
+						<th><span class="text-c fs-16">发育路射手克制</span></th>
+						<th><span class="text-c fs-16">对抗路战坦克制</span></th>
+						<th><span class="text-c fs-16">游走路辅助克制</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>小乔</td>
+						<td>貂蝉，不知火舞，妲己，张良，司马懿</td>
+						<td>兰陵王，孙悟空，司马懿</td>
+						<td>狄仁杰，虞姬</td>
+						<td>花木兰，关羽，杨戬，曹操，孙策，夏洛特，廉颇</td>
+						<td>钟馗，东皇，大乔</td>
+					</tr>
+					<tr>
+						<td>嬴政</td>
+						<td>貂蝉，不知火舞，诸葛亮，司马懿，上官婉儿</td>
+						<td>兰陵王，孙悟空，司马懿</td>
+						<td>狄仁杰，虞姬,李元芳</td>
+						<td>花木兰，关羽，杨戬，曹操，孙策，夏洛特，廉颇</td>
+						<td>钟馗，东皇，大乔</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		
+		
+		<script type="text/javascript">
+			new Vue({
+				el:"#APP",
+				data:{},
+				created:function(){
+					
+				},
+				mounted:function(){
+					
+				},
+				methods:{
+					
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas" width="400" height="400"></canvas>
+
+		<script type="text/javascript">
+			var Draw = {
+				init: function() {
+					this.resNum = 2.4;//初试默认值
+					this.obj = document.getElementById("canvas"); //获取canvas对象
+					this.cObj = document.getElementById("canvas").getContext("2d"); //获取canvas对象上下文环境
+					this.event(); //初始化事件
+					this.pathr = 120; //滑动路径半径
+					this.draw.prototype = this; //draw继承Draw方法
+					this.p = new this.draw(112, 284, 18); //创建实例p
+				},
+				draw: function(x, y, r, j) { //绘图
+					// console.log(x, y, r, j,"x, y, r, j");
+					this.cObj.clearRect(0, 0, 400, 400); //清空画布
+					this.x = x; //滑块坐标x
+					this.y = y; //滑块坐标y 
+					this.r = r; //滑块移动路径半径
+					this.j = j; //橙色圆弧结束弧度值
+					//...
+					this.cObj.beginPath();
+					this.cObj.lineWidth = 1;
+					this.cObj.arc(200, 200, 100, Math.PI * 0.75, Math.PI * 2.25, false); // 绘制内层圆弧
+					this.cObj.strokeStyle = '#0078b4';
+					this.cObj.stroke();
+
+					this.cObj.beginPath();
+					this.cObj.arc(200, 200, 120, Math.PI * 0.75, Math.PI * 2.25, false); // 绘制外侧圆弧
+					this.cObj.strokeStyle = '#c0c0c0';
+					this.cObj.lineCap = "round";
+					this.cObj.lineWidth = 20;
+					this.cObj.stroke();
+
+					this.cObj.beginPath();
+					this.cObj.moveTo(200, 200);
+					this.cObj.arc(x, y, r, 0, Math.PI * 2, false); // 绘制滑块
+					this.cObj.fillStyle = '#0EC439';
+					this.cObj.fill();
+
+					this.cObj.beginPath();
+					this.cObj.moveTo(200, 200);
+					this.cObj.arc(x, y, 11, 0, Math.PI * 2, false); // 绘制滑块内侧白色区域
+					this.cObj.fillStyle = '#ffffff';
+					this.cObj.fill();
+
+					this.cObj.beginPath();
+					this.cObj.arc(200, 200, 120, Math.PI * 0.75, this.j, false); // 可变圆弧
+					this.cObj.strokeStyle = '#f15a4a';
+					this.cObj.lineCap = "round";
+					this.cObj.lineWidth = 20;
+					this.cObj.stroke();
+				},
+				getx: function(ev) { //获取鼠标在canvas内坐标x
+					return ev.clientX - this.obj.getBoundingClientRect().left;
+				},
+				gety: function(ev) { //获取鼠标在canvas内坐标y
+					return ev.clientY - this.obj.getBoundingClientRect().top;
+				},
+				spotchange: function(a) { //屏幕坐标转化为中心坐标 
+					var target = {};
+					if (a.x < 200 && a.y < 200) { //二象限
+						target.x = -(200 - a.x);
+						target.y = 200 - a.y;
+					} else if (a.x > 200 && a.y < 200) { //一象限 
+						target.x = a.x - 200;
+						target.y = 200 - a.y;
+					} else if (a.x > 200 && a.y > 200) { //四象限
+						target.x = a.x - 200;
+						target.y = -(a.y - 200)
+					} else if (a.x < 200 && a.y > 200) { //三象限
+						target.x = -(200 - a.x);
+						target.y = -(a.y - 200);
+					}
+					return target;
+				},
+				respotchange: function(a) { //中心坐标转化为屏幕坐标
+					var target = {};
+					if (a.x > 0 && a.y > 0) {
+						target.x = 200 + a.x;
+						target.y = (200 - a.y);
+					} else if (a.x < 0 && a.y > 0) {
+						target.x = 200 + a.x;
+						target.y = 200 - a.y;
+					} else if (a.x < 0 && a.y < 0) {
+						target.x = 200 + a.x;
+						target.y = -(a.y - 200)
+					} else if (a.x > 0 && a.y < 0) {
+						target.x = 200 + a.x;
+						target.y = -(a.y - 200);
+					}
+					return target;
+				},
+				//根据上面思路编写获取坐标位置方法，这里添加了xy和弧度值正负处理方法和可拖动弧度范围
+				getmoveto: function(lx, ly) {
+					if (!this.p.isDown) { //是否可移动
+						return false;
+					}
+					var tem = {}; //存放目标坐标位置
+					tem.o = Math.atan(ly / lx); //鼠标移动点圆形角
+					tem.x = this.pathr * Math.cos(tem.o);
+					tem.y = this.pathr * Math.sin(tem.o);
+					if (lx < 0) { //坐标点处理（正负）
+						tem.x = -tem.x;
+						tem.y = -tem.y;
+					}
+					if (lx > 0) { //弧度值处理
+						tem.z = -Math.atan(tem.y / tem.x) + Math.PI * 2;
+					} else {
+						tem.z = -Math.atan(tem.y / tem.x) + Math.PI;
+					}
+					if (tem.z > 7.06) { //最大值
+						tem.z = 7.06;
+						tem.x = this.pathr * Math.cos(Math.PI * 2.25);
+						tem.y = -this.pathr * Math.sin(Math.PI * 2.25);
+					}
+					if (tem.z < 2.4) { //最小值
+						tem.z = 2.4;
+						tem.x = this.pathr * Math.cos(Math.PI * 0.75);
+						tem.y = -this.pathr * Math.sin(Math.PI * 0.75);
+					}
+					return tem;
+				},
+				//以上方法在canvas内任意点均可作为滑块拖动的目标点，这里编写cheack方法，将限制可拖动位置限制在一个大概的环形里
+				check: function(x, y) { //限制可拖动范围
+					var xx = x * x;
+					var yy = y * y;
+					var rr = 114 * 114; //最小
+					var rrr = 126 * 126; //最大
+					if (xx + yy > rr && xx + yy < rrr) {
+						return true;
+					}
+					return false;
+				},
+				//鼠标按下执行方法OnMouseDown
+				OnMouseDown: function(evt) {
+					var X = this.getx(evt); //获取当前鼠标位置横坐标
+					var Y = this.gety(evt); //获取当前鼠标位置纵坐标
+					console.log(this.p,"this.p");
+					var minX = this.p.x - this.p.r;
+					var maxX = this.p.x + this.p.r;
+					var minY = this.p.y - this.p.r;
+					var maxY = this.p.y + this.p.r;
+					if (minX < X && X < maxX && minY < Y && Y < maxY) { //判断鼠标是否在滑块上 
+						this.p.isDown = true;
+					} else {
+						this.p.isDown = false;
+					}
+				},
+				//鼠标按下后移动时滑块的方法：
+				OnMouseMove: function(evt) { //
+					if (this.p.isDown) { //是否在滑块上按下鼠标
+						var a = {}; //存放当前鼠标坐标
+						a.x = this.getx(evt); //坐标转化
+						a.y = this.gety(evt);
+						console.log(a,"aaaaa");
+						var b = this.spotchange(a); //坐标转化
+						var co = this.getmoveto(b.x, b.y); //获取要移动到的坐标点
+						if (this.check(b.x, b.y)) { //判断移动目标点是否在可拖动范围
+							var co = this.getmoveto(b.x, b.y); //获取到移动的目标位置坐标（）
+							var tar = this.respotchange(co); //坐标转化
+							var o = co.z;
+							this.p.draw(tar.x, tar.y, this.p.r, o); //绘图							
+							this.resNum = co.z;
+							// console.log(tar.x, tar.y, this.p.r, o,"tar.x, tar.y, this.p.r, o")
+						}
+					}
+				},
+				//鼠标释放方法
+				OnMouseUp: function() { //鼠标释放
+					this.p.isDown = false;
+					console.log("coccococoo",this.resNum);
+					//min:2.4,max:7.06(co.z的值，是拖动后回调的值)
+					var r_max = 7.06 - 2.4;
+					var r = Math.ceil((this.resNum - 2.4) / r_max * 100);
+					console.log(r,"最终值");
+				},
+				//最后将所有方法和事件绑定
+				event: function() { //事件绑定
+					this.obj.addEventListener("mousedown", this.OnMouseDown.bind(this), false);
+					this.obj.addEventListener("mousemove", this.OnMouseMove.bind(this), false);
+					this.obj.addEventListener("mouseup", this.OnMouseUp.bind(this), false);
+				},
+			}
+			
+			Draw.init();
+		</script>
+	</body>
+</html>

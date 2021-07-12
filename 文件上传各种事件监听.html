@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+	</head>
+	<body>
+		<!-- <input type="file" multiple="multiple" accept=".pdf"> -->
+		<div>
+			<button id="btn">选择文件</button>
+		</div>
+		
+		<script type="text/javascript">
+			"use strict";
+
+			addFileSelect(
+				document.getElementById("btn"),
+				/* 选择文件事件 */
+				function(file) {
+					console.log('您选择了文件: ' + file[0].name);
+				},
+				/* 取消选择事件 */
+				function(file) {
+					document.getElementById("btn").innerText = "选择文件";
+					console.log('您取消了文件选择');
+
+				}, {
+					multiple: "multiple"
+				}
+			);
+			/**
+			 * 为容器添加文件选择事件, 容器通常是一个按钮
+			 * @param {Object} container 点击按钮Dom节点
+			 * @param {Function} onselect 选择文件确定之后的回调函数 
+			 * @param {Function} oncancel 选择取消之后的回调函数 
+			 * @param {Object} fileOption 上传文件文件表单的属性配置，例如multiple，accept等属性
+			 */
+			function addFileSelect(container, onselect, oncancel, fileOption) {
+				container.addEventListener('click', function() {
+					container.innerText = "上传中....";
+					var input = document.createElement('input');
+					input.type = 'file';
+					if (fileOption) { //文件配置
+						if (fileOption.multiple) {
+							input.multiple = "multiple";
+						}
+						if (fileOption.accept) {
+							input.accept = fileOption.accept;
+						}
+					}
+					input.click();
+					input.addEventListener("change", function() {
+						console.log("change");
+						console.log(input.files, "change");
+						onselect && onselect(input.files);
+					});
+					container.addEventListener('focus', function() {
+						console.log(input.value); // 大概先于onchange事件100ms执行, 所以一定是空串
+
+						var loop_count = 0; // 轮询次数
+						// 轮询
+
+						(function loop() {
+							// console.log(input.files,"focus");
+							if (input.value !== '') {
+								// 不需要change事件
+								// onselect === null || onselect === void 0 ? void 0 : onselect(input);
+							} else if (++loop_count >= 10) {
+								// 基于轮询次数的判断
+								oncancel === null || oncancel === void 0 ? void 0 : oncancel(input.files);
+							} else {
+								// 暂时无法判断, 继续轮询
+								setTimeout(loop, 20);
+							}
+
+							;
+						})();
+					}, {
+						once: true
+					});
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,229 +1,213 @@
 {
-    "name": "前端技术点",
-    "version": "0.1",
-    "keywords": [
-        "主要项目开发框架插件",
-        "canvas"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/xiaohaobin/score.git"
-    },   
-	"root":{
-		"css":{
-			"description":"样式表",
-			"file":[
+	"name": "前端技术点",
+	"version": "0.1",
+	"keywords": [
+		"主要项目开发框架插件",
+		"canvas"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/xiaohaobin/score.git"
+	},
+	"root": {
+		"css": {
+			"description": "样式表",
+			"file": [
 				{
-					"fileName":"reset.css",
-					"description":"重置样式表",
-					"version":"^0.1",
-					"compatibility":"ie6+",
-					"api":""
+					"fileName": "reset.css",
+					"description": "重置样式表",
+					"version": "^0.1",
+					"compatibility": "ie6+",
+					"api": ""
 				},
 				{
-					"fileName":"animate.min.css",
-					"description":"文本动画特效样式表",
-					"version":"^3.6.1",
-					"compatibility":"ie10+",
-					"api":"http://www.jb51.net/article/96961.htm"
+					"fileName": "animate.min.css",
+					"description": "文本动画特效样式表",
+					"version": "^3.6.1",
+					"compatibility": "ie10+",
+					"api": "http://www.jb51.net/article/96961.htm"
 				}
 			]
 		},
-		"doc":{
-			"description":"前端技术点使用说明",
-			"file":[
+		"doc": {
+			"description": "前端技术点使用说明",
+			"file": [
 				{
-					"fileName":"前端自定义脚本api.docx",
-					"description":"jquery.myPlugIn_v1.0.js使用说明api文档"
+					"fileName": "前端自定义脚本api.docx",
+					"description": "jquery.myPlugIn_v1.0.js使用说明api文档"
 				},
 				{
-					"fileName":"underscoreJS（函数）使用api.docx",
-					"description":"underscore.js函数操作使用说明api文档"
+					"fileName": "underscoreJS（函数）使用api.docx",
+					"description": "underscore.js函数操作使用说明api文档"
 				},
 				{
-					"fileName":"underscoreJS（集合、数组、对象）使用api.docx",
-					"description":" underscore.js集合、数组、对象操作使用说明api文档"
+					"fileName": "underscoreJS（集合、数组、对象）使用api.docx",
+					"description": " underscore.js集合、数组、对象操作使用说明api文档"
 				},
 				{
-					"fileName":"underscoreJS（字符串）使用api.docx",
-					"description":"underscore.string.js  字符串的操作api文档"
+					"fileName": "underscoreJS（字符串）使用api.docx",
+					"description": "underscore.string.js  字符串的操作api文档"
 				}
 			]
 		},
-		"js":{
-			"description":"前端脚本库",
-			"file":[
+		"js": {
+			"description": "前端脚本库",
+			"file": [
 				{
-					"fileName":"html5shiv.js",
-					"description":"html5插件，让低版本IE支持html5元素",
-					"version":"^3.7.0 ",
-					"compatibility":"ie7+",
-					"api":"",
+					"fileName": "html5shiv.js",
+					"description": "html5插件，让低版本IE支持html5元素",
+					"version": "^3.7.0 ",
+					"compatibility": "ie7+",
+					"api": "",
+					"dependencies": {}
+				},
+				{
+					"fileName": "respond.min.js",
+					"description": "让IE兼容media",
+					"version": "^1.4.2",
+					"compatibility": "ie7+",
+					"api": "",
+					"dependencies": {}
+				},
+				{
+					"fileName": "jquery.cookie.js",
+					"description": "html5插件，让低版本IE支持html5元素",
+					"version": "^1.4.0 ",
+					"compatibility": "ie6+",
+					"api": "",
 					"dependencies": {
-						
+						"jquery": "^0.0"
 					}
 				},
 				{
-					"fileName":"respond.min.js",
-					"description":"让IE兼容media",
-					"version":"^1.4.2",
-					"compatibility":"ie7+",
-					"api":"",
+					"fileName": "localstorage-ie.js",
+					"description": "让IE兼容localstorage",
+					"version": "^0.01",
+					"compatibility": "ie6+",
+					"api": "",
+					"dependencies": {}
+				},
+				{
+					"fileName": "reconnecting-websocket.min.js",
+					"description": "让web socket 断开重连",
+					"version": "",
+					"compatibility": "ie9+",
+					"api": "",
+					"dependencies": {}
+				},
+				{
+					"fileName": "jquery.nicescroll.js",
+					"description": "优化滚动条插件",
+					"version": "",
+					"compatibility": "ie6+",
+					"api": "http://www.jb51.net/article/96961.htm",
 					"dependencies": {
-						
+						"jquery": "^0.0"
 					}
 				},
 				{
-					"fileName":"jquery.cookie.js",
-					"description":"html5插件，让低版本IE支持html5元素",
-					"version":"^1.4.0 ",
-					"compatibility":"ie6+",
-					"api":"",
-					"dependencies": {
-						"jquery":"^0.0"
-					}
+					"fileName": "require.js",
+					"description": "模块加载器",
+					"version": "",
+					"compatibility": "ie6+",
+					"api": "http://www.ruanyifeng.com/blog/2012/11/require_js.html",
+					"dependencies": {}
 				},
 				{
-					"fileName":"localstorage-ie.js",
-					"description":"让IE兼容localstorage",
-					"version":"^0.01",
-					"compatibility":"ie6+",
-					"api":"",
+					"fileName": "jquery.myPlugIn_v1.0.js",
+					"description": "自定义插件库",
+					"version": "^0.1",
+					"compatibility": "ie6+",
+					"api": "",
 					"dependencies": {
-						
-					}
-				},
-				{
-					"fileName":"reconnecting-websocket.min.js",
-					"description":"让web socket 断开重连",
-					"version":"",
-					"compatibility":"ie9+",
-					"api":"",
-					"dependencies": {
-						
-					}
-				},
-				{
-					"fileName":"jquery.nicescroll.js",
-					"description":"优化滚动条插件",
-					"version":"",
-					"compatibility":"ie6+",
-					"api":"http://www.jb51.net/article/96961.htm",
-					"dependencies": {
-						"jquery":"^0.0"
-					}
-				},
-				{
-					"fileName":"require.js",
-					"description":"模块加载器",
-					"version":"",
-					"compatibility":"ie6+",
-					"api":"http://www.ruanyifeng.com/blog/2012/11/require_js.html",
-					"dependencies": {
-					
-					}
-				},
-				{
-					"fileName":"jquery.myPlugIn_v1.0.js",
-					"description":"自定义插件库",
-					"version":"^0.1",
-					"compatibility":"ie6+",
-					"api":"",
-					"dependencies": {
-						"jquery":"^1.9",
-						"layer":"^2.0",
-						"laypage":"^1.2"
+						"jquery": "^1.9",
+						"layer": "^2.0",
+						"laypage": "^1.2"
 					}
 				}
 			]
 		},
-		"lib":{
-			"description":"框架，插件，组件",
-			"file":[
+		"lib": {
+			"description": "框架，插件，组件",
+			"file": [
 				{
-					"fileName":"bootstrap-3.3.7-dist",
-					"description":"响应式布局",
-					"version":"^3.3.7",
-					"compatibility":"ie9+",
-					"api":""
+					"fileName": "bootstrap-3.3.7-dist",
+					"description": "响应式布局",
+					"version": "^3.3.7",
+					"compatibility": "ie9+",
+					"api": ""
 				},
 				{
-					"fileName":"datatables",
-					"description":"表格插件",
-					"version":"^1.10",
-					"compatibility":"ie6+",
-					"api":"http://www.datatables.club/",
+					"fileName": "datatables",
+					"description": "表格插件",
+					"version": "^1.10",
+					"compatibility": "ie6+",
+					"api": "http://www.datatables.club/",
 					"dependencies": {
-						"jquery":"^1.9"
+						"jquery": "^1.9"
 					}
 				},
 				{
-					"fileName":"echart",
-					"description":"图表插件",
-					"version":"^3.3.7",
-					"compatibility":"ie10+",
-					"api":"http://echarts.baidu.com/index.html"
+					"fileName": "echart",
+					"description": "图表插件",
+					"version": "^3.3.7",
+					"compatibility": "ie10+",
+					"api": "http://echarts.baidu.com/index.html"
 				},
 				{
-					"fileName":"fabric.js-master",
-					"description":"canvas动画框架",
-					"version":"^2.10",
-					"compatibility":"ie9+",
-					"api":"https://blog.csdn.net/u014032819/article/details/77864682",
+					"fileName": "fabric.js-master",
+					"description": "canvas动画框架",
+					"version": "^2.10",
+					"compatibility": "ie9+",
+					"api": "https://blog.csdn.net/u014032819/article/details/77864682",
+					"dependencies": {}
+				},
+				{
+					"fileName": "Hui-iconfont",
+					"description": "icon图标",
+					"version": "^1.0.8",
+					"compatibility": "ie6+",
+					"api": "",
+					"dependencies": {}
+				},
+				{
+					"fileName": "jquery",
+					"description": "",
+					"version": "^1.9.1",
+					"compatibility": "ie6+",
+					"api": "",
+					"dependencies": {}
+				},
+				{
+					"fileName": "jquery-smartMenu",
+					"description": "自定义右键菜单",
+					"version": "^",
+					"compatibility": "ie9+",
+					"api": "http://www.zhangxinxu.com/wordpress/2011/05/jquery-smartmenu%E5%8F%B3%E9%94%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%8A%E4%B8%8B%E6%96%87%E8%8F%9C%E5%8D%95%E6%8F%92%E4%BB%B6/",
 					"dependencies": {
-						
+						"jquery": "^1.0"
 					}
 				},
 				{
-					"fileName":"Hui-iconfont",
-					"description":"icon图标",
-					"version":"^1.0.8",
-					"compatibility":"ie6+",
-					"api":"",
+					"fileName": "jquery.SuperSlide",
+					"description": "标签页切换，手风琴切换，轮播切换，图片滚动，文字滚动等等...",
+					"version": "^2.1",
+					"compatibility": "ie6+",
+					"api": "http://www.superslide2.com/index.html",
 					"dependencies": {
-						
+						"jquery": "^1.0"
 					}
 				},
 				{
-					"fileName":"jquery",
-					"description":"",
-					"version":"^1.9.1",
-					"compatibility":"ie6+",
-					"api":"",
+					"fileName": "layui",
+					"description": "模块化组件ui框架",
+					"version": "^2.1",
+					"compatibility": "ie8+",
+					"api": "http://www.layui.com/doc/",
 					"dependencies": {
-						
-					}
-				},
-				{
-					"fileName":"jquery-smartMenu",
-					"description":"自定义右键菜单",
-					"version":"^",
-					"compatibility":"ie9+",
-					"api":"http://www.zhangxinxu.com/wordpress/2011/05/jquery-smartmenu%E5%8F%B3%E9%94%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%8A%E4%B8%8B%E6%96%87%E8%8F%9C%E5%8D%95%E6%8F%92%E4%BB%B6/",
-					"dependencies": {
-						"jquery":"^1.0"
-					}
-				},
-				{
-					"fileName":"jquery.SuperSlide",
-					"description":"标签页切换，手风琴切换，轮播切换，图片滚动，文字滚动等等...",
-					"version":"^2.1",
-					"compatibility":"ie6+",
-					"api":"http://www.superslide2.com/index.html",
-					"dependencies": {
-						"jquery":"^1.0"
-					}
-				},
-				{
-					"fileName":"layui",
-					"description":"模块化组件ui框架",
-					"version":"^2.1",
-					"compatibility":"ie8+",
-					"api":"http://www.layui.com/doc/",
-					"dependencies": {
-						"jquery":"^1.0"
+						"jquery": "^1.0"
 					},
-					"childrenPluging":[
+					"childrenPluging": [
 						"layer",
 						"lapage",
 						"form",
@@ -234,129 +218,125 @@
 					]
 				},
 				{
-					"fileName":"lightbox2",
-					"description":"图片，iframe弹出层插件",
-					"version":"^",
-					"compatibility":"ie6+",
-					"api":"https://www.cnblogs.com/huangsblog/articles/4554511.html",
+					"fileName": "lightbox2",
+					"description": "图片，iframe弹出层插件",
+					"version": "^",
+					"compatibility": "ie6+",
+					"api": "https://www.cnblogs.com/huangsblog/articles/4554511.html",
 					"dependencies": {
-						"jquery":"^1.0"
+						"jquery": "^1.0"
 					}
 				},
 				{
-					"fileName":"My97DatePicker",
-					"description":"日期选择器",
-					"version":"^4.8",
-					"compatibility":"ie6+",
-					"api":"http://www.my97.net/demo/index.htm",
+					"fileName": "My97DatePicker",
+					"description": "日期选择器",
+					"version": "^4.8",
+					"compatibility": "ie6+",
+					"api": "http://www.my97.net/demo/index.htm",
+					"dependencies": {}
+				},
+				{
+					"fileName": "nprogress",
+					"description": "进度条加载插件",
+					"version": "^0.2",
+					"compatibility": "ie9+",
+					"api": "https://www.cnblogs.com/xuange306/p/5122451.html",
 					"dependencies": {
-						
+						"jquery": "^1.8"
 					}
 				},
 				{
-					"fileName":"nprogress",
-					"description":"进度条加载插件",
-					"version":"^0.2",
-					"compatibility":"ie9+",
-					"api":"https://www.cnblogs.com/xuange306/p/5122451.html",
+					"fileName": "ueditor",
+					"description": "百度富文本编辑器",
+					"version": "^1.4.3",
+					"compatibility": "ie9+",
+					"api": "http://ueditor.baidu.com/website/",
 					"dependencies": {
-						"jquery":"^1.8"
+						"jquery": "^1.8"
 					}
 				},
 				{
-					"fileName":"ueditor",
-					"description":"百度富文本编辑器",
-					"version":"^1.4.3",
-					"compatibility":"ie9+",
-					"api":"http://ueditor.baidu.com/website/",
-					"dependencies": {
-						"jquery":"^1.8"
-					}
-				},
-				{
-					"fileName":"underscore",
-					"description":"数据操作库",
-					"version":"^1.7",
-					"compatibility":"ie6+",
-					"api":"http://www.css88.com/doc/underscore1.8.2/",
-					"dependencies": {
-						
-					},
-					"childrenFile":[
+					"fileName": "underscore",
+					"description": "数据操作库",
+					"version": "^1.7",
+					"compatibility": "ie6+",
+					"api": "http://www.css88.com/doc/underscore1.8.2/",
+					"dependencies": {},
+					"childrenFile": [
 						{
-							"fileName":"underscore.js",
-							"description":"数据（函数，集合，对象，数组）操作库"
+							"fileName": "underscore.js",
+							"description": "数据（函数，集合，对象，数组）操作库"
 						},
 						{
-							"fileName":"underscore.string.js",
-							"description":"字符串数据操作库",
+							"fileName": "underscore.string.js",
+							"description": "字符串数据操作库",
 							"dependencies": {
-								"underscore":"^1.7"
+								"underscore": "^1.7"
 							}
 						}
 					]
 				},
 				{
-					"fileName":"Validform_v5.3",
-					"description":"表单验证插件",
-					"version":"^5.3",
-					"compatibility":"ie9+",
-					"api":"http://www.validform.club/",
+					"fileName": "Validform_v5.3",
+					"description": "表单验证插件",
+					"version": "^5.3",
+					"compatibility": "ie9+",
+					"api": "http://www.validform.club/",
 					"dependencies": {
-						"jquery":"^1.8"
+						"jquery": "^1.8"
 					}
 				},
 				{
-					"fileName":"vue2.5",
-					"description":"数据框架",
-					"version":"^2.0",
-					"compatibility":"ie9+",
-					"api":"http://www.runoob.com/vue2/vue-tutorial.html",
+					"fileName": "vue2.5",
+					"description": "数据框架",
+					"version": "^2.0",
+					"compatibility": "ie9+",
+					"api": "http://www.runoob.com/vue2/vue-tutorial.html",
+					"dependencies": {}
+				},
+				{
+					"fileName": "webuploader",
+					"description": "批量上传插件",
+					"version": "^0.1.5",
+					"compatibility": "ie6+,ios6+,安卓4+",
+					"api": "http://fex.baidu.com/webuploader/",
 					"dependencies": {
-						
+						"jquery": "^1.8"
 					}
 				},
 				{
-					"fileName":"webuploader",
-					"description":"批量上传插件",
-					"version":"^0.1.5",
-					"compatibility":"ie6+,ios6+,安卓4+",
-					"api":"http://fex.baidu.com/webuploader/",
+					"fileName": "ztree",
+					"description": "组织架构管理插件（树状菜单导航）",
+					"version": "^3.0",
+					"compatibility": "ie6+",
+					"api": "http://www.treejs.cn/v3/api.php",
 					"dependencies": {
-						"jquery":"^1.8"
+						"jquery": "^1.0"
 					}
 				},
 				{
-					"fileName":"ztree",
-					"description":"组织架构管理插件（树状菜单导航）",
-					"version":"^3.0",
-					"compatibility":"ie6+",
-					"api":"http://www.treejs.cn/v3/api.php",
-					"dependencies": {
-						"jquery":"^1.0"
-					}
+					"fileName": "zepto",
+					"description": "轻量级js库（针对移动端，代替jq）",
+					"version": "^1.2",
+					"compatibility": "不兼容",
+					"api": "http://www.css88.com/doc/zeptojs_api/",
+					"dependencies": {}
 				},
 				{
-					"fileName":"zepto",
-					"description":"轻量级js库（针对移动端，代替jq）",
-					"version":"^1.2",
-					"compatibility":"不兼容",
-					"api":"http://www.css88.com/doc/zeptojs_api/",
+					"fileName": "tablesorter",
+					"description": "表格排序功能",
+					"version": "^2.1",
+					"compatibility": "ie6+",
+					"api": "https://www.cnblogs.com/rsky/p/4998757.html",
 					"dependencies": {
-						
-					}
-				},
-				{
-					"fileName":"tablesorter",
-					"description":"表格排序功能",
-					"version":"^2.1",
-					"compatibility":"ie6+",
-					"api":"https://www.cnblogs.com/rsky/p/4998757.html",
-					"dependencies": {
-						"jquery":"^1.0"
+						"jquery": "^1.0"
 					}
 				}
 			]
 		}
+	},
+	"dependencies": {
+		"@tensorflow/tfjs": "^2.7.0",
+		"jquery": "^3.5.1"
 	}
 }

@@ -6,54 +6,54 @@
 
 //针对部分不兼容的js语法做兼容处理
 if (!Array.prototype.forEach) {
-  Array.prototype.forEach = function(callback, thisArg) {
-    var T, k;
-    if (this == null) {
-      throw new TypeError(' this is null or not defined');
-    }
-    // 1. Let O be the result of calling toObject() passing the
-    // |this| value as the argument.
-    var O = Object(this);
-    // 2. Let lenValue be the result of calling the Get() internal
-    // method of O with the argument "length".
-    // 3. Let len be toUint32(lenValue).
-    var len = O.length >>> 0;
-    // 4. If isCallable(callback) is false, throw a TypeError exception. 
-    // See: http://es5.github.com/#x9.11
-    if (typeof callback !== "function") {
-      throw new TypeError(callback + ' is not a function');
-    }
-    // 5. If thisArg was supplied, let T be thisArg; else let
-    // T be undefined.
-    if (arguments.length > 1) {
-      T = thisArg;
-    }
-    // 6. Let k be 0
-    k = 0;
-    // 7. Repeat, while k < len
-    while (k < len) {
-      var kValue;
-      // a. Let Pk be ToString(k).
-      //    This is implicit for LHS operands of the in operator
-      // b. Let kPresent be the result of calling the HasProperty
-      //    internal method of O with argument Pk.
-      //    This step can be combined with c
-      // c. If kPresent is true, then
-      if (k in O) {
+	Array.prototype.forEach = function(callback, thisArg) {
+		var T, k;
+		if (this == null) {
+			throw new TypeError(' this is null or not defined');
+		}
+		// 1. Let O be the result of calling toObject() passing the
+		// |this| value as the argument.
+		var O = Object(this);
+		// 2. Let lenValue be the result of calling the Get() internal
+		// method of O with the argument "length".
+		// 3. Let len be toUint32(lenValue).
+		var len = O.length >>> 0;
+		// 4. If isCallable(callback) is false, throw a TypeError exception. 
+		// See: http://es5.github.com/#x9.11
+		if (typeof callback !== "function") {
+			throw new TypeError(callback + ' is not a function');
+		}
+		// 5. If thisArg was supplied, let T be thisArg; else let
+		// T be undefined.
+		if (arguments.length > 1) {
+			T = thisArg;
+		}
+		// 6. Let k be 0
+		k = 0;
+		// 7. Repeat, while k < len
+		while (k < len) {
+			var kValue;
+			// a. Let Pk be ToString(k).
+			//    This is implicit for LHS operands of the in operator
+			// b. Let kPresent be the result of calling the HasProperty
+			//    internal method of O with argument Pk.
+			//    This step can be combined with c
+			// c. If kPresent is true, then
+			if (k in O) {
 
-        // i. Let kValue be the result of calling the Get internal
-        // method of O with argument Pk.
-        kValue = O[k];
+				// i. Let kValue be the result of calling the Get internal
+				// method of O with argument Pk.
+				kValue = O[k];
 
-        // ii. Call the Call internal method of callback with T as
-        // the this value and argument list containing kValue, k, and O.
-        callback.call(T, kValue, k, O);
-      }
-      // d. Increase k by 1.
-      k++;
-    }
-    // 8. return undefined
-  };
+				// ii. Call the Call internal method of callback with T as
+				// the this value and argument list containing kValue, k, and O.
+				callback.call(T, kValue, k, O);
+			}
+			// d. Increase k by 1.
+			k++;
+		}
+		// 8. return undefined
+	};
 }
 
 /**
@@ -63,11 +63,11 @@ if (!Array.prototype.forEach) {
  * @param {Object||Array} options 要并集的对象或者数组
  * */
 function _extend(deep, target, options) {
-	for(name in options) {
+	for (name in options) {
 		copy = options[name];
-		if(deep && copy instanceof Array) {
+		if (deep && copy instanceof Array) {
 			target[name] = $.extend(deep, [], copy);
-		} else if(deep && copy instanceof Object) {
+		} else if (deep && copy instanceof Object) {
 			target[name] = $.extend(deep, {}, copy);
 		} else {
 			target[name] = options[name];
@@ -84,7 +84,7 @@ function _extend(deep, target, options) {
 	try {
 		/**************************************************全局插进*********************************************************************/
 		$.extend({
-			
+
 			/**
 			 * 浏览器地址指定携带的参数参数，返回指定的键值
 			 * @param {String} name 要查询的地址参数的键
@@ -93,7 +93,7 @@ function _extend(deep, target, options) {
 			getQueryString: function(name) {
 				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
 				var r = window.location.search.substr(1).match(reg);
-				if(r != null) {
+				if (r != null) {
 					return unescape(r[2]);
 				}
 				return null;
@@ -104,24 +104,24 @@ function _extend(deep, target, options) {
 			 **/
 			oGetParam: function() {
 				var search = location.search.replace(/^\s+/, '').replace(/\s+$/, '').match(/([^?#]*)(#.*)?$/); //提取location.search中'?'后面的部分//			
-				if(!search) {
+				if (!search) {
 					return {};
 				}
 				var searchStr = search[0];
 				var searchHash = searchStr.split('&');
 
 				var ret = {};
-				for(var i = 0, len = searchHash.length; i < len; i++) { //这里可以调用each方法
+				for (var i = 0, len = searchHash.length; i < len; i++) { //这里可以调用each方法
 					var pair = searchHash[i];
-					if((pair = pair.split('='))[0]) {
+					if ((pair = pair.split('='))[0]) {
 						var key = decodeURIComponent(pair.shift());
 						var value = pair.length > 1 ? pair.join('=') : pair[0];
 
-						if(value != undefined) {
+						if (value != undefined) {
 							value = decodeURIComponent(value);
 						}
-						if(key in ret) {
-							if(ret[key].constructor != Array) {
+						if (key in ret) {
+							if (ret[key].constructor != Array) {
 								ret[key] = [ret[key]];
 							}
 							ret[key].push(value);
@@ -134,13 +134,13 @@ function _extend(deep, target, options) {
 			},
 			//父页面和当前页面刷新加载
 			pageReLoad: function() {
-				if(window.parent.parent.parent.parent) {
+				if (window.parent.parent.parent.parent) {
 					parent.parent.parent.parent.location.reload();
-				} else if(window.parent.parent.parent) {
+				} else if (window.parent.parent.parent) {
 					parent.parent.parent.location.reload();
-				} else if(window.parent.parent) {
+				} else if (window.parent.parent) {
 					parent.parent.location.reload();
-				} else if(window.parent) {
+				} else if (window.parent) {
 					parent.location.reload();
 				} else {
 					window.location.reload();
@@ -151,13 +151,13 @@ function _extend(deep, target, options) {
 			 * @param {String} Url Url指的是要跳转的路劲页面，如index.html
 			 * */
 			toNewPage: function(Url) {
-				if(window.parent.parent.parent.parent) {
+				if (window.parent.parent.parent.parent) {
 					parent.parent.parent.parent.location.href = Url;
-				} else if(window.parent.parent.parent) {
+				} else if (window.parent.parent.parent) {
 					parent.parent.parent.location.href = Url;
-				} else if(window.parent.parent) {
+				} else if (window.parent.parent) {
 					parent.parent.location.href = Url;
-				} else if(window.parent) {
+				} else if (window.parent) {
 					parent.location.href = Url;
 				} else {
 					window.location.href = Url;
@@ -178,7 +178,7 @@ function _extend(deep, target, options) {
 				var bIsAndroid = sUserAgent.match(/android/i) == "android";
 				var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
 				var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-				if(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) { //移动端
+				if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) { //移动端
 					fnMobile();
 				} else {
 					fnPc();
@@ -191,7 +191,7 @@ function _extend(deep, target, options) {
 			 * @param {Function} noNullFn 为null的回调
 			 * */
 			isNull: function(tmp, NullFn, noNullFn) {
-				if(!tmp && typeof(tmp) != "undefined" && tmp != 0) { //null
+				if (!tmp && typeof(tmp) != "undefined" && tmp != 0) { //null
 					//为null的回调
 					NullFn();
 				} else {
@@ -206,7 +206,7 @@ function _extend(deep, target, options) {
 			getExplorerInfo: function() {
 				var explorer = window.navigator.userAgent.toLowerCase();
 				//ie 
-				if(explorer.indexOf("msie") >= 0) {
+				if (explorer.indexOf("msie") >= 0) {
 					var ver = explorer.match(/msie ([\d.]+)/)[1];
 					return {
 						type: "IE",
@@ -214,7 +214,7 @@ function _extend(deep, target, options) {
 					};
 				}
 				//firefox 
-				else if(explorer.indexOf("firefox") >= 0) {
+				else if (explorer.indexOf("firefox") >= 0) {
 					var ver = explorer.match(/firefox\/([\d.]+)/)[1];
 					return {
 						type: "Firefox",
@@ -222,7 +222,7 @@ function _extend(deep, target, options) {
 					};
 				}
 				//Chrome
-				else if(explorer.indexOf("chrome") >= 0) {
+				else if (explorer.indexOf("chrome") >= 0) {
 					var ver = explorer.match(/chrome\/([\d.]+)/)[1];
 					return {
 						type: "Chrome",
@@ -230,7 +230,7 @@ function _extend(deep, target, options) {
 					};
 				}
 				//Opera
-				else if(explorer.indexOf("opera") >= 0) {
+				else if (explorer.indexOf("opera") >= 0) {
 					var ver = explorer.match(/opera.([\d.]+)/)[1];
 					return {
 						type: "Opera",
@@ -238,7 +238,7 @@ function _extend(deep, target, options) {
 					};
 				}
 				//Safari
-				else if(explorer.indexOf("Safari") >= 0) {
+				else if (explorer.indexOf("Safari") >= 0) {
 					var ver = explorer.match(/version\/([\d.]+)/)[1];
 					return {
 						type: "Safari",
@@ -265,7 +265,8 @@ function _extend(deep, target, options) {
 				var radLat2 = toRad(lat2);
 				var deltaLat = radLat1 - radLat2;
 				var deltaLng = toRad(lng1) - toRad(lng2);
-				var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
+				var dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) *
+					Math.pow(Math.sin(deltaLng / 2), 2)));
 
 				return Math.ceil(dis * 6378137);
 			},
@@ -277,11 +278,11 @@ function _extend(deep, target, options) {
 			 * */
 			stringToArray: function(str, chart) {
 				var arrPerssion = [];
-				if(str.indexOf(chart) >= 0) {
+				if (str.indexOf(chart) >= 0) {
 					var tempArray = str.split(chart);
 					var returnArr = new Array();
 					var i, len = tempArray.length;
-					for(i = 0; i < len; i++) {
+					for (i = 0; i < len; i++) {
 						returnArr.push(tempArray[i]);
 					}
 
@@ -302,17 +303,16 @@ function _extend(deep, target, options) {
 				var str = stringText;
 				var str2 = littleStr;
 				var d = str.length - str.indexOf(str2);
-				if(d > str.length) {
+				if (d > str.length) {
 					return -1;
 				} else {
 
-					if(isFrist && isFrist == 0){
+					if (isFrist && isFrist == 0) {
 						return str.indexOf(str2)
-					}
-					else if(isFrist && isFrist == 1){
+					} else if (isFrist && isFrist == 1) {
 						return str.lastIndexOf(str2);
 					}
-						
+
 				}
 			},
 			/**
@@ -327,23 +327,23 @@ function _extend(deep, target, options) {
 					var strAry = new Array();
 					strAry = str.split("=");
 					//使用decodeURIComponent解析uri 组件编码
-					for(var i = 0; i < strAry.length; i++) {
+					for (var i = 0; i < strAry.length; i++) {
 						strAry[i] = decodeURIComponent(strAry[i]);
 					}
 					var attributeName = strAry[0];
 					var attributeValue = strAry[1].trim();
 					//如果值中包含"="符号，需要合并值
-					if(strAry.length > 2) {
-						for(var i = 2; i < strAry.length; i++) {
+					if (strAry.length > 2) {
+						for (var i = 2; i < strAry.length; i++) {
 							attributeValue += "=" + strAry[i].trim();
 						}
 					}
-					if(!attributeValue) {
+					if (!attributeValue) {
 						return;
 					}
 					var attriNames = attributeName.split("."),
 						curObj = obj;
-					for(var i = 0; i < (attriNames.length - 1); i++) {
+					for (var i = 0; i < (attriNames.length - 1); i++) {
 						curObj[attriNames[i]] ? "" : (curObj[attriNames[i]] = {});
 						curObj = curObj[attriNames[i]];
 					}
@@ -353,7 +353,7 @@ function _extend(deep, target, options) {
 					curObj[attriNames[i]] = attributeValue.trim();
 				};
 				var properties = serializedParams.split("&");
-				for(var i = 0; i < properties.length; i++) {
+				for (var i = 0; i < properties.length; i++) {
 					//处理每一个键值对
 					evalThem(properties[i]);
 				};
@@ -371,8 +371,8 @@ function _extend(deep, target, options) {
 				Array.prototype.unique2 = function() {
 					this.sort(); //先排序
 					var res = [this[0]];
-					for(var i = 1; i < this.length; i++) {
-						if(this[i] !== res[res.length - 1]) {
+					for (var i = 1; i < this.length; i++) {
+						if (this[i] !== res[res.length - 1]) {
 							res.push(this[i]);
 						}
 					}
@@ -389,7 +389,7 @@ function _extend(deep, target, options) {
 			 * 统计数组中所有的值出现的次数,并以对象的形式返回
 			 * @param {Array} arr 要统计的数组
 			 * @return {Object}
-			 * */ 
+			 * */
 			countif: function(arr) {
 				return arr.reduce(function(prev, next) {
 					//				console.log(prev); //obj，其属性为数组的每一个值，属性值为对应属性在数组中出现的次数
@@ -419,13 +419,13 @@ function _extend(deep, target, options) {
 					return s < t ? -1 : 1;
 				});
 
-				if(arr.length) {
+				if (arr.length) {
 					_tmp = arr[0][str];
 				}
 				// console.log( arr );
 				// 将相同类别的对象添加到统一个数组
-				for(var i in arr) {
-					if(arr[i][str] === _tmp) {
+				for (var i in arr) {
+					if (arr[i][str] === _tmp) {
 						_t.push(arr[i]);
 					} else {
 						_tmp = arr[i][str];
@@ -457,7 +457,7 @@ function _extend(deep, target, options) {
 			 * */
 			getCapital: function(n) {
 				var result = [];
-				for(var i = 0; i < n; i++) {
+				for (var i = 0; i < n; i++) {
 					var ranNum = Math.ceil(Math.random() * 25); //生成一个0到25的数字
 					//大写字母'A'的ASCII是65,A~Z的ASCII码就是65 + 0~25;然后调用String.fromCharCode()传入ASCII值返回相应的字符并push进数组里
 					result.push(String.fromCharCode(65 + ranNum));
@@ -503,58 +503,59 @@ function _extend(deep, target, options) {
 				 'h-m' ==> 时分
 				 'm-s' ==> 分秒
 				 'w' ==>星期
+				 'ZW' ==>中文年月日时分秒
 				 '' ==>年月日 时分秒
 			 * */
 			getOnTime: function(oTime) {
 				//获取当前具体时间
-					var oDate = new Date();
-					var nYear = oDate.getFullYear();
-					var nMonth = oDate.getMonth() * 1 + 1;
-					if(nMonth < 10) nMonth = "0" + nMonth;
-					var nDate = oDate.getDate();
-					if(nDate < 10) nDate = "0" + nDate;
-					var nHours = oDate.getHours();
-					var nMinutes = oDate.getMinutes();
-					var nSeconds = oDate.getSeconds();
-				
-					(nHours < 10) && (nHours = "0" + nHours);
-					(nMinutes < 10) && (nMinutes = "0" + nMinutes);
-					(nSeconds < 10) && (nSeconds = "0" + nSeconds);
-				
-					switch(true) {
-						case(oTime === 'y-m-d'):
-							return nYear + "-" + nMonth + "-" + nDate;
-							break;
-						case(oTime === 'y-m'):
-							return nYear + "-" + nMonth;
-							break;
-						case(oTime === 'm-d'):
-							return nMonth + "-" + nDate;
-							break;
-						case(oTime === 'h-m-s'):
-							return nHours + ":" + nMinutes + ":" + nSeconds;
-							break;
-						case(oTime === 'm-s'):
-							return nMinutes + ":" + nSeconds;
-							break;
-						case(oTime === 'h-m'):
-							return nHours + ":" + nMinutes;
-							break;
-						case(oTime === 'y'):
-							return nYear;
-							break;
-						case(oTime === 'd'):
-							return nDate;
-							break;
-						case(oTime === 'w'):
-							return "今天是星期" + "日一二三四五六".charAt(new Date().getDay());
-							break;
-						case(oTime === 'ZW'):
-							return nYear + "年" + nMonth + "月" + nDate + "日  " + nHours + ":" + nMinutes + ":" + nSeconds;
-							break;
-						default:
-							return nYear + "-" + nMonth + "-" + nDate + " " + nHours + ":" + nMinutes + ":" + nSeconds;
-					}
+				var oDate = new Date();
+				var nYear = oDate.getFullYear();
+				var nMonth = oDate.getMonth() * 1 + 1;
+				if (nMonth < 10) nMonth = "0" + nMonth;
+				var nDate = oDate.getDate();
+				if (nDate < 10) nDate = "0" + nDate;
+				var nHours = oDate.getHours();
+				var nMinutes = oDate.getMinutes();
+				var nSeconds = oDate.getSeconds();
+
+				(nHours < 10) && (nHours = "0" + nHours);
+				(nMinutes < 10) && (nMinutes = "0" + nMinutes);
+				(nSeconds < 10) && (nSeconds = "0" + nSeconds);
+
+				switch (true) {
+					case (oTime === 'y-m-d'):
+						return nYear + "-" + nMonth + "-" + nDate;
+						break;
+					case (oTime === 'y-m'):
+						return nYear + "-" + nMonth;
+						break;
+					case (oTime === 'm-d'):
+						return nMonth + "-" + nDate;
+						break;
+					case (oTime === 'h-m-s'):
+						return nHours + ":" + nMinutes + ":" + nSeconds;
+						break;
+					case (oTime === 'm-s'):
+						return nMinutes + ":" + nSeconds;
+						break;
+					case (oTime === 'h-m'):
+						return nHours + ":" + nMinutes;
+						break;
+					case (oTime === 'y'):
+						return nYear;
+						break;
+					case (oTime === 'd'):
+						return nDate;
+						break;
+					case (oTime === 'w'):
+						return "今天是星期" + "日一二三四五六".charAt(new Date().getDay());
+						break;
+					case (oTime === 'ZW'):
+						return nYear + "年" + nMonth + "月" + nDate + "日  " + nHours + ":" + nMinutes + ":" + nSeconds;
+						break;
+					default:
+						return nYear + "-" + nMonth + "-" + nDate + " " + nHours + ":" + nMinutes + ":" + nSeconds;
+				}
 			},
 
 			/**
@@ -563,7 +564,7 @@ function _extend(deep, target, options) {
 			 * @return {Number}
 			 * */
 			backDateNum: function(s) {
-				if(s) {
+				if (s) {
 					var date = new Date(s.replace(/-/g, '/'));
 					return Date.parse(date) / 1000;
 				}
@@ -588,9 +589,9 @@ function _extend(deep, target, options) {
 				second = second < 10 ? ('0' + second) : second;
 				return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 			},
-			
+
 			//获取当前时间的时间戳
-			getCurrTimestamp:function(){
+			getCurrTimestamp: function() {
 				var sTime = $.formatDateTime(new Date());
 				return $.backDateNum(sTime);
 			},
@@ -607,8 +608,8 @@ function _extend(deep, target, options) {
 			 	.....
 			 */
 			timestampToTime: function(timestamp3, sFormat) {
-				function addZero(n){
-					return (n <= 9 ? ("0"+n) : n);
+				function addZero(n) {
+					return (n <= 9 ? ("0" + n) : n);
 				}
 				var newDate = new Date();
 				newDate.setTime(timestamp3 * 1000);
@@ -622,16 +623,16 @@ function _extend(deep, target, options) {
 						"q+": Math.floor((this.getMonth() + 3) / 3),
 						"S+": this.getMilliseconds()
 					};
-					if(/(y+)/i.test(format)) {
+					if (/(y+)/i.test(format)) {
 						format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
 					}
-					for(var k in date) {
-						if(new RegExp("(" + k + ")").test(format)) {
+					for (var k in date) {
+						if (new RegExp("(" + k + ")").test(format)) {
 							format = format.replace(RegExp.$1, RegExp.$1.length == 1 ?
 								date[k] : ("00" + date[k]).substr(("" + date[k]).length));
 						}
 					}
-				
+
 					return format;
 				}
 				return newDate.format(sFormat);
@@ -641,23 +642,23 @@ function _extend(deep, target, options) {
 			 * @param {String} sDate 年月日时间，有可能是yyyy-mm-dd格式，也有可能是yyyy/mm/dd格式
 			 * @return {String} 返回星期几
 			 * */
-			getWeeDay:function(sDate){
-				var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]; 
-				if(sDate.indexOf("/") > -1){//yyyy/mm/dd格式
+			getWeeDay: function(sDate) {
+				var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+				if (sDate.indexOf("/") > -1) { //yyyy/mm/dd格式
 					var myDate = new Date(Date.parse(sDate));
 					return weekDay[myDate.getDay()];
-				}else if(sDate.indexOf("-") > -1){//yyyy-mm-dd格式
+				} else if (sDate.indexOf("-") > -1) { //yyyy-mm-dd格式
 					var myDate = new Date(Date.parse(sDate.replace(/-/g, '/')));
 					return weekDay[myDate.getDay()];
-				}else{
+				} else {
 					alert("日期格式不对");
 				}
 			},
-			incrementInitDate:0,//增量初始时间戳
-			incrementTimer:null,//增量定时器变量
-			decrementInitDate:0,//减量初始时间戳
-			decrementTimer:null,//减量定时器变量
-			dd_currTime:null,//增量减量对象
+			incrementInitDate: 0, //增量初始时间戳
+			incrementTimer: null, //增量定时器变量
+			decrementInitDate: 0, //减量初始时间戳
+			decrementTimer: null, //减量定时器变量
+			dd_currTime: null, //增量减量对象
 			/**
 			 * 增量时间（顺时钟）
 			 * @param {Number} nIncrement 增量（指某一刻平均递增的秒数）
@@ -665,31 +666,31 @@ function _extend(deep, target, options) {
 			 * @param {Function} callback 回调函数，参数为递增的时间对象
 			 * @param {String} sInitDate 初始时间（包含年月日时分秒 yyyy-mm-ss hh:mm:ss格式）(可选)
 			 * */
-			incrementTime:function(nIncrement,nSpeed,callback,sInitDate){
+			incrementTime: function(nIncrement, nSpeed, callback, sInitDate) {
 				var _this = this;
-				if(sInitDate == undefined || !sInitDate){//加载本地时间
-					$.incrementInitDate = $.getCurrTimestamp();//初始化增量时间，转化时间戳
-				}else{
-					$.incrementInitDate = $.backDateNum(sInitDate);//初始化增量时间，转化时间戳
+				if (sInitDate == undefined || !sInitDate) { //加载本地时间
+					$.incrementInitDate = $.getCurrTimestamp(); //初始化增量时间，转化时间戳
+				} else {
+					$.incrementInitDate = $.backDateNum(sInitDate); //初始化增量时间，转化时间戳
 				}
-				$.incrementTimer = setInterval(function(){
+				$.incrementTimer = setInterval(function() {
 					$.incrementInitDate += nIncrement;
 					$.dd_currTime = $.timestampToTime($.incrementInitDate, "yyyy-MM-dd h:m:s");
 					_this.nIndex = $.dd_currTime.indexOf(" ");
-					
+
 					_this.oDate = {
-						cTime:$.dd_currTime.slice(_this.nIndex+1,$.dd_currTime.length),//计算时分秒
-						cDate:$.dd_currTime.slice(0,_this.nIndex),//计算年月日
-						cWeek:$.getWeeDay($.dd_currTime.slice(0,_this.nIndex))//计算周几
+						cTime: $.dd_currTime.slice(_this.nIndex + 1, $.dd_currTime.length), //计算时分秒
+						cDate: $.dd_currTime.slice(0, _this.nIndex), //计算年月日
+						cWeek: $.getWeeDay($.dd_currTime.slice(0, _this.nIndex)) //计算周几
 					}
 					callback(_this.oDate);
-//					console.log(JSON.stringify(_this.oDate));
-					_this.cTime = $.dd_currTime.slice(_this.nIndex,$.dd_currTime.length);//计算时分秒
-					_this.cDate = $.dd_currTime.slice(0,_this.nIndex);//计算年月日
-					_this.cWeek = $.getWeeDay($.dd_currTime.slice(0,_this.nIndex));//计算周几
-				},nSpeed);
+					//					console.log(JSON.stringify(_this.oDate));
+					_this.cTime = $.dd_currTime.slice(_this.nIndex, $.dd_currTime.length); //计算时分秒
+					_this.cDate = $.dd_currTime.slice(0, _this.nIndex); //计算年月日
+					_this.cWeek = $.getWeeDay($.dd_currTime.slice(0, _this.nIndex)); //计算周几
+				}, nSpeed);
 			},
-			
+
 			/**
 			 * 减量时间（逆时钟）
 			 * @param {Number} nDecrement 减量（指某一刻平均递减的秒数）
@@ -697,36 +698,36 @@ function _extend(deep, target, options) {
 			 * @param {Function} callback 回调函数，参数为递增的时间对象
 			 * @param {String} sInitDate 初始时间（包含年月日时分秒 yyyy-mm-ss hh:mm:ss格式）(可选)
 			 * */
-			decrementTime:function(nDecrement,nSpeed,callback,sInitDate){
+			decrementTime: function(nDecrement, nSpeed, callback, sInitDate) {
 				var _this = this;
-				if(sInitDate == undefined || !sInitDate){//加载本地时间
-					$.decrementInitDate = $.getCurrTimestamp();//初始化增量时间，转化时间戳
-				}else{
-					$.decrementInitDate = $.backDateNum(sInitDate);//初始化增量时间，转化时间戳
+				if (sInitDate == undefined || !sInitDate) { //加载本地时间
+					$.decrementInitDate = $.getCurrTimestamp(); //初始化增量时间，转化时间戳
+				} else {
+					$.decrementInitDate = $.backDateNum(sInitDate); //初始化增量时间，转化时间戳
 				}
-				$.decrementTimer = setInterval(function(){
+				$.decrementTimer = setInterval(function() {
 					$.decrementInitDate -= nDecrement;
 					$.dd_currTime = $.timestampToTime($.decrementInitDate, "yyyy-MM-dd h:m:s");
 					_this.nIndex = $.dd_currTime.indexOf(" ");
-					
+
 					_this.oDate = {
-						cTime:$.dd_currTime.slice(_this.nIndex+1,$.dd_currTime.length),//计算时分秒
-						cDate:$.dd_currTime.slice(0,_this.nIndex),//计算年月日
-						cWeek:$.getWeeDay($.dd_currTime.slice(0,_this.nIndex))//计算周几
+						cTime: $.dd_currTime.slice(_this.nIndex + 1, $.dd_currTime.length), //计算时分秒
+						cDate: $.dd_currTime.slice(0, _this.nIndex), //计算年月日
+						cWeek: $.getWeeDay($.dd_currTime.slice(0, _this.nIndex)) //计算周几
 					}
 					callback(_this.oDate);
-//					console.log(JSON.stringify(_this.oDate));
-					_this.cTime = $.dd_currTime.slice(_this.nIndex,$.dd_currTime.length);//计算时分秒
-					_this.cDate = $.dd_currTime.slice(0,_this.nIndex);//计算年月日
-					_this.cWeek = $.getWeeDay($.dd_currTime.slice(0,_this.nIndex));//计算周几
-				},nSpeed);
+					//					console.log(JSON.stringify(_this.oDate));
+					_this.cTime = $.dd_currTime.slice(_this.nIndex, $.dd_currTime.length); //计算时分秒
+					_this.cDate = $.dd_currTime.slice(0, _this.nIndex); //计算年月日
+					_this.cWeek = $.getWeeDay($.dd_currTime.slice(0, _this.nIndex)); //计算周几
+				}, nSpeed);
 			},
 			/**
 			 * 秒数转化为时分秒时间格式
 			 * @param {Number} ts 秒数
 			 * @return {String}
 			 * */
-			secondToStr:function(ts){
+			secondToStr: function(ts) {
 				/**
 				 * zeroize值和长度（默认值是2）。
 				 * @param {Object} v
@@ -737,14 +738,14 @@ function _extend(deep, target, options) {
 					var z = "";
 					l = l || 2;
 					v = String(v);
-					for(var i = 0; i < l - v.length; i++) {
+					for (var i = 0; i < l - v.length; i++) {
 						z += "0";
 					}
 					return z + v;
 				};
-				
-				
-				if(isNaN(ts)) {
+
+
+				if (isNaN(ts)) {
 					return "--:--:--";
 				}
 				var h = parseInt(ts / 3600);
@@ -756,42 +757,42 @@ function _extend(deep, target, options) {
 			 * 检测浏览器是否支持svg
 			 * @return {Boolean}
 			 * */
-			isSupportSVG:function(){
+			isSupportSVG: function() {
 				var SVG_NS = 'http://www.w3.org/2000/svg';
-	    		return !!document.createElementNS &&!!document.createElementNS(SVG_NS, 'svg').createSVGRect;
+				return !!document.createElementNS && !!document.createElementNS(SVG_NS, 'svg').createSVGRect;
 			},
 			/**
 			 * 检测浏览器是否支持canvas
 			 * @return {Boolean}
 			 * */
-			isSupportCanvas:function(){
-				if(document.createElement('canvas').getContext){
-			        return true;
-			    }else{
-			        return false;
-			    }
+			isSupportCanvas: function() {
+				if (document.createElement('canvas').getContext) {
+					return true;
+				} else {
+					return false;
+				}
 			},
-			
+
 			/**
 			 * 十进制转换为各种进制字符（2到32进制）
 			 * @param {String} str 要转换其他进制的十进制字符串
 			 * @param {Number} num 十进制要转换的进制数（2到32）
 			 * @return {String} 
 			 * */
-			tenToAny:function(str,num){
+			tenToAny: function(str, num) {
 				return str.toString(num);
 			},
-			
+
 			/**
 			 * 其他进制（2到32）数据转换为十进制数据
 			 * @param {String} str 其他进制的字符数据
 			 * @param {Number} num 要转换为十进制的原进制数（2到32）
 			 * @return {String}
 			 * */
-			AnyToTen:function(str,num){
-				return parseInt(str,num);
+			AnyToTen: function(str, num) {
+				return parseInt(str, num);
 			},
-			
+
 			/**
 			 * 动态加载外部js文件
 			 * @param {String} path 本地路径，注意：末尾不要加“.js”后缀
@@ -802,9 +803,9 @@ function _extend(deep, target, options) {
 				var oHead = document.getElementsByTagName('HEAD').item(0);
 				var script = document.createElement("script")
 				script.type = "text/javascript";
-				if(script.readyState) { //IE
+				if (script.readyState) { //IE
 					script.onreadystatechange = function() {
-						if(script.readyState == "loaded" || script.readyState == "complete") {
+						if (script.readyState == "loaded" || script.readyState == "complete") {
 							script.onreadystatechange = null;
 							callback();
 						}
@@ -823,7 +824,7 @@ function _extend(deep, target, options) {
 			 * @param {String} path 本地路径，注意：末尾不要加“.css”后缀
 			 * */
 			_loadCss: function(path) {
-				if(!path || path.length === 0) {
+				if (!path || path.length === 0) {
 					throw new Error('参数“path”是必需的!');
 				}
 				var head = document.getElementsByTagName('head')[0];
@@ -833,7 +834,7 @@ function _extend(deep, target, options) {
 				links.type = 'text/css';
 				head.appendChild(links);
 			},
-			
+
 			/**
 			 * 获取对象类型名
 			 * @param {Any} object 各种返回类型 ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String", "Window", "HTMLDocument"]
@@ -842,7 +843,7 @@ function _extend(deep, target, options) {
 			_getType: function(object) {
 				return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
 			},
-			
+
 			/**
 			 * 用来判断对象类型
 			 * @param {Any} object 需要判断的数据
@@ -852,7 +853,7 @@ function _extend(deep, target, options) {
 			_isType: function(object, typeStr) {
 				return $._getType(object) == typeStr;
 			},
-			
+
 			/**
 			 * 动态加载js文件,批量加载js,css文件，path可以是数组格式或用逗号隔开的字符串	
 			 * @param {String||Array} path path可以是数组格式或用逗号隔开的字符串,指的是需要加载的js或者css组，如["jquery","layer"]
@@ -860,7 +861,7 @@ function _extend(deep, target, options) {
 			 * */
 			_import: function(path, fileType) {
 				var loadfun;
-				switch(fileType) {
+				switch (fileType) {
 					case "js":
 						loadfun = $._loadJs;
 						break;
@@ -871,15 +872,15 @@ function _extend(deep, target, options) {
 						alert("请检查文件类型");
 				}
 				//如果path是以逗号隔开的字符串		 
-				if(this._is(path, "String")) {
-					if(path.indexOf(",") >= 0) {
+				if (this._is(path, "String")) {
+					if (path.indexOf(",") >= 0) {
 						path = path.split(",");
 					} else {
 						path = [path];
 					}
 				}
 				//循环加载文件
-				for(var i = 0; i < path.length; i++) {
+				for (var i = 0; i < path.length; i++) {
 					loadfun(path[i]);
 				}
 			},
@@ -889,41 +890,42 @@ function _extend(deep, target, options) {
 			 * @param {String} symbol 分隔符字符串
 			 * @return {String}
 			 * */
-			objSerialize:function(obj,symbol) {					
+			objSerialize: function(obj, symbol) {
 				var str = "";
-				for(each in obj) {
+				for (each in obj) {
 					str += each + "=" + obj[each] + symbol;
 				}
-				return str.slice(0,str.length-(symbol.length));
+				return str.slice(0, str.length - (symbol.length));
 			},
-			
+
 			/**
 			 * 根据字符串获取其长度，中文汉字为2个长度，特殊字符长度有多有少
 			 * @param {String} str 要计算长度个数的字符串
 			 * @return {Number}
 			 * */
-			strGetLength:function(str){ 
-			
-			    var realLength = 0;
-			    for (var i = 0; i < str.length; i++) 
-			    {
-			        charCode = str.charCodeAt(i);
-			        if (charCode >= 0 && charCode <= 128) 
-					realLength += 1;
-			        else 
-					realLength += 2;
-			    }
-			    return realLength;
+			strGetLength: function(str) {
+
+				var realLength = 0;
+				for (var i = 0; i < str.length; i++) {
+					charCode = str.charCodeAt(i);
+					if (charCode >= 0 && charCode <= 128)
+						realLength += 1;
+					else
+						realLength += 2;
+				}
+				return realLength;
 			},
 			//中文数组排序
-			sortChinese:function(arr){ // 参数： 排序的数组
-//			    arr.sort(function (item1, item2) {
-//			      return item1.localeCompare(item2, 'zh-CN');
-//			    })
-				if(arr.length > 0){
-					return (arr.sort(function(a, b){return (a + '').localeCompare(b + '')}))
+			sortChinese: function(arr) { // 参数： 排序的数组
+				//			    arr.sort(function (item1, item2) {
+				//			      return item1.localeCompare(item2, 'zh-CN');
+				//			    })
+				if (arr.length > 0) {
+					return (arr.sort(function(a, b) {
+						return (a + '').localeCompare(b + '')
+					}))
 				}
-				
+
 			},
 			/**
 			 * 动态添加外部js和删除原js，js加载完成，执行回调
@@ -931,52 +933,52 @@ function _extend(deep, target, options) {
 			 * @param {Function} callback  回调函数执行
 			 * @param {String} srckey    要删除的原脚本地址（虽然删除，方法还在）
 			 * */
-			changeScript:function(url, srckey, callback){
-				
-			// 	// 删除之前的script
-			// 	const scripts = document.querySelectorAll('script');
-			// 	for(const script of scripts) {
-			// 		if(script.src.includes(srckey)) {
-			// 			script.parentNode.removeChild(script);
-			// 		}
-			// 	}
-			// 	document.execCommand('Refresh');
-			
-			// 	// 重新创建script
-			// 	const script = document.createElement("script");
-			// 	script.type = "text/javascript";
-			// 	script.async = true;
-			// 	script.defer = true;
-			// 	if(script.readyState) { // IE
-			// 		script.onreadystatechange = function() {
-			// 			if(script.readyState === "loaded" || script.readyState === "complete") {
-			// 				script.onreadystatechange = null;
-			// 				callback();
-			// 			}
-			// 		};
-			// 	} else { // Others
-			// 		script.onload = function() {
-			// 			callback();
-			// 		};
-			// 	}
-			// 	script.src = url;
-			// 	document.getElementsByTagName("head")[0].appendChild(script);
-				
+			changeScript: function(url, srckey, callback) {
+
+				// 	// 删除之前的script
+				// 	const scripts = document.querySelectorAll('script');
+				// 	for(const script of scripts) {
+				// 		if(script.src.includes(srckey)) {
+				// 			script.parentNode.removeChild(script);
+				// 		}
+				// 	}
+				// 	document.execCommand('Refresh');
+
+				// 	// 重新创建script
+				// 	const script = document.createElement("script");
+				// 	script.type = "text/javascript";
+				// 	script.async = true;
+				// 	script.defer = true;
+				// 	if(script.readyState) { // IE
+				// 		script.onreadystatechange = function() {
+				// 			if(script.readyState === "loaded" || script.readyState === "complete") {
+				// 				script.onreadystatechange = null;
+				// 				callback();
+				// 			}
+				// 		};
+				// 	} else { // Others
+				// 		script.onload = function() {
+				// 			callback();
+				// 		};
+				// 	}
+				// 	script.src = url;
+				// 	document.getElementsByTagName("head")[0].appendChild(script);
+
 			},
 			/**
 			 * 动态添加js，js加载完毕，执行回调函数
 			 * @param {String} url  script的src的地址,要动态添加的脚本地址
 			 * @param {Function} callback  回调函数执行
 			 * */
-			addScript:function(url,callback){
+			addScript: function(url, callback) {
 				// 创建script
 				const script = document.createElement("script");
 				script.type = "text/javascript";
 				script.async = true;
 				script.defer = true;
-				if(script.readyState) { // IE
+				if (script.readyState) { // IE
 					script.onreadystatechange = function() {
-						if(script.readyState === "loaded" || script.readyState === "complete") {
+						if (script.readyState === "loaded" || script.readyState === "complete") {
 							script.onreadystatechange = null;
 							callback();
 						}
@@ -997,50 +999,50 @@ function _extend(deep, target, options) {
 			 * @param {Boolean} isReverse 时间点是否从结束时间开始计算返回，如true，则倒叙，否则或者不传为正序
 			 * @return {Array}
 			 * */
-			getDateArr:function(startDate, endDate, space, isReverse){
-				if(!startDate || !endDate){
+			getDateArr: function(startDate, endDate, space, isReverse) {
+				if (!startDate || !endDate) {
 					alert('时间参数缺省');
 					return;
 				}
-				var _startDate = new Date(startDate.replace(/-/g,"/"));
-				var _endDate = new Date(endDate.replace(/-/g,"/"));
+				var _startDate = new Date(startDate.replace(/-/g, "/"));
+				var _endDate = new Date(endDate.replace(/-/g, "/"));
 
-				if(!space) {
+				if (!space) {
 					space = 30 * 60 * 1000;
 				} else {
 					space = space * 60 * 1000;
 				}
 				var endTime = _endDate.getTime();
 				var startTime = _startDate.getTime();
-				var mod = endTime - startTime;				
-			
-				if(mod <= space) {
+				var mod = endTime - startTime;
+
+				if (mod <= space) {
 					return;
 					alert("时间太短");
 				}
-				var dateArray = [];				
-				if(isReverse){
+				var dateArray = [];
+				if (isReverse) {
 					//倒叙插入
-					while(mod - space >= space) {
+					while (mod - space >= space) {
 						var d = new Date();
 						d.setTime(endTime - space);
 						dateArray.push(d);
 						mod = mod - space;
 						endTime = endTime - space;
 					}
-				}else{
+				} else {
 					//正序插入
-					while(mod >= space) {
+					while (mod >= space) {
 						var d = new Date();
 						d.setTime(startTime + space);
 						dateArray.push(d);
 						mod = mod - space;
 						startTime = startTime + space;
-					}					
-				}				
+					}
+				}
 				dateArray.reverse();
 				var aRes = [];
-				for(var i = dateArray.length - 1; i >= 0; i--) {					
+				for (var i = dateArray.length - 1; i >= 0; i--) {
 					aRes.push($.conversionTime(dateArray[i]));
 				}
 				return aRes;
@@ -1050,8 +1052,8 @@ function _extend(deep, target, options) {
 			 * @param {String} dt 系统时间格式时间
 			 * @return {String}
 			 * */
-			conversionTime:function(dt){
-				return(
+			conversionTime: function(dt) {
+				return (
 					dt.getFullYear() +
 					"-" +
 					(dt.getMonth() + 1 < 10 ?
@@ -1072,42 +1074,41 @@ function _extend(deep, target, options) {
 			 * @param {Number} num 大于零的正整数
 			 * @return {String}
 			 * */
-			numToLetter:function(num){
+			numToLetter: function(num) {
 				var stringName = "";
-			    if(num > 0) {
-				    if(num >= 1 && num <= 26) {
-				        stringName = String.fromCharCode(64 + parseInt(num));
-				    } 
-				    else {
-				        while(num > 26) {
-				          var count = parseInt(num/26);
-				          var remainder = num%26;
-				          if(remainder == 0) {
-				            remainder = 26;
-				            count--;
-				            stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
-				          } else {
-				            stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
-				          }
-				          num = count;
-				        }
-				        stringName = String.fromCharCode(64 + parseInt(num)) + stringName;
-				    }
-			    }
-			    
-			    return stringName;
-			    
+				if (num > 0) {
+					if (num >= 1 && num <= 26) {
+						stringName = String.fromCharCode(64 + parseInt(num));
+					} else {
+						while (num > 26) {
+							var count = parseInt(num / 26);
+							var remainder = num % 26;
+							if (remainder == 0) {
+								remainder = 26;
+								count--;
+								stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
+							} else {
+								stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
+							}
+							num = count;
+						}
+						stringName = String.fromCharCode(64 + parseInt(num)) + stringName;
+					}
+				}
+
+				return stringName;
+
 			},
 			//清除所有缓存
-			clearCacheFn:function(callback){
+			clearCacheFn: function(callback) {
 				var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
 				if (keys) {
-				    for (var i = keys.length; i--;) {
-				        document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
-				        document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
-				        document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
-				    }
-					if(callback) callback();
+					for (var i = keys.length; i--;) {
+						document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString(); //清除当前域名下的,例如：m.kevis.com
+						document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString(); //清除当前域名下的，例如 .m.kevis.com
+						document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString(); //清除一级域名下的或指定的，例如 .kevis.com
+					}
+					if (callback) callback();
 				}
 			},
 			/**
@@ -1116,58 +1117,58 @@ function _extend(deep, target, options) {
 			 * @param {String} value 设置的值
 			 * @param {Number} time 设置的过期时间，单位毫秒，如1000，则为1秒
 			 * */
-			_set_cookie:function(name,value,time){
+			_set_cookie: function(name, value, time) {
 				var exp = new Date();
-				exp.setTime(exp.getTime() + time*1);
-				document.cookie = name + "="+ escape(value) + ";expires=" + exp.toGMTString();
+				exp.setTime(exp.getTime() + time * 1);
+				document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
 			},
 			/**
 			 * 读取cookie
 			 * @param {String} name 设置的键
 			 * */
-			_get_cookie:function(name){			
+			_get_cookie: function(name) {
 				var arr,
 					reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-				if(arr = document.cookie.match(reg)) return unescape(arr[2]);
+				if (arr = document.cookie.match(reg)) return unescape(arr[2]);
 				else return null;
 			},
 			/**
 			 * 删除cookie
 			 * @param {String} name 设置的键
 			 * */
-			_del_cookie:function(name){			
+			_del_cookie: function(name) {
 				var exp = new Date();
 				exp.setTime(exp.getTime() - 1);
 				var cval = $._get_cookie(name);
-				if(cval != null) document.cookie = name + "="+cval+";expires=" + exp.toGMTString();
+				if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 			},
 			/**
 			 * 获取元素的实际宽高，偏移量和x,y位置
 			 * @param {String} selector 元素的选择器，id要带#，class要带.
 			 * */
-			getDOMTrueData:function(selector){
-				 return document.querySelector(selector).getBoundingClientRect();
+			getDOMTrueData: function(selector) {
+				return document.querySelector(selector).getBoundingClientRect();
 			},
 			/**
 			 * 获取昨天时间（返回年月日yyyy-mm-dd格式）
 			 * @return {String}
 			 * */
-			getYesterdayDate:function(){
+			getYesterdayDate: function() {
 				var today = $.getOnTime('y-m-d');
-				var nYesterday = $.backDateNum(today) - 86400;//昨天时间戳
-				return $.timestampToTime(nYesterday,"yyyy-MM-dd");
+				var nYesterday = $.backDateNum(today) - 86400; //昨天时间戳
+				return $.timestampToTime(nYesterday, "yyyy-MM-dd");
 			},
 			//阻止事件冒泡
-			stopEventBubble:function(){
+			stopEventBubble: function() {
 				//阻止事件冒泡
-				window.event? window.event.cancelBubble = true : e.stopPropagation();
+				window.event ? window.event.cancelBubble = true : e.stopPropagation();
 			},
 			/**
 			 * 获取video视频第一针图片，生成地址
 			 * @param {Object} jsObj js元素对象
 			 * @param {Function} fn 回调函数，返回参数是img地址
 			 * */
-			getVideoImg:function(jsObj,fn){
+			getVideoImg: function(jsObj, fn) {
 				var video;
 				var scale = 0.8;
 				var initialize = function() {
@@ -1181,59 +1182,60 @@ function _extend(deep, target, options) {
 					canvas.height = video.videoHeight * scale;
 					canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); // getContext:设置画布环境；drawImage:画画 
 					var imgUrl = canvas.toDataURL("image/png");
-					if(fn) fn(imgUrl);
-					
+					if (fn) fn(imgUrl);
+
 				};
 
 				initialize();
 			},
-			isLoad:true,//加个节流阀,避免尚未加载出的时间段里,上拉多次而导致加载太多
-			
+			isLoad: true, //加个节流阀,避免尚未加载出的时间段里,上拉多次而导致加载太多
+
 			/**
 			 * 监听window滚动条滚动到底部的事件
 			 * @param {Function} fn 回调函数
 			 * */
-			window_to_bottom_fn:function(fn){
+			window_to_bottom_fn: function(fn) {
 				//开启事件监听
 				window.addEventListener('scroll', function() {
 					var clientHeight = document.documentElement.clientHeight //可视区高度
-	
+
 					var scrollHeight = document.documentElement.scrollHeight //文档流高度
-	
-					var scrollDistance = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0 //滚动出去高度
-	
+
+					var scrollDistance = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop ||
+						0 //滚动出去高度
+
 					//文档剩余区域的高度
 					// 文档高度-可视区高度-滚动出去的高度 = 文档剩余高度
 					var surplus = scrollHeight - clientHeight - scrollDistance //尚未滚出来的文档流高度
-	
+
 					//注意判断条件,当剩余文档流的高度小于0时
-	
-					if(surplus <= 0 && $.isLoad) {
-	
+
+					if (surplus <= 0 && $.isLoad) {
+
 						$.isLoad = false
-	
+
 						setTimeout(function() {
-							if(fn) fn();
+							if (fn) fn();
 							$.isLoad = true;
-	
+
 						}, 100) //迟疑三秒再加载出来
-	
+
 					}
-	
+
 				}, false);
 			},
 			/**
 			 * Date.UTC() 格式的时间转化为中国时区的 “yyyy-mm-dd hh:mm:ss”时间格式
 			 * @param {Number} n Date.UTC()之后的时间串
 			 * */
-			UTC_to_CTime:function(n){
-				var t = 28800000;				
+			UTC_to_CTime: function(n) {
+				var t = 28800000;
 				var xVal = n;
 				var s_utc_time = new Date(xVal);
-				var sTime = s_utc_time.toUTCString();//UTC时间转换为国际GMT时间
+				var sTime = s_utc_time.toUTCString(); //UTC时间转换为国际GMT时间
 				// var resTime = $.formatDateTime(new Date(sTime));
-				var nT = Date.parse(new Date(sTime)) - t;//转化时间戳
-				return $.timestampToTime(nT/1000,"yyyy-MM-dd h:m:s");
+				var nT = Date.parse(new Date(sTime)) - t; //转化时间戳
+				return $.timestampToTime(nT / 1000, "yyyy-MM-dd h:m:s");
 			},
 			/**
 			 * 根据年月返回该月份的天数
@@ -1241,28 +1243,28 @@ function _extend(deep, target, options) {
 			 * @param {Number} month 月份
 			 * @return {Number}
 			 * */
-			getDaysInMonth:function(year,month){
-				month = parseInt(month,10);  //parseInt(number,type)这个函数后面如果不跟第2个参数来表示进制的话，默认是10进制。
-				var temp = new Date(year,month,0);
-				return temp.getDate();	
+			getDaysInMonth: function(year, month) {
+				month = parseInt(month, 10); //parseInt(number,type)这个函数后面如果不跟第2个参数来表示进制的话，默认是10进制。
+				var temp = new Date(year, month, 0);
+				return temp.getDate();
 			},
 			/**
 			 * 根据指定年月日，获取该天前几天的天数返回数组
 			 * @param {Number} n 要返回的天数
 			 * @param {String} sDate 指定时间，“yyyy-mm-dd”格式 ,如果不传该参数，则默认未当前系统日期
 			 * */
-			getPrevDays:function(n,sDate){
-				var nDayC = 24 * 60 * 60;//一天的时间戳数。秒单位
-				if(sDate){
+			getPrevDays: function(n, sDate) {
+				var nDayC = 24 * 60 * 60; //一天的时间戳数。秒单位
+				if (sDate) {
 					var nTargetDate = $.backDateNum(sDate);
-				}else{
+				} else {
 					var curtime = $.getOnTime("y-m-d");
 					var nTargetDate = $.backDateNum(curtime);
 				}
 				var list = [];
-				for(var i=0;i<n;i++){
-					var nRes = nTargetDate - (nDayC*i);
-					var sRes = $.timestampToTime(nRes,"yyyy-MM-dd");
+				for (var i = 0; i < n; i++) {
+					var nRes = nTargetDate - (nDayC * i);
+					var sRes = $.timestampToTime(nRes, "yyyy-MM-dd");
 					list.push(sRes);
 				}
 				return list;
@@ -1272,18 +1274,18 @@ function _extend(deep, target, options) {
 			 * @param {Number} n 要返回的天数
 			 * @param {String} sDate 指定时间，“yyyy-mm-dd”格式 ,如果不传该参数，则默认未当前系统日期
 			 * */
-			getNextDays:function(n,sDate){
-				var nDayC = 24 * 60 * 60;//一天的时间戳数。秒单位
-				if(sDate){
+			getNextDays: function(n, sDate) {
+				var nDayC = 24 * 60 * 60; //一天的时间戳数。秒单位
+				if (sDate) {
 					var nTargetDate = $.backDateNum(sDate);
-				}else{
+				} else {
 					var curtime = $.getOnTime("y-m-d");
 					var nTargetDate = $.backDateNum(curtime);
 				}
 				var list = [];
-				for(var i=0;i<n;i++){
-					var nRes = nTargetDate + (nDayC*i);
-					var sRes = $.timestampToTime(nRes,"yyyy-MM-dd");
+				for (var i = 0; i < n; i++) {
+					var nRes = nTargetDate + (nDayC * i);
+					var sRes = $.timestampToTime(nRes, "yyyy-MM-dd");
 					list.push(sRes);
 				}
 				return list;
@@ -1293,9 +1295,9 @@ function _extend(deep, target, options) {
 			 * @param {String} sDate 日期年月日"yyyy-mm-dd"或者"yyyy/mm/dd"
 			 * @param {String} sLang 语言版本，cn代表中文星期名称，en代表英文星期名称
 			 * */
-			getWeekName:function(sDate,sLang){
+			getWeekName: function(sDate, sLang) {
 				var nWeek = new Date(sDate).getDay();
-				switch (nWeek){
+				switch (nWeek) {
 					case 1:
 						return (sLang == "en" ? "Mon." : "星期一");
 						break;
@@ -1324,19 +1326,19 @@ function _extend(deep, target, options) {
 			 * @param {String} date UTC通用标准时间，如，2019-04-24T02:30:00.000+0000
 			 * @return {String}
 			 * */
-			resolvingDate:function(date){
+			resolvingDate: function(date) {
 				//date是传入的时间
-				  var d = new Date(date);
-				
-				  var month = (d.getMonth() + 1) < 10 ? '0'+(d.getMonth() + 1) : (d.getMonth() + 1);
-				  var day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
-				  var hours = d.getHours()<10 ? '0'+d.getHours() : d.getHours();
-				  var min = d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
-				  var sec = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
-				
-				  var times=d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
-				
-				  return times;
+				var d = new Date(date);
+
+				var month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1);
+				var day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+				var hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+				var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+				var sec = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
+
+				var times = d.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + min + ':' + sec;
+
+				return times;
 			},
 			/**
 			 * 根据各种时间类型增量时间（年月日，年月，年）
@@ -1344,39 +1346,39 @@ function _extend(deep, target, options) {
 			 * @param {String} sDate 要增量的时间 可能值：“yyyy-mm-dd”,"yyyy-mm","yyyy"
 			 * @param {Boolean} isLimiting 增量时间是否在当前现实时间范围内，如果传参数true，则增量后的时间必须不能大于 new Date()
 			 * */
-			addAnyTime:function(sType,sDate,isLimiting){
-				if(sType == "0"){
-					var speed = 1 * 60 * 60 * 24;//秒为单位进制
-					var nTime = $.backDateNum(sDate) + speed;//增量后时间戳
+			addAnyTime: function(sType, sDate, isLimiting) {
+				if (sType == "0") {
+					var speed = 1 * 60 * 60 * 24; //秒为单位进制
+					var nTime = $.backDateNum(sDate) + speed; //增量后时间戳
 					var cur_date = $.getOnTime('y-m-d');
-					var nCurrDate = $.backDateNum( cur_date );//当前现实时间戳间
-					if(isLimiting && nTime > nCurrDate){//有限制
+					var nCurrDate = $.backDateNum(cur_date); //当前现实时间戳间
+					if (isLimiting && nTime > nCurrDate) { //有限制
 						return cur_date;
 					}
-					var res = $.timestampToTime(nTime,"yyyy-MM-dd");
+					var res = $.timestampToTime(nTime, "yyyy-MM-dd");
 					return res;
-				}else if(sType == "1"){
+				} else if (sType == "1") {
 					var oMonth = $.get_string(sDate);
 					var cur_date = $.getOnTime('y-m');
-					var oMonth2 = $.get_string(cur_date);//当前的时间（yyyy-mm）
-					if(oMonth.last === 12){
+					var oMonth2 = $.get_string(cur_date); //当前的时间（yyyy-mm）
+					if (oMonth.last === 12) {
 						oMonth.last = 1;
-						oMonth.first++; 
-					}else{
+						oMonth.first++;
+					} else {
 						oMonth.last++;
 					}
-					
-					if(isLimiting){
-						if( oMonth2.first < oMonth.first || (oMonth2.first == oMonth.first && oMonth2.last < oMonth.last) ){//有限制
+
+					if (isLimiting) {
+						if (oMonth2.first < oMonth.first || (oMonth2.first == oMonth.first && oMonth2.last < oMonth.last)) { //有限制
 							return cur_date;
 						}
 					}
-					if(oMonth.last < 10) oMonth.last = 0 + "" +oMonth.last;
+					if (oMonth.last < 10) oMonth.last = 0 + "" + oMonth.last;
 					var res = oMonth.first + "-" + oMonth.last;
 					return res;
-				}else if(sType == "2"){
-					var currYear = $.getOnTime('y')*1;
-					var newYear = sDate*1 + 1;
+				} else if (sType == "2") {
+					var currYear = $.getOnTime('y') * 1;
+					var newYear = sDate * 1 + 1;
 					return (newYear > currYear ? currYear : newYear);
 				}
 			},
@@ -1385,31 +1387,31 @@ function _extend(deep, target, options) {
 			 * @param {String} sType 要减量的时间类型 0，1，2，分别代表“yyyy-mm-dd”,"yyyy-mm","yyyy"格式时间
 			 * @param {String} sDate 要减量的时间 可能值：“yyyy-mm-dd”,"yyyy-mm","yyyy"
 			 * */
-			desAnyTime:function(sType,sDate){
-				if(sType == "0"){
-					var speed = 1 * 60 * 60 * 24;//秒为单位进制
-					var nTime = $.backDateNum(sDate) - speed;//减量后时间戳					
-					var res = $.timestampToTime(nTime,"yyyy-MM-dd");
+			desAnyTime: function(sType, sDate) {
+				if (sType == "0") {
+					var speed = 1 * 60 * 60 * 24; //秒为单位进制
+					var nTime = $.backDateNum(sDate) - speed; //减量后时间戳					
+					var res = $.timestampToTime(nTime, "yyyy-MM-dd");
 					return res;
-				}else if(sType == "1"){
+				} else if (sType == "1") {
 					var oMonth = $.get_string(sDate);
-					if(oMonth.last === 1){
+					if (oMonth.last === 1) {
 						oMonth.last = 12;
-						oMonth.first--; 
-					}else{
+						oMonth.first--;
+					} else {
 						oMonth.last--;
 					}
-					if(oMonth.last < 10) oMonth.last = 0 + "" +oMonth.last;
+					if (oMonth.last < 10) oMonth.last = 0 + "" + oMonth.last;
 					var res = oMonth.first + "-" + oMonth.last;
 					return res;
-				}else if(sType == "2"){
-					var newYear = sDate*1 - 1;
-					if(newYear < 0){
+				} else if (sType == "2") {
+					var newYear = sDate * 1 - 1;
+					if (newYear < 0) {
 						return sDate;
-					}else{
+					} else {
 						return newYear;
 					}
-				
+
 				}
 			},
 			/**
@@ -1417,13 +1419,13 @@ function _extend(deep, target, options) {
 			 * @param {String} location 带有一个“-”的字符串
 			 * @return {Object}
 			 * */
-			get_string:function(location){
+			get_string: function(location) {
 				var sign = location.indexOf("-");
-				var ra_x = location.slice(0,sign)*1;//x轴数
-				var ra_y = location.slice(sign+1,location.length)*1;//y轴数
+				var ra_x = location.slice(0, sign) * 1; //x轴数
+				var ra_y = location.slice(sign + 1, location.length) * 1; //y轴数
 				return {
-					first:ra_x,
-					last:ra_y
+					first: ra_x,
+					last: ra_y
 				};
 			},
 			/**
@@ -1432,13 +1434,13 @@ function _extend(deep, target, options) {
 			 * @param {String} str 特殊字符
 			 * @return {Object}
 			 * */
-			get_string2:function(location,str){
+			get_string2: function(location, str) {
 				var sign = location.indexOf(str);
-				var ra_x = location.slice(0,sign)*1;//第一个
-				var ra_y = location.slice(sign+1,location.length)*1;//第二个
+				var ra_x = location.slice(0, sign) * 1; //第一个
+				var ra_y = location.slice(sign + 1, location.length) * 1; //第二个
 				return {
-					first:ra_x,
-					last:ra_y
+					first: ra_x,
+					last: ra_y
 				};
 			},
 			/**
@@ -1447,24 +1449,24 @@ function _extend(deep, target, options) {
 			 * @param {Number} index1 数组元素1的索引
 			 * @param {Number} index2 数组元素2的索引
 			 * */
-			swapArr:function(arr, index1, index2) {
-			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
-			    return arr;
+			swapArr: function(arr, index1, index2) {
+				arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+				return arr;
 			},
 			//关闭当前页面
-			closeCurrPage:function(){
+			closeCurrPage: function() {
 				if (navigator.userAgent.indexOf('MSIE') > 0) { // close IE
-				   if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-				      window.opener = null;
-				      window.close();
-				   } else {
-				      window.open('', '_top');
-				      window.top.close();
-				   }
+					if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
+						window.opener = null;
+						window.close();
+					} else {
+						window.open('', '_top');
+						window.top.close();
+					}
 				} else { // close chrome;It is effective when it is only one.
-				   window.opener = null;
-				   window.open('', '_self');
-				   window.close();
+					window.opener = null;
+					window.open('', '_self');
+					window.close();
 				}
 			},
 			/**
@@ -1472,15 +1474,15 @@ function _extend(deep, target, options) {
 			 * @param {Array} arr 一维数组(里面皆是数字)
 			 * @return {Number}
 			 * */
-			max:function(arr){
-				Array.prototype.max = function() { 
+			max: function(arr) {
+				Array.prototype.max = function() {
 					var max = this[0];
-					var len = this.length; 
-					for (var i = 1; i < len; i++){ 
-						if (this[i] > max) { 
-							max = this[i]; 
-						} 
-					} 
+					var len = this.length;
+					for (var i = 1; i < len; i++) {
+						if (this[i] > max) {
+							max = this[i];
+						}
+					}
 					return max;
 				}
 				return arr.max();
@@ -1490,40 +1492,40 @@ function _extend(deep, target, options) {
 			 * @param {Array} arr 一维数组(里面皆是数字)
 			 * @return {Number}
 			 * */
-			min:function(arr){
+			min: function(arr) {
 				Array.prototype.min = function() {
 					var min = this[0];
 					var len = this.length;
-					for (var i = 1; i < len; i++){ 
-						if (this[i] < min){ 
-							min = this[i]; 
-						} 
-					} 
+					for (var i = 1; i < len; i++) {
+						if (this[i] < min) {
+							min = this[i];
+						}
+					}
 					return min;
 				}
 				return arr.min();
 			},
 			//时分秒转时间戳
-			time_to_Timestamp:function(time){
-				var s = 0;				
-				var hour = time.split(':')[0];				
-				var min = time.split(':')[1];				
-				var sec = time.split(':')[2];				
-				s = Number(hour * 3600) + Number(min * 60) + Number(sec);				
+			time_to_Timestamp: function(time) {
+				var s = 0;
+				var hour = time.split(':')[0];
+				var min = time.split(':')[1];
+				var sec = time.split(':')[2];
+				s = Number(hour * 3600) + Number(min * 60) + Number(sec);
 				return s;
 			},
 			/**
 			 * 时间戳转时分秒
 			 * @param {Number} mss 秒时间戳，
 			 * */
-			Timestamp_to_time:function(mss){
+			Timestamp_to_time: function(mss) {
 				mss = mss * 1000;
-				var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));				
-				var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));				
-				var seconds = (mss % (1000 * 60)) / 1000;				
-				hours = hours < 10 ? ('0' + hours) : hours;				
-				minutes = minutes < 10 ? ('0' + minutes) : minutes;				
-				seconds = seconds < 10 ? ('0' + seconds) : seconds;				
+				var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+				var seconds = (mss % (1000 * 60)) / 1000;
+				hours = hours < 10 ? ('0' + hours) : hours;
+				minutes = minutes < 10 ? ('0' + minutes) : minutes;
+				seconds = seconds < 10 ? ('0' + seconds) : seconds;
 				return hours + ":" + minutes + ":" + seconds;
 			},
 			/**
@@ -1531,13 +1533,13 @@ function _extend(deep, target, options) {
 			 * @param {Object} A 区间对象，如{start:10,end:100}
 			 * @param {Object} B 区间对象，如{start:100,end:200}
 			 * */
-			isUnion:function(A,B){
-				var max=[A.start,B.start];
-				var min=[A.end,B.end];
-				if(Math.max.apply(null, max)<= Math.min.apply(null, min)){
+			isUnion: function(A, B) {
+				var max = [A.start, B.start];
+				var min = [A.end, B.end];
+				if (Math.max.apply(null, max) <= Math.min.apply(null, min)) {
 					// alert("区间存在重叠交叉！");
 					return true;
-				}else{
+				} else {
 					return false;
 				}
 			},
@@ -1546,23 +1548,127 @@ function _extend(deep, target, options) {
 			 * @param {Array} arr 所有元素都是数字的数组
 			 * @return {Number}
 			 * */
-			 arrAddFn:function(arr){
-				 function reducer(accumulator, currentValue){
-					 return accumulator + currentValue;
-				 }
-				 return arr.reduce(reducer);
-			 },
-			 /**
-			  * 数组所有子元素按照索引顺序相减
-			  * @param {Array} arr 所有元素都是数字的数组
-			  * @return {Number}
-			  * */
-			  arrDecFn:function(arr){
-			 	 function reducer(accumulator, currentValue){
-			 		 return accumulator - currentValue;
-			 	 }
-			 	 return arr.reduce(reducer);
-			  },
+			arrAddFn: function(arr) {
+				function reducer(accumulator, currentValue) {
+					return accumulator + currentValue;
+				}
+				return arr.reduce(reducer);
+			},
+			/**
+			 * 数组所有子元素按照索引顺序相减
+			 * @param {Array} arr 所有元素都是数字的数组
+			 * @return {Number}
+			 * */
+			arrDecFn: function(arr) {
+				function reducer(accumulator, currentValue) {
+					return accumulator - currentValue;
+				}
+				return arr.reduce(reducer);
+			},
+			/**
+			 * canvas画布转化为base64
+			 * @param {Object} canvas 画布DOM节点
+			 * @param {String} imgType 转化为bese64图片类型(png,jpg,jpge,gif.....) 
+			 * @return {String} 返回base64
+			 * */
+			canvasToBase64Fn: function(canvas, imgType) {
+				image = canvas.toDataURL("image/" + imgType);
+				return image;
+			},
+			/**
+			 * 下载base64格式图片到本地
+			 * @param {String} content base64图片字符串
+			 * @param {String} fileName 下载成图片的名称 
+			 * */
+			downBase64Img: function(content, fileName) {
+				var base64ToBlob = function(code) {
+					var parts = code.split(';base64,');
+					var contentType = parts[0].split(':')[1];
+					var raw = window.atob(parts[1]);
+					var rawLength = raw.length;
+					var uInt8Array = new Uint8Array(rawLength);
+					for (var i = 0; i < rawLength; ++i) {
+						uInt8Array[i] = raw.charCodeAt(i);
+					}
+					return new Blob([uInt8Array], {
+						type: contentType
+					});
+				};
+				var aLink = document.createElement('a');
+				var blob = base64ToBlob(content); //new Blob([content]);
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent("click", true, true); //initEvent 不加后两个参数在FF下会报错  事件类型，是否冒泡，是否阻止浏览器的默认行为
+				aLink.download = fileName;
+				aLink.href = URL.createObjectURL(blob);
+				aLink.click();
+			},
+			/**
+			 * 为容器添加文件选择事件, 容器通常是一个按钮
+			 * @param {Object} container 点击按钮Dom节点
+			 * @param {Function} onselect 选择文件确定之后的回调函数 
+			 * @param {Function} oncancel 选择取消之后的回调函数 
+			 * @param {Object} fileOption 上传文件文件表单的属性配置，例如multiple，accept等属性
+			 */
+			addFileSelect:function(container, onselect, oncancel, fileOption){
+				container.addEventListener('click', function() {
+						container.innerText = "上传中....";
+						var input = document.createElement('input');
+						input.type = 'file';
+						if (fileOption) { //文件配置
+							if (fileOption.multiple) {
+								input.multiple = "multiple";
+							}
+							if (fileOption.accept) {
+								input.accept = fileOption.accept;
+							}
+						}
+						input.click();
+						input.addEventListener("change", function() {
+							console.log("change");
+							console.log(input.files, "change");
+							onselect && onselect(input.files);
+						});
+						container.addEventListener('focus', function() {
+							console.log(input.value); // 大概先于onchange事件100ms执行, 所以一定是空串
+				
+							var loop_count = 0; // 轮询次数
+							// 轮询
+							(function loop() {
+								// console.log(input.files,"focus");
+								if (input.value !== '') {
+									// 不需要change事件
+									// onselect === null || onselect === void 0 ? void 0 : onselect(input);
+								} else if (++loop_count >= 10) {
+									// 基于轮询次数的判断
+									oncancel === null || oncancel === void 0 ? void 0 : oncancel(input.files);
+								} else {
+									// 暂时无法判断, 继续轮询
+									setTimeout(loop, 20);
+								}
+				
+								;
+							})();
+						}, {
+							once: true
+						});
+					});
+			},
+			/**
+			 * 删除从0到n个数组中的子元素
+			 * @param {Array} arr 数组
+			 * @param {Number} n 要删除的数组元素的前n个
+			 * @param {Array} 
+			 * */
+			del_arr_child:function(arr,n){
+				var i = arr.length;
+				while(i--) {
+					// console.log(i + ' = ' + arr[i]);
+					if(i < n) {
+						arr.splice(i, 1);
+					}
+				}
+				return arr;
+			}
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
@@ -1595,21 +1701,21 @@ function _extend(deep, target, options) {
 				'position': 'fixed',
 				'zIndex': opts.zIndex
 			});
-			if(opts.position.length == 2 && opts.offset.length == 2) {
-				for(var i = 0; i < opts.position.length; i++) {
-					if(opts.position[i] == 'right' && opts.position[i + 1] == 'bottom') {
+			if (opts.position.length == 2 && opts.offset.length == 2) {
+				for (var i = 0; i < opts.position.length; i++) {
+					if (opts.position[i] == 'right' && opts.position[i + 1] == 'bottom') {
 						obj.css({
 							'right': opts.offset[0],
 							'bottom': opts.offset[1]
 						});
 					}
-					if(opts.position[i] == 'right' && opts.position[i + 1] == 'top') {
+					if (opts.position[i] == 'right' && opts.position[i + 1] == 'top') {
 						obj.css({
 							'right': opts.offset[0],
 							'top': opts.offset[1]
 						});
 					}
-					if(opts.position[i] == 'left' && opts.position[i + 1] == 'top') {
+					if (opts.position[i] == 'left' && opts.position[i + 1] == 'top') {
 						obj.css({
 							'left': opts.offset[0],
 							'top': opts.offset[1]
@@ -1653,21 +1759,21 @@ function _extend(deep, target, options) {
 				'position': 'fixed',
 				'zIndex': opts.zIndex
 			});
-			if(opts.position.length == 2 && opts.offset.length == 2) {
-				for(var i = 0; i < opts.position.length; i++) {
-					if(opts.position[i] == 'left' && opts.position[i + 1] == 'bottom') {
+			if (opts.position.length == 2 && opts.offset.length == 2) {
+				for (var i = 0; i < opts.position.length; i++) {
+					if (opts.position[i] == 'left' && opts.position[i + 1] == 'bottom') {
 						obj.css({
 							'left': opts.offset[0],
 							'bottom': opts.offset[1]
 						});
 					}
-					if(opts.position[i] == 'right' && opts.position[i + 1] == 'bottom') {
+					if (opts.position[i] == 'right' && opts.position[i + 1] == 'bottom') {
 						obj.css({
 							'right': opts.offset[0],
 							'bottom': opts.offset[1]
 						});
 					}
-					if(opts.position[i] == 'left' && opts.position[i + 1] == 'top') {
+					if (opts.position[i] == 'left' && opts.position[i + 1] == 'top') {
 						obj.css({
 							'left': opts.offset[0],
 							'top': opts.offset[1]
@@ -1700,21 +1806,21 @@ function _extend(deep, target, options) {
 			var sStar = "★★★★★☆☆☆☆☆".slice(5 - rate, 10 - rate);
 			var aStar = sStar.split("");
 			var tem = "";
-			for(var i = 0; i < aStar.length; i++) {
+			for (var i = 0; i < aStar.length; i++) {
 				tem += '<b data="' + aStar[i].charCodeAt(0) + '">' + aStar[i] + '</b>'
 			}
 			obj.html(tem);
-			if(opts.edit) {
+			if (opts.edit) {
 				obj.css("cursor", "pointer");
 				obj.children().on("click", function() {
 					console.log($(this).attr("data"), $(this).index());
-					if($(this).attr("data") == "9733") {
+					if ($(this).attr("data") == "9733") {
 						$(this).attr("data", "9734").text(String.fromCharCode(9734));
 						$(this).prevAll().attr("data", "9733").text(String.fromCharCode(9733));
 						$(this).nextAll().attr("data", "9734").text(String.fromCharCode(9734));
 						return false;
 					}
-					if($(this).attr("data") == "9734") {
+					if ($(this).attr("data") == "9734") {
 						$(this).attr("data", "9733").text(String.fromCharCode(9733));
 						$(this).prevAll().attr("data", "9733").text(String.fromCharCode(9733));
 
@@ -1723,7 +1829,7 @@ function _extend(deep, target, options) {
 			}
 
 		};
-		
+
 		/**
 		 * 限制文件上传大小类型和尺寸
 		 * @param {Object} options 传递参数 
@@ -1733,71 +1839,72 @@ function _extend(deep, target, options) {
 		 * @property {Number} options.width 限制上传的图片像素宽度,onlyImage必须true
 		 * @property {Number} options.height 限制上传的图片像素宽度,onlyImage必须true
 		 * */
-		$.fn.fileVaild = function(options){
+		$.fn.fileVaild = function(options) {
 			var _this = $(this);
 			var defaults = {
-				event:"change",
-				size:1,//限制几m
-				onlyImage:true,//默认所有类型可上传
-				width:200,//默认像素宽度,onlyImage必须true
-				height:300 //默认像素高度,onlyImage必须true
+				event: "change",
+				size: 1, //限制几m
+				onlyImage: true, //默认所有类型可上传
+				width: 200, //默认像素宽度,onlyImage必须true
+				height: 300 //默认像素高度,onlyImage必须true
 			};
 			var opts = $.extend({}, defaults, options);
-			if(opts.onlyImage){
+			if (opts.onlyImage) {
 				$(".Limit_that").remove();
-				var sHtml = '<div class="Limit_that">'+
-								'<span style="color: red;">温馨提示:图片上传的大小最大为'+ opts.size +'M，像素要求最小尺寸为'+ opts.width +'*'+ opts.height +',且图片宽高比例为'+ opts.width +':'+ opts.height +'</span>'+
-							'</div>';
+				var sHtml = '<div class="Limit_that">' +
+					'<span style="color: red;">温馨提示:图片上传的大小最大为' + opts.size + 'M，像素要求最小尺寸为' + opts.width + '*' + opts.height +
+					',且图片宽高比例为' + opts.width + ':' + opts.height + '</span>' +
+					'</div>';
 				_this.after($(sHtml));
 			}
-			_this.on(opts.event,function(){
-				var file = this.files[0];//上传的图片的所有信息
-				if(opts.onlyImage){				
-					 //首先判断是否是图片			 
-				    if(!/image\/\w+/.test(file.type)){
-				        alert('上传的不是图片');
-				        $(this).val('');
-				        return false;
-				    }
+			_this.on(opts.event, function() {
+				var file = this.files[0]; //上传的图片的所有信息
+				if (opts.onlyImage) {
+					//首先判断是否是图片			 
+					if (!/image\/\w+/.test(file.type)) {
+						alert('上传的不是图片');
+						$(this).val('');
+						return false;
+					}
 				}
-				
-			    //在此限制图片的大小
-			    var imgSize = file.size;
-			    //35160  计算机存储数据最为常用的单位是字节(B)
-			    if(imgSize > opts.size*1024*1024){
-			       alert('上传的文件大于'+ opts.size +'M,请重新选择!');
-			        $(this).val('');
-			        return false;
-			    }
-				
+
+				//在此限制图片的大小
+				var imgSize = file.size;
+				//35160  计算机存储数据最为常用的单位是字节(B)
+				if (imgSize > opts.size * 1024 * 1024) {
+					alert('上传的文件大于' + opts.size + 'M,请重新选择!');
+					$(this).val('');
+					return false;
+				}
+
 				//图片类型
-				if(/image\/\w+/.test(file.type)){
+				if (/image\/\w+/.test(file.type)) {
 					//创建图片预览
 					$("#previewImg").remove();
 					var oPreview = $('<img id="previewImg" style="display: none;"/>');
 					var oReader = new FileReader();
-					oReader.onload = function(e){
-						oPreview.attr("src",e.target.result);
+					oReader.onload = function(e) {
+						oPreview.attr("src", e.target.result);
 						$("body").append(oPreview);
-						$("#previewImg").load(function(){
-							if(this.naturalWidth*1 < opts.width || this.naturalHeight*1 < opts.height){
+						$("#previewImg").load(function() {
+							if (this.naturalWidth * 1 < opts.width || this.naturalHeight * 1 < opts.height) {
 								alert("上传的图片像素最小必须是:" + opts.width + "*" + opts.height);
 								_this.val("");
 								return false;
 							}
-							if((opts.width/opts.height) != ((this.naturalWidth*1)/(this.naturalHeight*1))){
+							if ((opts.width / opts.height) != ((this.naturalWidth * 1) / (this.naturalHeight * 1))) {
 								alert("上传的图片像素宽高比例必须是:" + opts.width + ":" + opts.height);
 								_this.val("");
 							}
-	//						console.log(this.naturalWidth + ' x ' + this.naturalHeight);
+							//						console.log(this.naturalWidth + ' x ' + this.naturalHeight);
 						});
 					}
 					oReader.readAsDataURL(file);
-				}			
+				}
 			});
-			
+
 		};
-		
+
 		/**
 		 * 文本域字符限制输入
 		 * @param {Object} options 传递参数 
@@ -1806,115 +1913,129 @@ function _extend(deep, target, options) {
 		 * @property {Number} options.width 文本域的宽度
 		 * @property {Number} options.height 文本域 的高度
 		 * */
-		$.fn.textareaVaild = function(options){
+		$.fn.textareaVaild = function(options) {
 			var _this = $(this);
 			var defaults = {
-				event:"keyup",
-				maxLength:300,//限制最大能输入多少字符
-				width:540,//文本域的宽度
-				height:170 //文本域 的高度
+				event: "keyup",
+				maxLength: 300, //限制最大能输入多少字符
+				width: 540, //文本域的宽度
+				height: 170 //文本域 的高度
 			};
 			var opts = $.extend({}, defaults, options);
-			var nTextarea = $('<div class="textarea-numberbar"><em class="textarea-length">0</em>/'+ opts.maxLength +'</div>').css({
+			var nTextarea = $('<div class="textarea-numberbar"><em class="textarea-length">0</em>/' + opts.maxLength +
+				'</div>').css({
 				"position": "absolute",
-			    "bottom": "1%",		    
-			    "padding": 0,
-			    "margin": 0
+				"bottom": "1%",
+				"padding": 0,
+				"margin": 0
 			});
 			_this.after(nTextarea);
-			_this.on(opts.event,function(){
-				var v = $(this).val();
-				var l = v.length;
-				if (l > opts.maxLength) {
-					v = v.substring(0, opts.maxLength);
-					$(this).val(v);
-				}
-				$(this).parent().find(".textarea-length").text(v.length);
-				$(".textarea-numberbar").css({
-				    "left": (opts.width - $(".textarea-numberbar").width()) + "px"
+			_this.on(opts.event, function() {
+					var v = $(this).val();
+					var l = v.length;
+					if (l > opts.maxLength) {
+						v = v.substring(0, opts.maxLength);
+						$(this).val(v);
+					}
+					$(this).parent().find(".textarea-length").text(v.length);
+					$(".textarea-numberbar").css({
+						"left": (opts.width - $(".textarea-numberbar").width()) + "px"
+					});
+				})
+				.attr("dragonfly", true)
+				.css({
+					"width": opts.width + "px",
+					"height": opts.height + "px"
 				});
-			})
-			.attr("dragonfly",true)
-			.css({
-				"width":opts.width + "px",
-				"height":opts.height + "px"
-			});
 			_this.parent().css({
-				"position":"relative"
+				"position": "relative"
 			});
 			$(".textarea-numberbar").css({
-			    "left": (opts.width - $(".textarea-numberbar").width()) + "px"
-			});
-		};	
-		
-		/**
-		 * 验证码倒计时
-		 *  默认六十秒
- 			必须是input和button的按钮
-		 * @param {Object} options 传递参数
-		 * @property {Number} options.second 验证码倒计时秒数
-		 * */
-		$.fn.countDown = function(options){
-			var $this = $(this);
-			var defaults = {
-				second:60 //秒
-			};
-			var opts = $.extend({}, defaults, options);
-			var times = opts.second,
-				timer = null;
-			$this.on("click",function(){
-				var _this = this;
-				 // 计时开始
-			    timer = setInterval(function () {
-			        times--;
-			        
-			        if (times <= 0) {
-			        	if(_this.tagName == "INPUT"){
-			        		 $this.val('发送验证码');
-			        	}else if(_this.tagName == "BUTTON"){
-			        		$this.text('发送验证码');
-			        	}
-			            clearInterval(timer);
-			            $this.attr('disabled', false);
-			            times = opts.second;
-			        } else {
-			        	if(_this.tagName == "INPUT"){
-			        		 $this.val(times + '秒后重试');
-			        	}else if(_this.tagName == "BUTTON"){
-			        		$this.text(times + '秒后重试');
-			        	}
-			            $this.attr('disabled', true);
-			        }
-			    }, 1000);
+				"left": (opts.width - $(".textarea-numberbar").width()) + "px"
 			});
 		};
-		
+
+		/**
+				 * 手机号验证码倒计时
+				 *  默认六十秒
+		 			必须是input和button的按钮
+				 * @param {Object} options 传递参数
+				 * @property {Number} options.second 验证码倒计时秒数
+				 * @property {Object} options.phone 手机号input表单
+				 * @property {Function} options.succCallback 验证通过的回调
+				 * @property {Function} options.failCallback 验证不通过的回调
+				 * */
+		$.fn.countDown = function(options) {
+			var $this = $(this);
+			var defaults = {
+				second: 60, //秒
+				phone: $(".phone_input"), //手机号input表单
+				succCallback: function() {}, //验证通过的回调				
+				failCallback: function() {}, //验证不通过的回调
+			};
+			var opts = $.extend({}, defaults, options);
+			var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+			var times = opts.second,
+				timer = null;
+			$this.on("click", function() {
+				var _this = this;
+				if (reg.test(opts.phone.val())) {
+					opts.succCallback();
+					// 计时开始
+					timer = setInterval(function() {
+						times--;
+
+						if (times <= 0) {
+							if (_this.tagName == "INPUT") {
+								$this.val('发送验证码');
+							} else if (_this.tagName == "BUTTON") {
+								$this.text('发送验证码');
+							}
+							clearInterval(timer);
+							$this.attr('disabled', false);
+							times = opts.second;
+						} else {
+							if (_this.tagName == "INPUT") {
+								$this.val(times + '秒后重试');
+							} else if (_this.tagName == "BUTTON") {
+								$this.text(times + '秒后重试');
+							}
+							$this.attr('disabled', true);
+						}
+					}, 1000);
+				} else {
+					opts.failCallback();
+				}
+
+			});
+		};
+
 		/**
 		 * 判断鼠标滑轮方向(上和下)
 		 * @param {Object} options 传入参数
 		 * @property {Function} options.toTop 鼠标向上的回调函数
 		 * @property {Function} options.toDown 鼠标向下的回调函数
 		 * */
-		$.fn.T_or_B = function(options){
+		$.fn.T_or_B = function(options) {
 			var _this = $(this);
 			var defaults = {
-				toTop:function(){//鼠标向上的回调函数
+				toTop: function() { //鼠标向上的回调函数
 					console.log('mousewheel top');
 				},
-				toDown:	function(){//鼠标向下的回调函数
+				toDown: function() { //鼠标向下的回调函数
 					console.log('mousewheel bottom');
 				}
 			};
 			var opts = $.extend({}, defaults, options);
-			_this.on("mousewheel DOMMouseScroll", function (event) {
-				    // chrome & ie || // firefox
-			    var delta = (event.originalEvent.wheelDelta && (event.originalEvent.wheelDelta > 0 ? 1 : -1)) ||
-			        (event.originalEvent.detail && (event.originalEvent.detail > 0 ? -1 : 1));  
-			    if (delta > 0) {//往上滚动
-			       opts.toTop();
-			    } else if (delta < 0) {//往下滚动
-			    	opts.toDown();
-			    }
+			_this.on("mousewheel DOMMouseScroll", function(event) {
+				// chrome & ie || // firefox
+				var delta = (event.originalEvent.wheelDelta && (event.originalEvent.wheelDelta > 0 ? 1 : -1)) ||
+					(event.originalEvent.detail && (event.originalEvent.detail > 0 ? -1 : 1));
+				if (delta > 0) { //往上滚动
+					opts.toTop();
+				} else if (delta < 0) { //往下滚动
+					opts.toDown();
+				}
 			});
 		};
 
@@ -1933,7 +2054,7 @@ function _extend(deep, target, options) {
 			var obj = $(this);
 			var r = /^[\u4E00-\u9FA5a-zA-Z0-9]{0,}$/;
 			obj.on(opts.event, function() {
-					if(r.test($(this).val()) == false) {
+					if (r.test($(this).val()) == false) {
 						alert("不能输入特殊字符");
 						obj.val("");
 						obj.focus();
@@ -1943,7 +2064,7 @@ function _extend(deep, target, options) {
 					return opts.paste;
 				});
 		}
-		
+
 		/**
 		 * 显示局部隐藏的文本内容(指定几行)
 		 * @param {String} options 传递参数
@@ -1955,77 +2076,77 @@ function _extend(deep, target, options) {
 			};
 			var opts = $.extend({}, defaults, options);
 			var obj = $(this);
-		
+
 			$("#moreOverflow_style") && $("#moreOverflow_style").remove();
-			var text_overflow = {			
-			    "overflow":"hidden",
+			var text_overflow = {
+				"overflow": "hidden",
 				"-webkit-box-orient": "vertical",
 				"-webkit-line-clamp": opts.rowCount,
 				"position": "relative",
-			    "cursor": "pointer"
+				"cursor": "pointer"
 			};
-			obj.css(text_overflow).on("mouseover",function(e){
-//				console.log(e.target);
+			obj.css(text_overflow).on("mouseover", function(e) {
+				//				console.log(e.target);
 				var target = e.target;
-		        var containerLength = $(target).width();
-		        var textLength = target.scrollWidth;
-		        var text = $(target).html();
-		        $(target).attr( "title", text);
+				var containerLength = $(target).width();
+				var textLength = target.scrollWidth;
+				var text = $(target).html();
+				$(target).attr("title", text);
 			}).addClass("moreOverflow");
 			var _style = '<style type="text/css" id="moreOverflow_style">' +
-						 '.moreOverflow{display: -webkit-box;}' +
-						 '.moreOverflow::after{content: "........................"; position: absolute; bottom: 0; right: 0;}' +
-						 '</style>'
-			$('head').append($(_style));	
-				
+				'.moreOverflow{display: -webkit-box;}' +
+				'.moreOverflow::after{content: "........................"; position: absolute; bottom: 0; right: 0;}' +
+				'</style>'
+			$('head').append($(_style));
+
 		}
-		
+
 		/**
 		 *  验证只能输入数字和小数
 		 * */
 		$.fn.onlyNumAndFlo = function(options) {
-			$(this).on("blur",function(){
+			$(this).on("blur", function() {
 				var e = this;
-				var re = /^\d+(?=\.{0,1}\d+$|$)/; 
-			    if (e.value != "") { 
-			        if (!re.test(e.value)) { 
-			            alert("请输入正确的数字"); 
-			            e.value = ""; 
-			            e.focus(); 
-			        } 
-			    } 
+				var re = /^\d+(?=\.{0,1}\d+$|$)/;
+				if (e.value != "") {
+					if (!re.test(e.value)) {
+						alert("请输入正确的数字");
+						e.value = "";
+						e.focus();
+					}
+				}
 			});
-			$(this).on("keyup",function(){
+			$(this).on("keyup", function() {
 				var e = this;
-				e.value = e.value.replace(/[^0-9.]/g,'');
+				e.value = e.value.replace(/[^0-9.]/g, '');
 			});
 		};
-		
+
 		/**
 		 * 显示局部隐藏的文本内容(单行)
 		 * */
-		$.fn.textOverflow = function(options) {						
-			var text_overflow = {			
-			    "overflow":"hidden",
-			    "textOverflow":"ellipsis",
-			    "whiteSpace":"nowrap",
-			    "cursor": "pointer",
-				"verticalAlign":"bottom"
+		$.fn.textOverflow = function(options) {
+			var text_overflow = {
+				"overflow": "hidden",
+				"textOverflow": "ellipsis",
+				"whiteSpace": "nowrap",
+				"cursor": "pointer",
+				"verticalAlign": "bottom"
 			};
-			$(this).css(text_overflow).on("mouseover",function(e){
+			$(this).css(text_overflow).on("mouseover", function(e) {
 				console.log(e.target);
 				var target = e.target;
-		        var containerLength = $(target).width();
-		        var textLength = target.scrollWidth;
-		        var text = $(target).html();
-		        if (textLength > containerLength) {
-		            $(target).attr( "title", text);
-		        } else {
-		            $(target).removeAttr( "title");
-		        }
+				var containerLength = $(target).width();
+				var textLength = target.scrollWidth;
+				var text = $(target).html();
+				if (textLength > containerLength) {
+					$(target).attr("title", text);
+				} else {
+					$(target).removeAttr("title");
+				}
 			});
 		};
-		
+
 		/**
 		 * 银行账号输入框格式化
 		 * @param {Object} options 传递参数
@@ -2047,7 +2168,7 @@ function _extend(deep, target, options) {
 				copy: false, // 允许复制
 				paste: false, //不允许粘贴
 				cut: false //不允许剪切
-	
+
 			};
 			var opts = $.extend({}, defaults, options);
 			var obj = $(this);
@@ -2057,10 +2178,10 @@ function _extend(deep, target, options) {
 				color: '#000',
 				fontFamly: 'Times New Roman'
 			}).attr('maxlength', opts.max);
-			if(obj.val() != '') obj.val(obj.val().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
+			if (obj.val() != '') obj.val(obj.val().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
 			obj.on('keyup', function(event) {
-					if(opts.onlyNumber) {
-						if(!(event.keyCode >= 48 && event.keyCode <= 57)) {
+					if (opts.onlyNumber) {
+						if (!(event.keyCode >= 48 && event.keyCode <= 57)) {
 							this.value = this.value.replace(/\D/g, '');
 						}
 					}
@@ -2083,14 +2204,14 @@ function _extend(deep, target, options) {
 				})
 				.on('blur', function() {
 					this.value = this.value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter);
-					if(this.value.length < opts.min) {
+					if (this.value.length < opts.min) {
 						alert('最少输入' + opts.min + '位账号信息！');
 						obj.val("");
 					}
 				})
-	
+
 		};
-		
+
 		/**
 		 * 银行账号列表显示格式化
 		 * @param {Object} options 传递参数
@@ -2121,11 +2242,11 @@ function _extend(deep, target, options) {
 			var obj = $(this);
 			obj.on(opts.event, function() {
 					//    /^[\u4e00-\u9fa5]+$/
-					var reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");　　
-					if(reg.test(obj.val())) {
+					var reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
+					if (reg.test(obj.val())) {
 						alert("不能输入汉字！");
 						obj.val("");
-						obj.focus();　　
+						obj.focus();
 					}
 				})
 				.on('paste', function() {
@@ -2144,23 +2265,23 @@ function _extend(deep, target, options) {
 			var defaults = {
 				min: 0, //默认开始数字0
 				max: 10,
-				speed:100,//默认100毫秒
+				speed: 100, //默认100毫秒
 			};
 			var opts = $.extend({}, defaults, options);
 			var obj = $(this);
-			
-			var timer = setInterval(function(){
+
+			var timer = setInterval(function() {
 				opts.min++; // 调节速度
-				if(opts.min >= opts.max){
-					obj.text(opts.max);					
+				if (opts.min >= opts.max) {
+					obj.text(opts.max);
 					clearInterval(timer);
-				} else {					
+				} else {
 					obj.text(~~(opts.min));
 				}
-			},opts.speed); // 也可以调节速度
+			}, opts.speed); // 也可以调节速度
 		};
-		
-	} catch(e) {
+
+	} catch (e) {
 		console.error("报错类型：" + e);
 	}
 

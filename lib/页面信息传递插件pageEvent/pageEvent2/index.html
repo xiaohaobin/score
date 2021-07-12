@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>页面信息传递插件pageEvent</title>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			iframe {
+				width: 48%;
+				height: 100%;
+				border: 1px black solid;
+				margin: auto;
+			}
+			
+			#title {
+				height: 6%;
+				text-align: center;
+				width: 100%;
+				font-size: 40px;
+			}
+			.tips{
+				text-align: center;
+				width: 100%;
+				height: 6%;
+			}
+			#iframes {
+				height: 80%;
+				width: 100%;
+				display: flex;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="title">不注重样式勿怪~~~///(^v^)\\\~~~</div>
+		<div class="tips">支持不同页面消息传递
+			<button onclick="openPage()">打开弹窗</button>
+			<a href="page1.html" target="_blank"><button>打开新页面</button></a>
+		</div>
+		<div id="iframes">
+			<iframe src="page2.html"></iframe>
+			<iframe src="page1.html"></iframe>
+		</div>
+		<script type="text/javascript" src="js/pageEvent2.js"></script>
+		<script type="text/javascript">
+			pageEvent.storagesource = "storage";
+			//storage 本地存储,memory内存存储（仅支持单页面）
+			function openPage () {
+				window.open ('page1.html', 'newwindow', 'height=300, width=400, top=200, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no');
+			}
+		</script>
+	</body>
+
+</html>

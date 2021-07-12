@@ -5,25 +5,8 @@
 		<title></title>
 	</head>
 	<body >
-		<img src="img/jiesuo.svg" >
-		<div style="width: 500px;height: 500px;overflow: auto;" id="test">
-			<p style="height: 1000px;">
-				
-			</p>
-		</div>
-		<input type="file" name="fileInput" id="fileInput" value="" />
-		
-		<div class="ssss"></div>
-		<button onclick="closeCurrPage()">关闭当前页面</button>
-		
-		<form action="" method="post" id="form1">
-			<input type="" name="sname" id="" value="" />
-			<textarea rows="" cols="" name="des">
-				
-			</textarea>
-			
-			<button type="button" onclick="sumit()">tijiao</button>
-		</form>
+		<a href="baiduDemo.html">跳转page1</a>
+		<button onclick="fn()">fndayin</button>
 		
 		<script src="lib/jquery/1.9.1/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="lib/layer/layer.js" type="text/javascript" charset="utf-8"></script>
@@ -32,75 +15,25 @@
 		<script src="js/jquery.xhb.otherPlugin.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/plugins/extend.js" type="text/javascript" charset="utf-8"></script>
 		
-		<script type="text/javascript">
-			function sumit(){
-				var se_data = $("#form1").serialize().replace(/\+/g," ");
-				console.log(se_data,"序列化");
-			}
-		</script>
+		<script language="javascript">
+		        //防止页面后退
+				history.replaceState({}, "", newUrl);
+		        history.pushState(null, null, document.URL);
+		        window.addEventListener('popstate', function () {
+		            history.pushState(null, null, document.URL);
+		        });
+		    </script>
 		
 		<script type="text/javascript">
-			layer.msg(1321)
-			$(function(){
-				$.ajaxFn(
-					"json/xhb.json",
-					{id:1,name:"xhb"},
-					"get",
-					function(data){
-						console.log(data,"数据格式")
-					}
-				);
-			});
-			
-			// $.decrementTime(24*60*60,1000,function(p){
-			// 	console.log(p)
-			// },"2019-08-17 00:00:00");
-			
-			console.log($.getPrevDays(7),"res");
-			console.log($.getNextDays(7),"add");
-			console.log($.getWeekName("2019-08-17","cn"));
-			
-			$(".ssss").numToRun({
-				min: 0.1, //默认开始数字0
-				max: 10.58,
-				speed:1000,//默认100毫秒
-			});
-		</script>
-		
-		<script type="text/javascript">
-			console.log($.backDateNum("2019-11-05 00:00:00"),"2019-11-05 00:00:00")
-			// console.log($.getCurrTimestamp())
-			// console.log($.backDateNum("2019-11-06"),"2019-11-05")
-			// console.log($.timestampToTime($.backDateNum("2019-11-06")+86400,"yyyy-MM-dd"), "2019-11-06" )
-			var s1 = $.desAnyTime(
-				"0",
-				"2019-02-01"
-			);
-			console.log(s1)
-			var s2 = $.desAnyTime(
-				"2",
-				"2010"
-			);
-			console.log(s2)
-			
-			//关闭当前页面
-			function closeCurrPage(){
-				if (navigator.userAgent.indexOf('MSIE') > 0) { // close IE
-				   if (navigator.userAgent.indexOf('MSIE 6.0') > 0) {
-				      window.opener = null;
-				      window.close();
-				   } else {
-				      window.open('', '_top');
-				      window.top.close();
-				   }
-				} else { // close chrome;It is effective when it is only one.
-				   window.opener = null;
-				   window.open('', '_self');
-				   window.close();
-				}
-				
+			function fn(){
+				console.log(123313);
 			}
-			
+		  window.onload = function(){
+		  	console.log(12)
+		  	window.addEventListener("popstate", function(e) {
+		  				alert("我监听到了浏览器的返回按钮事件啦1");//根据自己的需求实现自己的功能 
+		  	}, false);
+		  };
 		</script>
 	</body>
 </html>

@@ -1,0 +1,52 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+   <script src="../js/jquery.js" type="text/javascript"></script>
+  <style type="text/css">
+  	.pad_right{ padding-right:2em;}
+  	#scroll_div {height:26px;overflow: hidden;white-space: nowrap;width:535px;margin-left:10px;}
+  	#scroll_begin,#scroll_end {display: inline;}
+
+  </style>
+ </head>
+ <body>
+   <div id="scroll_div" class="fl"> 
+     <div id="scroll_begin">
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+      恭喜793765***获得 <span class="pad_right">50元巨人点卡奖励</span>
+     </div> 
+     <div id="scroll_end"></div>
+    </div> 
+
+	<script type="text/javascript">
+		//文字横向滚动
+		function ScrollImgLeft(){ 
+		 var speed=50;
+		  var MyMar = null;
+		 var scroll_begin = document.getElementById("scroll_begin"); 
+		 var scroll_end = document.getElementById("scroll_end"); 
+		 var scroll_div = document.getElementById("scroll_div"); 
+		 scroll_end.innerHTML=scroll_begin.innerHTML; 
+		 function Marquee(){ 
+		  if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0) 
+		   scroll_div.scrollLeft-=scroll_begin.offsetWidth; 
+		  else 
+		   scroll_div.scrollLeft++; 
+		  } 
+		  MyMar=setInterval(Marquee,speed); 
+		  scroll_div.onmouseover = function(){
+		　　　　　　　clearInterval(MyMar);
+		　　　　　}
+		 　　　　scroll_div.onmouseout = function(){
+		　　　　　　　MyMar = setInterval(Marquee,speed); 　　　　
+		　　　　　}  
+		}
+		ScrollImgLeft();
+	</script>
+ </body>
+ </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>分页打印</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Language" content="zh-CN" />
+        <meta name="Author" content="网页作者" /> 
+        <meta name="Copyright" content="网站版权" /> 
+        <meta name="keywords" content="网站关键字" />
+        <meta name="description" content="网站描述" />
+        <link rel="Shortcut Icon" href="网站.ico图标路径" />
+        <link type="text/css" rel="stylesheet" href="css/reset.css" />
+		<style type="text/css">
+			body{overflow-y: auto;}
+			.page{width: 595.32pt;margin: 0 auto;}
+			.content>div{width: 100%;height: 716pt;text-align: center;padding-top: 5px;}
+			#printId{width: 100%;background: chocolate;color: #fff;font-size: 18px;}
+		</style>
+    </head>
+    <body>
+		<div class="page">
+			<div class="page_box">
+				<div id="printId">
+					<div class="content">
+						<div>
+							<p>点击最下面打印按钮，查看下载的文件</p>第一页</div>
+						<div>第二页</div>
+					</div>
+				</div>
+			</div>
+			<div style="padding: 30px 0;text-align: center;">
+				<button type="button"  class="btn" onclick="printOut('#printId')">打印</button>	
+			</div>
+		</div>
+		
+		
+		<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script src="js/html2canvas.min.js"></script>
+		<script src="js/jspdf.min.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

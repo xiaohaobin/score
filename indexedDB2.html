@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/indexedDB.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		
+		<button type="button" onclick="getVal()">取值查看</button>
+		<button type="button" onclick="delVal()">删除</button>
+		
+		<script type="text/javascript">
+			var data = {"theme":"移动开发","title":"H5数据库封装"}; //将被存的数据，也可以字符串
+			var key = "oneNewData"; //存数据的key值
+			
+			DB.save(key,data,function(result){
+			    if(result.success){
+			        //保存数据成功
+					console.log(result.success,"result.success")
+			    }else {
+			       //保存数据失败，根据result.code来判断是什么原因保存失败了
+				   	console.log(result,"result.err")
+			    }
+			 
+			});
+			
+			function getVal(){
+				DB.get(key,function(result){
+				    if(result.success){
+				            var getedData = result.data; //取出数据
+							console.log(getedData);
+				            //getedData = {"theme":"移动开发","title":"H5数据库封装"}
+				    }else {
+				           //获取数据失败，根据result.code来判断是什么原因获取失败了
+				    }
+				});
+			}
+			
+			function delVal(){
+				
+				DB.delete(key,function(result){
+				    if(result.success){
+				       //删除数据库成功
+					   alert("del succ")
+				    }else {
+				       //删除数据失败，根据result.code来判断是什么原因删除失败了
+				    }
+				})
+			}
+		</script>
+	</body>
+</html>

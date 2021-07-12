@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>无标题文档</title>
+		<style>
+			#div1{ width:100px; height:100px; background:red; position:absolute; left:0; top:50px;}
+</style>
+		<script>
+			window.onload = function()
+{
+ var oBtn = document.getElementById('btn1');
+ var oDiv = document.getElementById('div1');
+ oBtn.onclick = function()
+ {
+ startMove(oDiv, 300);
+ };
+};
+var iSpeed = 0;
+var left = 0;
+function startMove(obj, iTarget)
+{
+ clearInterval(obj.timer);
+ obj.timer = setInterval(function(){
+ iSpeed += (iTarget - obj.offsetLeft)/5;
+ iSpeed *= 0.7;
+ left += iSpeed;
+ if(Math.abs(iSpeed)<1 && Math.abs(left-iTarget)<1){
+  clearInterval(obj.timer);
+  obj.style.left = iTarget + 'px';
+ }else{
+  obj.style.left = obj.offsetLeft + iSpeed + 'px';
+ }
+ }, 30);
+}
+</script>
+	</head>
+	<body>
+		<input id="btn1" type="button" value="运动" />
+		<div id="div1"></div>
+		<div style="width:1px; height:300px; background:black; position:absolute; top:0; left:300px; "></div>
+	</body>
+</html>
