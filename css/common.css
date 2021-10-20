@@ -530,6 +530,12 @@ button {
 				align-items: center;
 				justify-content: center;
 			}
+			/*水平居中，垂直放在最低*/
+			.flex_center_end{
+				display: flex;
+				align-items: end;
+				justify-content: center;
+			}
 			/*  未知宽高情况下，垂直水平居中eee*/
 			
 			/* 适合单行，宽度固定，内容溢出省略sss... */
@@ -560,6 +566,7 @@ button {
 				vertical-align: bottom;
 				content: "\2026";
 				animation:ellipsis 2s infinite;
+				transform: scale(1.5);
 			}
 			@-webkit-keyframes ellipsis{
 				from{
@@ -826,3 +833,79 @@ button {
 	    animation-iteration-count: infinite;  /*动画播放的次数*/
 	    animation-duration: 5s; /*动画所花费的时间*/
 	 }
+	 /*蓝色渐变*/
+	 .gradient_bg_blue{		  
+		 /* Firefox 3.6+ */
+		 background: -moz-linear-gradient(top, #66b7f9,#1c82d4);
+		 /* Safari 4-5, Chrome 1-9 */
+		 background: -webkit-gradient(linear,top,from(#66b7f9),to(#1c82d4));
+		 /* Safari 5.1+, Chrome 10+ */
+		 background: -webkit-linear-gradient(top, #66b7f9, #1c82d4);
+		 /* Opera 11.10+ */
+		 background: -o-linear-gradient(top, #66b7f9, #1c82d4);
+		 /* default */
+		 background: linear-gradient(top, #66b7f9, #1c82d4);
+		 background-color: #1c82d4;
+	 }
+	 /**橙色渐变*/
+	 .gradient_bg_orange{
+	 		 /* Firefox 3.6+ */
+	 		 background: -moz-linear-gradient(top, #ffaa00,#ffff00);
+	 		 /* Safari 4-5, Chrome 1-9 */
+	 		 background: -webkit-gradient(linear,top,from(#ffaa00),to(#ffff00));
+	 		 /* Safari 5.1+, Chrome 10+ */
+	 		 background: -webkit-linear-gradient(top, #ffaa00, #ffff00);
+	 		 /* Opera 11.10+ */
+	 		 background: -o-linear-gradient(top, #ffaa00, #ffff00);
+	 		 /* default */
+	 		 background: linear-gradient(top, #ffaa00, #ffff00);
+	 		 background-color: #ffff00;
+	 }
+	 /**绿色渐变*/
+	 .gradient_bg_green{
+	 		 /* Firefox 3.6+ */
+	 		 background: -moz-linear-gradient(top, #00aa00,#005500);
+	 		 /* Safari 4-5, Chrome 1-9 */
+	 		 background: -webkit-gradient(linear,top,from(#00aa00),to(#005500));
+	 		 /* Safari 5.1+, Chrome 10+ */
+	 		 background: -webkit-linear-gradient(top, #00aa00, #005500);
+	 		 /* Opera 11.10+ */
+	 		 background: -o-linear-gradient(top, #00aa00, #005500);
+	 		 /* default */
+	 		 background: linear-gradient(top, #00aa00, #005500);
+	 		 background-color: #005500;
+	 }
+	 /**红色渐变*/
+	 .gradient_bg_red{
+	 		 /* Firefox 3.6+ */
+	 		 background: -moz-linear-gradient(top, #ff007f,#ff0000);
+	 		 /* Safari 4-5, Chrome 1-9 */
+	 		 background: -webkit-gradient(linear,top,from(#ff007f),to(#ff0000));
+	 		 /* Safari 5.1+, Chrome 10+ */
+	 		 background: -webkit-linear-gradient(top, #ff007f, #ff0000);
+	 		 /* Opera 11.10+ */
+	 		 background: -o-linear-gradient(top, #ff007f, #ff0000);
+	 		 /* default */
+	 		 background: linear-gradient(top, #ff007f, #ff0000);
+	 		 background-color: #ff0000;
+	 }
+	 /**紫色渐变*/
+	 .gradient_bg_zise{
+	 		 /* Firefox 3.6+ */
+	 		 background: -moz-linear-gradient(top, #aa55ff,#aa00ff);
+	 		 /* Safari 4-5, Chrome 1-9 */
+	 		 background: -webkit-gradient(linear,top,from(#aa55ff),to(#aa00ff));
+	 		 /* Safari 5.1+, Chrome 10+ */
+	 		 background: -webkit-linear-gradient(top, #aa55ff, #aa00ff);
+	 		 /* Opera 11.10+ */
+	 		 background: -o-linear-gradient(top, #aa55ff, #aa00ff);
+	 		 /* default */
+	 		 background: linear-gradient(top, #aa55ff, #aa00ff);
+	 		 background-color: #aa00ff;
+	 }
+	
+	/*mui 自定义模板的索引和背景重新定义*/ 
+	 .mui-backdrop.mui-backdrop-diy{
+	 		z-index: 9999;
+	 		background-color: rgba(0,0,0,.5);
+	} 
