@@ -430,15 +430,39 @@ var oComFn = {
 		});
 	},
 	/**
+	 * 动态添加加载进度条组件
+	 * 依赖：mui.css,common.css,jquery.js
+	 * @param {Strin} loadingTxt 进度条加载提示
+	 */
+	addDiyProgress(loadingTxt){
+		if($('.mui-backdrop-diy').length){
+			$('.mui-backdrop-diy').removeClass("hide");
+		}else{
+			var load_txt = loadingTxt || 'Loading';
+			var html = `<div class="mui-backdrop mui-backdrop-diy flex_center_middle">
+					<div class="mui-progressbar-box text-c w_90">
+						<p style="color: #fff;" class="com_loading">`+ load_txt +`</p>
+						<p class="mui-progressbar mui-progressbar-infinite"></p>
+					</div>				
+				</div>`;
+			$("body").append($(html));
+		}
+		
+	},
+	//关闭自定义进度加载条
+	delDiyProgress(){
+		$('.mui-backdrop-diy').addClass("hide");
+	}
+	/**
 	 * 普通ajax请求
 	 * @param {String} murl 请求地址
 	 * @param {Object} mdata 请求数据
 	 * @param {String} method 请求类型
 	 * @param {Function} successFn 请求成功的回调函数
-	 * @param {Boolean} noCloseLoading 是否不关闭加载条
+	 * @param {Boolean} noLoading 是否不加载条
 	 * */
 	layerLoad: null,
-	ajaxFn: function(murl, mdata, method, successFn, noCloseLoading) {
+	ajaxFn: function(murl, mdata, method, successFn, noLoading) {
 		var _this = this;
 		$.ajax({
 			type: method,
@@ -450,37 +474,43 @@ var oComFn = {
 			async: true,
 			timeout: 1000 * 60,
 			beforeSend: function() {
-				_this.layerLoad = layer.load(1);
+				if(noLoading === undefined){
+					if(mui){
+						_this.addDiyProgress();
+					}else{
+						_this.layerLoad = layer.load(1);
+					}
+					
+				}
+				
 			},
-			error: function(data) {
-				layer.close(_this.layerLoad);
+			error: function(data) {				
 				console.log(data);
+				if(noLoading === undefined){
+					if(mui){
+						_this.delDiyProgress();
+					}else{
+						layer.close(_this.layerLoad);
+					}
+					
+				}
 			},
 			success: function(data) {
 				var data = (typeof data == "object" ? data : JSON.parse(data));
-				if (noCloseLoading) {
-					_this.layerLoad = layer.load(1);
-				} else {
-					layer.close(_this.layerLoad);
-				}
-
-				if (data.result == 1) {
-					if (data.obj) {
-						successFn(data.obj);
-					} else {
-						_this.layerSucc(function() {
-							successFn(data);
-						});
-
+				
+				if(noLoading === undefined){
+					if(mui){
+						_this.delDiyProgress();
+					}else{
+						layer.close(_this.layerLoad);
 					}
-
-				} else if (data.result == 0) { //请求成功却数据报错
-					// oComFn.ajaxAlertMsg(data);
-					layer.alert(data.msg);
+					
 				}
-
+				
+				successFn(data);
+	
 			},
-
+	
 		});
 	},
 	/**
@@ -489,8 +519,9 @@ var oComFn = {
 	 * @param {Object} mdata 请求数据
 	 * @param {String} method 请求类型
 	 * @param {Function} successFn 请求成功的回调函数
+	 * @param {Boolean} noLoading 是否不加载条
 	 * */
-	ajaxFn_file: function(murl, mdata, method, successFn) {
+	ajaxFn_file: function(murl, mdata, method, successFn,noLoading) {
 		var _this = this;
 		$.ajax({
 			type: method,
@@ -503,32 +534,42 @@ var oComFn = {
 			processData: false,
 			timeout: 1000 * 60,
 			beforeSend: function() {
-				_this.layerLoad = layer.load(1);
+				if(noLoading === undefined){
+					if(mui){
+						_this.addDiyProgress();
+					}else{
+						_this.layerLoad = layer.load(1);
+					}
+					
+				}
+				
 			},
-			error: function(data) {
-				layer.close(_this.layerLoad);
+			error: function(data) {				
 				console.log(data);
-
+				if(noLoading === undefined){
+					if(mui){
+						_this.delDiyProgress();
+					}else{
+						layer.close(_this.layerLoad);
+					}
+					
+				}
 			},
 			success: function(data) {
 				var data = (typeof data == "object" ? data : JSON.parse(data));
-				layer.close(_this.layerLoad);
-				if (data.result == 1) {
-					if (data.obj) {
-						successFn(data.obj);
-					} else {
-
-						_this.layerSucc(function() {
-							successFn(data);
-						});
+				
+				if(noLoading === undefined){
+					if(mui){
+						_this.delDiyProgress();
+					}else{
+						layer.close(_this.layerLoad);
 					}
-
-				} else if (data.result == 0) {
-					// oComFn.ajaxAlertMsg(data);
-					layer.alert(data.msg);
+					
 				}
-
-			}
+				
+				successFn(data);
+				
+			},
 		});
 	},
 	//layer的alert弹出层
