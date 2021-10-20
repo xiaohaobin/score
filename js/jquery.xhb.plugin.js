@@ -188,7 +188,7 @@ function _extend(deep, target, options) {
 			 * 判断值是否为空，回调函数
 			 * @param {String} tmp 要判断的值
 			 * @param {Function} NullFn 为null的回调
-			 * @param {Function} noNullFn 为null的回调
+			 * @param {Function} noNullFn 不为null的回调
 			 * */
 			isNull: function(tmp, NullFn, noNullFn) {
 				if (!tmp && typeof(tmp) != "undefined" && tmp != 0) { //null
@@ -1668,7 +1668,8 @@ function _extend(deep, target, options) {
 					}
 				}
 				return arr;
-			}
+			},
+			
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
@@ -2286,3 +2287,86 @@ function _extend(deep, target, options) {
 	}
 
 })(jQuery, window, document);
+
+
+/**
+ *  数据加载动态圈风格
+ * @param property 参数对象
+ *  property 参数对象详细属性设置↓
+ * content 加载提示内容
+ * shadowColor 背景阴影颜色-建议使用带透明的颜色
+ * loadingBoxColor  加载背景色
+ * loadingPointColor  转圈点颜色
+ * loadingContentColor  加载提示内容字体颜色
+ */
+  function initDiyLoading(property) {
+	 property = property || {}; 
+	//动态添加动画样式
+	var head = document.getElementsByTagName('head')[0];
+	var style = document.createElement('style');
+	style.setAttribute("type","text/css");
+	style.innerHTML = 'body .loading-box-shadow-omg{width:-webkit-fill-available;height:-webkit-fill-available;background-color:#211f1f5c;position:absolute;top:0;z-index:99999999999}body .loading-box-shadow-omg .loading-box{background-color:white;border-radius:5px;position:absolute;top:50%;left:50%;width:200px;height:150px;margin-left:-100px;margin-top: -75px;}body .loading-box-shadow-omg .loading-box .loading-circle{width:80px;height:80px;background-color:transparent;position:absolute;left:50%;margin-left:-40px;top:10%;animation:init-circle 1s linear infinite}body .loading-box-shadow-omg .loading-box .loading-content{position:absolute;bottom:5%;font-weight:bold;color:rebeccapurple;width:100%;text-align:center}body .loading-box-shadow-omg .loading-box .loading-circle>div{background-color:#292961;border-radius:20px;position:absolute}@keyframes init-circle{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}';
+	head.appendChild(style);
+	
+	this.body = document.getElementsByTagName('body')[0];
+	var loading_box_shadow_omg = this.body.getElementsByClassName("loading-box-shadow-omg")[0];
+	if(loading_box_shadow_omg) this.body.removeChild(loading_box_shadow_omg);					
+	if(property.type=="stop"){
+		return;
+	}
+						
+	var nodeHtml = '<div class="loading-box">';
+	nodeHtml += '<div class="loading-circle"></div><div class="loading-content"></div></div>';
+	
+	var html = '<div style="top: 5%;left: 53%;width: 5px;height: 5px;"></div>';
+	html += '<div style="top: 11%;left: 30%;width: 7px; height: 7px;"></div>';
+	html += '<div style="top: 26%;left: 12%;width: 9px;height: 9px;"></div>';
+	html += '<div style="top: 48%;left: 7%;width: 9px;height: 9px;"></div>';
+	html += '<div style="top: 70%;left: 15%;width: 9px;height: 9px;"></div>';
+	html += '<div style="top: 85%;left: 33%;width: 9px;height: 9px;"></div>';
+	html += '<div style="top: 89%;left: 54%;width: 9px;height: 9px;"></div>';
+	html += '<div style="top: 80%;left: 75%;width: 9px;height: 9px;"></div>';
+	
+	
+	
+	this.content = property.content || 'Loading...';//加载内容
+	this.shadowColor = property.shadowColor || 'rgba(0,0,0,0.3)';//背景颜色
+	this.loadingBoxColor = property.loadingBoxColor || '#fff';//加载框颜色
+	this.loadingPointColor = property.loadingPointColor || '#292961';//动态点颜色
+	this.loadingContentColor = property.loadingContentColor || 'rebeccapurple';//提示内容颜色
+						
+	this.loading_box_shadow_omg = document.createElement('div');//加载框大背景节点
+	this.loading_box_shadow_omg.setAttribute("class","loading-box-shadow-omg");	
+	this.loading_box_shadow_omg.style.backgroundColor = this.shadowColor;
+	this.loading_box_shadow_omg.innerHTML = nodeHtml;
+	
+	
+	//加载动态圈点
+	this.loading_box = this.loading_box_shadow_omg.getElementsByClassName("loading-box")[0];
+	this.loading_box.style.backgroundColor = this.loadingBoxColor;
+	this.loading_circle = this.loading_box_shadow_omg.getElementsByClassName("loading-circle")[0];
+	this.loading_circle.innerHTML = html;					
+	this.loading_circle_div = this.loading_circle.getElementsByTagName("div");
+	var len = this.loading_circle_div.length;
+	for(var i=0;i<len;i++){
+		this.loading_circle_div[i].style.backgroundColor = this.loadingPointColor;
+	}
+	
+	//加载提示内容					
+	this.loading_content = this.loading_box_shadow_omg.getElementsByClassName("loading-content")[0];
+	this.loading_content.innerText = this.content;
+	this.loading_content.style.color = this.loadingContentColor;
+	
+	//this.body.appendChild(this.loading_box_shadow_omg);
+	
+};
+//动态删除并添加一个加载圈
+initDiyLoading.prototype.addEle = function(){
+	this.removeEle();
+	this.body.appendChild(this.loading_box_shadow_omg);
+}
+//删除加载圈
+initDiyLoading.prototype.removeEle = function(){
+	var loading_box_shadow_omg = this.body.getElementsByClassName("loading-box-shadow-omg")[0];
+	if(loading_box_shadow_omg) this.body.removeChild(loading_box_shadow_omg);		
+}
