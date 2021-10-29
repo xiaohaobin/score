@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.DragFillBlockCompleted, function (e, info) {    
-        alert("Type (" + info.autoFillType + ")");
-});

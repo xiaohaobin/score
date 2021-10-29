@@ -1,3 +1,0 @@
-spread.bind(GC.Spread.Sheets.Events.SheetTabDoubleClick, function (e, info) {    
-        alert("Index (" + info.sheetTabIndex + ")");
-});

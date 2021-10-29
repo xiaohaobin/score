@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Module");
-activeSheet.resumePaint();
-activeSheet.repaint();

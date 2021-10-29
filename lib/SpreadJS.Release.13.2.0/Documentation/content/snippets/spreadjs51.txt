@@ -1,1 +1,0 @@
-activeSheet.getRange(1,1, 2, 2, GC.Spread.Sheets.SheetArea.viewport).text("cell object");

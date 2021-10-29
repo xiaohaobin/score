@@ -1,5 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.CellChanged, function (e, info) {
-    if(info.sheetArea === GC.Spread.Sheets.SheetArea.viewport){
-        alert("Cell index (" + info.row + "," + info.col + ")");
-    }
-});

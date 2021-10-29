@@ -1,2 +1,0 @@
-spread.focus();
-spread.commandManager().setShortcutKey('selectionLast', GC.Spread.Commands.Key.a, false, false, false, false);

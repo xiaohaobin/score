@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Trek");
-activeSheet.resumePaint();
-activeSheet.repaint();

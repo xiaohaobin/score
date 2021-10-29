@@ -1,5 +1,0 @@
-spread.suspendPaint();
-for(var i=0;i<100;i++){
-activeSheet.setValue(i,0,"Row"+i);
-}
-spread.resumePaint();

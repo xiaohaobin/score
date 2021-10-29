@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Equity");
-activeSheet.resumePaint();
-activeSheet.repaint();

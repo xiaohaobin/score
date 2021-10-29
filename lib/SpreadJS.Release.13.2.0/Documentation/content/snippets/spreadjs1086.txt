@@ -1,1 +1,0 @@
-spread.options.allowExtendPasteRange = true;

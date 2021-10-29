@@ -1,5 +1,0 @@
-activeSheet.suspendPaint();
-activeSheet.rowOutlines.group(3,2);
-activeSheet.columnOutlines.group(4,1);
-activeSheet.rowOutlines.direction(GC.Spread.Sheets.Outlines.OutlineDirection.forward);
-activeSheet.resumePaint();

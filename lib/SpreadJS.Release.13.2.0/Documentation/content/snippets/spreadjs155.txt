@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.RowChanged, function (e, info) {    
-        alert("Row (" + info.row + ")");
-});

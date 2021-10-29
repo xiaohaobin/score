@@ -1,2 +1,0 @@
-spread.options.showHorizontalScrollbar = false;
-spread.options.showVerticalScrollbar = false;

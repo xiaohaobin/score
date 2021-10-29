@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Concourse");
-activeSheet.resumePaint();
-activeSheet.repaint();

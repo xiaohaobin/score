@@ -1,4 +1,0 @@
-var visible = activeSheet.getColumnVisible(1, GC.Spread.Sheets.SheetArea.viewport);
-var width = activeSheet.getColumnWidth(1, GC.Spread.Sheets.SheetArea.viewport);
-alert(visible);
-alert(width);

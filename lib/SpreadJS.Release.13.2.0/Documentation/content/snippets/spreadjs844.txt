@@ -1,1 +1,0 @@
-activeSheet.options.showDragFillSmartTag = true;

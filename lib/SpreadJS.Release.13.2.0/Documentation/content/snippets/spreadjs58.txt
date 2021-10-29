@@ -1,4 +1,0 @@
-var ccount = activeSheet.frozenColumnCount();
-var rcount = activeSheet.frozenRowCount();
-alert(ccount);
-alert(rcount);

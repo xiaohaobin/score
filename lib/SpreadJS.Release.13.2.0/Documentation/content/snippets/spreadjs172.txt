@@ -1,2 +1,0 @@
-var index = spread.options.tabStripRatio;
-alert(index);

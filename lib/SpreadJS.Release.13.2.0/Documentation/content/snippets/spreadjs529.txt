@@ -1,2 +1,0 @@
-spread.options.allowUndo = true;
-spread.commandManager().execute({cmd: "outlineColumn", sheetName: "Sheet1", index: 3, count: 5});

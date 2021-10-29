@@ -1,2 +1,0 @@
-activeSheet.options.gridline = {color:"#FF2235", showVerticalGridline: true, showHorizontalGridline: false};
-alert(activeSheet.options.gridline.color);

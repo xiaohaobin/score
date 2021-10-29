@@ -1,2 +1,0 @@
-var layout = GC.Spread.Sheets.ImageLayout.stretch;
-activeSheet.getCell(1,1).backgroundImageLayout(layout);

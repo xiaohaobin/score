@@ -1,3 +1,0 @@
-activeSheet.getCell(1, -1).visible(false);
-activeSheet.getCell(1,0).value("Test");
-activeSheet.getCell(2, -1).height(100);

@@ -1,2 +1,0 @@
-sheet.rowFilter(new GC.Spread.Sheets.Filter.HideRowFilter(new GC.Spread.Sheets.Range(0,0,4,4)));
-sheet.repaint();

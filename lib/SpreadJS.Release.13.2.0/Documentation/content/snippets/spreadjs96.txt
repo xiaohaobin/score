@@ -1,1 +1,0 @@
-spread.options.autoFitType = GC.Spread.Sheets.AutoFitType.cellWithHeader;

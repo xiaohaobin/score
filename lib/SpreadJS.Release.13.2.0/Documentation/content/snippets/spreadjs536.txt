@@ -1,1 +1,0 @@
-alert(activeSheet.getViewportWidth(1));

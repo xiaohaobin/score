@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.EnterCell, function (e, info) {    
-        alert("Cell (" + info.row + ", " + info.col +")");
-});

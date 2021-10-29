@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Apex");
-activeSheet.resumePaint();
-activeSheet.repaint();

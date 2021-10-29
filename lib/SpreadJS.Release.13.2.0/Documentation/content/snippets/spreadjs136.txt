@@ -1,2 +1,0 @@
-activeSheet.getCell(-1, 0).themeFont("Body");
-activeSheet.getCell(0,0).value("Test");

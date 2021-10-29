@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Verve");
-activeSheet.resumePaint();
-activeSheet.repaint();

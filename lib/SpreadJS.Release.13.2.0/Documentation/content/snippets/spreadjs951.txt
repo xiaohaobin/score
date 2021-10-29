@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Solstice");
-activeSheet.resumePaint();
-activeSheet.repaint();

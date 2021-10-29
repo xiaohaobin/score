@@ -1,3 +1,0 @@
-activeSheet.columnOutlines.group(0, 1);
-activeSheet.invalidateLayout();
-activeSheet.repaint();

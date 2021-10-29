@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Median");
-activeSheet.resumePaint();
-activeSheet.repaint();

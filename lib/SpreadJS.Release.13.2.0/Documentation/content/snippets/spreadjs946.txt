@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Office");
-activeSheet.resumePaint();
-activeSheet.repaint();

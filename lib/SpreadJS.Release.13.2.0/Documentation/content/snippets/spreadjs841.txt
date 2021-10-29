@@ -1,2 +1,0 @@
-//select a block of values using the drag fill icon
-activeSheet.options.defaultDragFillType = GC.Spread.Sheets.Fill.AutoFillType.clearValues;

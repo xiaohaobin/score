@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Technic");
-activeSheet.resumePaint();
-activeSheet.repaint();

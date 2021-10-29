@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Origin");
-activeSheet.resumePaint();
-activeSheet.repaint();

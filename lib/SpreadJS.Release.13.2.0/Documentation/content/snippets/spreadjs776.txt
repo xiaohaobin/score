@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.CommentChanged, function (e, info) {
-    alert("changed");
-});

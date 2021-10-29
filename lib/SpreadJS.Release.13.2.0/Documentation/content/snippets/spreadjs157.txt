@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.RowHeightChanging, function (e, info) {    
-        alert("Row List (" + info.rowList + ")");
-});

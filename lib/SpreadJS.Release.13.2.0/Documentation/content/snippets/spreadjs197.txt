@@ -1,2 +1,0 @@
-alert(activeSheet.frozenTrailingColumnCount());
-alert(activeSheet.frozenTrailingRowCount());

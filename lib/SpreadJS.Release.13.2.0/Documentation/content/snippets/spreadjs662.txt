@@ -1,2 +1,0 @@
-spread.options.cutCopyIndicatorVisible = true;
-spread.options.cutCopyIndicatorBorderColor = "red";

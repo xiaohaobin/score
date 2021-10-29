@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.SelectionChanged, function (e, info) {    
-        alert("Name (" + info.sheetName + ")");
-});

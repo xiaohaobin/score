@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.ValueChanged, function (e, info) {    
-        alert("Value (" + info.newValue + ")");
-});

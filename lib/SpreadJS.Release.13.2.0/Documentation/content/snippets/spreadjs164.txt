@@ -1,5 +1,0 @@
-var border = new GC.Spread.Sheets.LineBorder
-border.color = "#7FFFD4";
-border.style = GC.Spread.Sheets.LineStyle.double;
-var cell = activeSheet.getCell(1, 1, GC.Spread.Sheets.SheetArea.viewport);
-cell.borderLeft(border);

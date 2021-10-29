@@ -1,3 +1,0 @@
-activeSheet.frozenRowCount(1);
-activeSheet.frozenColumnCount(1);
-activeSheet.options.frozenlineColor = "red";

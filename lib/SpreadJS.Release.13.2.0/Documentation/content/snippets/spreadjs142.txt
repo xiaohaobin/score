@@ -1,3 +1,0 @@
-activeSheet.bind(GC.Spread.Sheets.Events.DragFillBlock, function (e, info) {    
-        alert("Direction (" + info.fillDirection + ")");
-});

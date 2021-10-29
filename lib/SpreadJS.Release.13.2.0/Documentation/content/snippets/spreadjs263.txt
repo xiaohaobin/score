@@ -1,3 +1,0 @@
-sheet.options.gridline = {color:"#FF2235", showVerticalGridline: true, showHorizontalGridline: false};
-sheet.resumePaint();
-sheet.repaint();

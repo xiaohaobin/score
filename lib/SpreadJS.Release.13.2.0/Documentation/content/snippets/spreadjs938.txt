@@ -1,3 +1,0 @@
-activeSheet.currentTheme("Aspect");
-activeSheet.resumePaint();
-activeSheet.repaint();

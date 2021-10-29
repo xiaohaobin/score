@@ -1,3 +1,0 @@
-$("#button1").click(function () {
-spread.focus(true);
-   });

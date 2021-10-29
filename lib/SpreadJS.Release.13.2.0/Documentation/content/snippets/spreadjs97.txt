@@ -1,2 +1,0 @@
-activeSheet.options.selectionBackColor = "Accent 6";
-activeSheet.options.selectionBorderColor = "Accent 1";
