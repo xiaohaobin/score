@@ -1669,7 +1669,28 @@ function _extend(deep, target, options) {
 				}
 				return arr;
 			},
-			
+			/**
+			 * 根据年月日日期，获取该日期在一年中为第几天
+			 * @param {String} date 日期 如：2021-12-12
+			 * @return {Number}
+			 */
+			getDaySortByDate:function(date){
+				var y, m, d;
+				y = date.slice(0,4)*1;
+				m = date.slice(5,7)*1;
+				d = date.slice(8,10)*1;
+				var total = 0;
+				var arr = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+				for (var i = 0; i < m - 1; i++) {
+					total = total + arr[i];
+				}
+				if ((y % 400 == 0 || (y % 4 == 0 && y % 100 != 0)) && m > 2) {
+					total = total + d + 1;
+				} else {
+					total = total + d;
+				}
+				return total;
+			},
 		});
 
 		/***********************************************************************对象插件*********************************************************************************************/
